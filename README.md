@@ -2,7 +2,7 @@
 
 ### Authors
 
-by Alexandre HAMON, Mathis RACINNE-DIVET and Margaux SCHNELZAUER-HENRY
+Alexandre HAMON, Mathis RACINNE-DIVET and Margaux SCHNELZAUER-HENRY
 
 ---
 
