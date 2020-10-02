@@ -17,7 +17,7 @@ public interface SnapshotJsonConverter {
     @return a snapshot object
      */
 
-    public static Snapshot jsonToSnapshot(JsonObject jsonObj); 
+    public Snapshot jsonToSnapshot(JsonObject jsonObj); 
 
 
     /**
@@ -26,6 +26,6 @@ public interface SnapshotJsonConverter {
     @pre snapshot != null
     @return a json object
      */
-    public static JsonObject snapshotToJson (Snapshot snapshot);
+    public JsonObject snapshotToJson (Snapshot snapshot);
 
 }

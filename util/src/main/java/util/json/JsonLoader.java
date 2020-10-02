@@ -18,7 +18,7 @@ public interface JsonLoader {
     @return a json object    
      */
 
-    public static JsonObject loadJson(InputStream stream); 
+    public JsonObject loadJson(InputStream stream); 
 
 
     /**
@@ -26,6 +26,6 @@ public interface JsonLoader {
 
     @pre stream != null  
      */
-    public static void saveJson (OutputStream stream); 
+    public void saveJson (OutputStream stream); 
 
 }

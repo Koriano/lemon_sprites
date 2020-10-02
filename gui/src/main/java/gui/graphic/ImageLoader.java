@@ -17,6 +17,6 @@ public interface ImageLoader {
     @return the loaded image
     */
 
-    public static Image loadImage(InputStream stream); 
+    public Image loadImage(InputStream stream); 
     
 }

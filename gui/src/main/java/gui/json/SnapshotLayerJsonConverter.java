@@ -17,7 +17,7 @@ public interface SnapshotLayerJsonConverter {
     @return a snapshotlayer object
      */
 
-    public static SnapshotLayer jsonToLayer(JsonObject jsonObj); 
+    public SnapshotLayer jsonToLayer(JsonObject jsonObj); 
 
 
     /**
@@ -27,6 +27,6 @@ public interface SnapshotLayerJsonConverter {
     @return a json object
      */
 
-    public static JsonObject layerToJson (SnapshotLayer layer);
+    public JsonObject layerToJson (SnapshotLayer layer);
 
 }
