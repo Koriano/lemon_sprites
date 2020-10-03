@@ -1,6 +1,7 @@
-package json; 
+package json;
 import java.io.InputStream; 
-import java.io.OutputStream; 
+import java.io.OutputStream;
+import org.json.JSONObject;
 
 /**
 @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -18,7 +19,7 @@ public interface JsonLoader {
     @return a json object    
      */
 
-    public JsonObject loadJson(InputStream stream); 
+    public JSONObject loadJson(InputStream stream); 
 
 
     /**

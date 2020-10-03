@@ -1,5 +1,6 @@
-package json; 
-import graphic.SnapshotLayer; 
+package json;
+import graphic.SnapshotLayer;
+import org.json.JSONObject;
 
 /**
 @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -17,7 +18,7 @@ public interface SnapshotLayerJsonConverter {
     @return a snapshotlayer object
      */
 
-    public SnapshotLayer jsonToLayer(JsonObject jsonObj); 
+    public SnapshotLayer jsonToLayer(JSONObject jsonObj); 
 
 
     /**
@@ -27,6 +28,6 @@ public interface SnapshotLayerJsonConverter {
     @return a json object
      */
 
-    public JsonObject layerToJson (SnapshotLayer layer);
+    public JSONObject layerToJson (SnapshotLayer layer);
 
 }

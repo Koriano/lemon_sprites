@@ -1,5 +1,6 @@
-package json; 
-import graphic.Snapshot; 
+package json;
+import graphic.Snapshot;
+import org.json.JSONObject;
 
 /**
 @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -17,7 +18,7 @@ public interface SnapshotJsonConverter {
     @return a snapshot object
      */
 
-    public Snapshot jsonToSnapshot(JsonObject jsonObj); 
+    public Snapshot jsonToSnapshot(JSONObject jsonObj); 
 
 
     /**
@@ -26,6 +27,6 @@ public interface SnapshotJsonConverter {
     @pre snapshot != null
     @return a json object
      */
-    public JsonObject snapshotToJson (Snapshot snapshot);
+    public JSONObject snapshotToJson (Snapshot snapshot);
 
 }
