@@ -5,20 +5,31 @@ package graphic;
 
 A class representing a snapshot layer that contains an image laying at a given location 
 
-@inv this.layerLocation.x > 0 && this.layerLocation.y > 0 && this.layerLocation != null && this.image != null
+@inv this.x > 0 && this.y > 0 && this.image != null
 */
 
 
 public interface SnapshotLayer {
 
   /**
-  This method returns the location of the layer
+  This method returns the x coordinate of the layer
 
-  @pre this.layerLocation.x > 0 && this.layerLocation.y > 0 && this.layerLocation != null 
-  @return the location of the layer 
+  @pre this.x > 0
+  @return the x coordinate of the layer 
   **/
 
-  public Point getLocation();
+  public int getX();
+
+
+  /**
+  This method returns the y coordinate of the layer
+
+  @pre this.y > 0
+  @return the y coordinate of the layer 
+  **/
+
+  public int getY();
+
 
 
   /**

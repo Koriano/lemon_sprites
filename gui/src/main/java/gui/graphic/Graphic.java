@@ -4,7 +4,7 @@ package graphic;
 
 A class to display snapshots on a graphic interface 
 
-@inv this.windowDimension.x >0 && this.windowDimension.y >0 
+@inv this.length > 0 && this.width > 0 
 */
 
 
@@ -17,14 +17,27 @@ public interface Graphic {
    
   public void displaySnapshot();
 
-  /**
-  Return the window dimensions
 
-  @pre this.windowDimension.x >0 && this.windowDimension.y >0 
-  @return The window dimension 
+
+  /**
+  Return the window length
+
+  @pre this.length > 0
+  @return The window length 
    */
 
-  public Dimension getDimension(); 
+  public int getLength();
+
+
+
+  /**
+  Return the window width
+
+  @pre this.width > 0
+  @return The window width 
+   */
+
+  public int getWidth(); 
   
 
 }
