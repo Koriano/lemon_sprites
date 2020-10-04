@@ -1,5 +1,5 @@
-package json;
-import graphic.Snapshot;
+package gui.json;
+import gui.graphic.Snapshot;
 import org.json.JSONObject;
 
 /**
