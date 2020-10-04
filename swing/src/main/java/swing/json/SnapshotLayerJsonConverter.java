@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import swing.graphic.ImageMock;
 import swing.graphic.SnapshotLayerMock;
 
-import java.util.Iterator;
-
 /**
  * A class representing a Snapshot layer from/to json converter
  * @see gui.json.SnapshotLayerJsonConverter
