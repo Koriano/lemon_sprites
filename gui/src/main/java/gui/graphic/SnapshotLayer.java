@@ -1,4 +1,4 @@
-package graphic;
+package gui.graphic;
 
 /**
 @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
