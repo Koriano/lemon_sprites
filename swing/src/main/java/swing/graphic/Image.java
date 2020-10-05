@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 /**
  * The implementation of the Image interface
  * @author Margaux SCHNELZAUER
+ * @see gui.graphic.Image
  */
 public class Image implements gui.graphic.Image {
 
@@ -58,7 +59,7 @@ public class Image implements gui.graphic.Image {
         return ret;
 
     }
-    
+
 
     /**
      * Give the image width
