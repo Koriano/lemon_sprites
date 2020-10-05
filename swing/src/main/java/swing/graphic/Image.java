@@ -6,9 +6,9 @@ import javax.swing.ImageIcon;
  * The implementation of the Image interface
  * @author Margaux SCHNELZAUER
  */
-public class Image extends ImageIcon implements gui.graphic.Image {
+public class Image implements gui.graphic.Image {
 
-    private int heigth;
+    private int height;
     private int width;
     private String name;
 
@@ -16,15 +16,15 @@ public class Image extends ImageIcon implements gui.graphic.Image {
     /**
      * Constructor of the image
      *
-     * @pre heigth >= 0 && width >=0 && !(name.equals(""))
-     * @param heigth The Image length
+     * @pre height >= 0 && width >=0 && !(name.equals(""))
+     * @param height The Image length
      * @param width The image width
      * @param name The image name
      */
-    public Image(int heigth, int width, String name){
+    public Image(int height, int width, String name){
 
-        if (heigth >= 0 && width >=0 && !(name.equals(""))) {
-            this.heigth = heigth;
+        if (height >= 0 && width >=0 && !(name.equals(""))) {
+            this.height = height;
             this.width = width;
             this.name = name;
         }
@@ -37,17 +37,17 @@ public class Image extends ImageIcon implements gui.graphic.Image {
 
 
     /**
-     * Give the image length
+     * Give the image height
      *
-     * @pre heigth >= 0
-     * @return the image length
+     * @pre height >= 0
+     * @return the image height
      */
     @Override
-    public int getHeigth() {
+    public int getHeight() {
         int ret;
 
-        if (this.heigth >= 0) {
-            ret =  this.heigth;
+        if (this.height >= 0) {
+            ret =  this.height;
         }
 
         else {
@@ -58,7 +58,7 @@ public class Image extends ImageIcon implements gui.graphic.Image {
         return ret;
 
     }
-
+    
 
     /**
      * Give the image width
