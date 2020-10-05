@@ -14,7 +14,9 @@ public interface SnapshotLayerJsonConverter {
     /**
     This method converts a Json object to a snapshotlayer object
 
-    @pre jsonObj != null
+    @pre jsonObj != null && jsonObj.has(key: "image") && jsonObj.has(key:"x") && jsonObj.has(key:"y")
+
+    @param jsonObj : json file
     @return a snapshotlayer object
      */
 
@@ -25,6 +27,8 @@ public interface SnapshotLayerJsonConverter {
     This method converts a snapshotlayer object to a Json object
 
     @pre layer != null
+
+    @param layer : snapshot layer
     @return a json object
      */
 
