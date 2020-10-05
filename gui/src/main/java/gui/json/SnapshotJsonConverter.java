@@ -15,6 +15,8 @@ public interface SnapshotJsonConverter {
     This method converts a Json object to a snapshot object
 
     @pre jsonObj != null
+
+    @param jsonObj : json file
     @return a snapshot object
      */
 
@@ -25,6 +27,8 @@ public interface SnapshotJsonConverter {
     This method converts a snapshot object to a Json object
 
     @pre snapshot != null
+
+    @param snapshot : snapshot composed of snapshot layers
     @return a json object
      */
     public JSONObject snapshotToJson (Snapshot snapshot);

@@ -1,10 +1,9 @@
 package gui.graphic;
-import java.io.InputStream; 
 
 /**
 @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
 
-A class to load an image from an input stream
+A class to load an image from a path
 
 */
 
@@ -13,10 +12,12 @@ public interface ImageLoader {
     /** 
     Method to load an image 
 
-    @pre stream != null 
+    @pre stream != null
+
+    @param path : the image path
     @return the loaded image
     */
 
-    public Image loadImage(InputStream stream); 
+    public Image loadImage(String path);
     
 }

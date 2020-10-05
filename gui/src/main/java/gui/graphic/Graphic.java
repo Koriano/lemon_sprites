@@ -4,7 +4,7 @@ package gui.graphic;
 
 A class to display snapshots on a graphic interface 
 
-@inv this.heigth > 0 && this.width > 0
+@inv this.height > 0 && this.width > 0
 */
 
 
@@ -15,6 +15,7 @@ public interface Graphic {
   This method displays a snapshot on a graphic interface.
 
    @pre snapshot != null
+   @param snapshot : a snapshot composed of snapshot layers
    */
    
   public void displaySnapshot(Snapshot snapshot);
@@ -22,13 +23,13 @@ public interface Graphic {
 
 
   /**
-  Return the window heigth
+  Return the window height
 
-  @pre this.heigth > 0
-  @return The window heigth
+  @pre this.height > 0
+  @return The window height
    */
 
-  public int getHeigth();
+  public int getHeight();
 
 
 
