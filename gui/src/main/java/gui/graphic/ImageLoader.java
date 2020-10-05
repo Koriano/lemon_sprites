@@ -12,7 +12,7 @@ public interface ImageLoader {
     /** 
     Method to load an image 
 
-    @pre stream != null
+    @pre path != null && !path.equals("")
 
     @param path : the image path
     @return the loaded image
