@@ -16,8 +16,8 @@ public interface SnapshotJsonConverter {
 
     @pre jsonObj != null
 
-    @param jsonObj : json file
-    @return a snapshot object
+    @param jsonObj : json describing a snapshot
+    @return the snapshot described
      */
 
     public Snapshot jsonToSnapshot(JSONObject jsonObj); 
@@ -29,7 +29,7 @@ public interface SnapshotJsonConverter {
     @pre snapshot != null
 
     @param snapshot : snapshot composed of snapshot layers
-    @return a json object
+    @return the json describing the given snapshot
      */
     public JSONObject snapshotToJson (Snapshot snapshot);
 
