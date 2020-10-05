@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
  */
 public class Image extends ImageIcon implements gui.graphic.Image {
 
-    private int length;
+    private int heigth;
     private int width;
     private String name;
 
@@ -16,46 +16,91 @@ public class Image extends ImageIcon implements gui.graphic.Image {
     /**
      * Constructor of the image
      *
-     * @param length The Image length
+     * @pre heigth >= 0 && width >=0 && !(name.equals(""))
+     * @param heigth The Image length
      * @param width The image width
      * @param name The image name
      */
-    public Image(int length, int width, String name){
-        this.length = length;
-        this.width = width;
-        this.name = name;
+    public Image(int heigth, int width, String name){
+
+        if (heigth >= 0 && width >=0 && !(name.equals(""))) {
+            this.heigth = heigth;
+            this.width = width;
+            this.name = name;
+        }
+
+        else {
+            System.out.println("No conform parameters");
+        }
+
     }
 
 
     /**
      * Give the image length
      *
+     * @pre heigth >= 0
      * @return the image length
      */
     @Override
-    public int getLength() {
-        return this.length;
+    public int getHeigth() {
+        int ret;
+
+        if (this.heigth >= 0) {
+            ret =  this.heigth;
+        }
+
+        else {
+            System.out.println("No conform parameters");
+            ret = 0;
+        }
+
+        return ret;
+
     }
 
 
     /**
      * Give the image width
      *
+     * @pre width >=0
      * @return the image width
      */
     @Override
     public int getWidth() {
-        return this.width;
+        int ret;
+
+        if (this.width >= 0) {
+            ret = this.width;
+        }
+
+        else {
+            System.out.println("No conform parameters");
+            ret = 0;
+        }
+
+        return ret;
     }
 
 
     /**
      * Give the image name
      *
+     * @pre !(name.equals(""))
      * @return the image name
      */
     @Override
     public String getName() {
-        return this.name;
+
+        if (!(this.name.equals(""))) {
+            return this.name;
+        }
+
+        else {
+            System.out.println("No conform parameters");
+            return "";
+        }
+
+
     }
 }
