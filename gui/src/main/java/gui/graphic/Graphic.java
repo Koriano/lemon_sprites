@@ -12,10 +12,12 @@ A class to display snapshots on a graphic interface
 public interface Graphic {
 
   /**
-  This method displays a snapshot on a graphic interface. 
+  This method displays a snapshot on a graphic interface.
+
+   @pre snapshot != null
    */
    
-  public void displaySnapshot();
+  public void displaySnapshot(Snapshot snapshot);
 
 
 

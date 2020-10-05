@@ -1,4 +1,4 @@
-package json;
+package util.json;
 import java.io.InputStream; 
 import java.io.OutputStream;
 import org.json.JSONObject;
