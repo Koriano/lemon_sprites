@@ -1,4 +1,4 @@
-package graphic;
+package gui.graphic;
 import java.io.InputStream; 
 
 /**

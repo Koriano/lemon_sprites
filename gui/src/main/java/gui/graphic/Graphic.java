@@ -1,10 +1,10 @@
-package graphic;
+package gui.graphic;
 /** 
 @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
 
 A class to display snapshots on a graphic interface 
 
-@inv this.length > 0 && this.width > 0 
+@inv this.heigth > 0 && this.width > 0
 */
 
 
@@ -20,13 +20,13 @@ public interface Graphic {
 
 
   /**
-  Return the window length
+  Return the window heigth
 
-  @pre this.length > 0
-  @return The window length 
+  @pre this.heigth > 0
+  @return The window heigth
    */
 
-  public int getLength();
+  public int getHeigth();
 
 
 
