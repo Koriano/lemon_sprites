@@ -1,10 +1,9 @@
 package swing.json;
 
-import gui.graphic.Snapshot;
 import gui.graphic.SnapshotLayer;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import swing.graphic.SnapshotMock;
+import swing.graphic.Snapshot;
 
 /**
  * A class representing a Snapshot from/to json converter
@@ -13,9 +12,9 @@ import swing.graphic.SnapshotMock;
 public class SnapshotJsonConverter implements gui.json.SnapshotJsonConverter{
 
     @Override
-    public Snapshot jsonToSnapshot(JSONObject jsonObj) {
+    public gui.graphic.Snapshot jsonToSnapshot(JSONObject jsonObj) {
 
-        Snapshot snapshot = null;
+        gui.graphic.Snapshot snapshot = null;
 
         // Precondition
         if(jsonObj != null){
@@ -34,7 +33,7 @@ public class SnapshotJsonConverter implements gui.json.SnapshotJsonConverter{
                 }
 
                 // Create returned snapshot
-                snapshot = new SnapshotMock(layers);
+                snapshot = new Snapshot(layers);
             }
         }
         else{
@@ -45,7 +44,7 @@ public class SnapshotJsonConverter implements gui.json.SnapshotJsonConverter{
     }
 
     @Override
-    public JSONObject snapshotToJson(Snapshot snapshot) {
+    public JSONObject snapshotToJson(gui.graphic.Snapshot snapshot) {
 
         JSONObject jsonSnapshot = new JSONObject();
 

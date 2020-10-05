@@ -1,10 +1,8 @@
 package swing.json;
 
-import gui.graphic.Image;
-import gui.graphic.SnapshotLayer;
 import org.json.JSONObject;
-import swing.graphic.ImageMock;
-import swing.graphic.SnapshotLayerMock;
+import swing.graphic.Image;
+import swing.graphic.SnapshotLayer;
 
 /**
  * A class representing a Snapshot layer from/to json converter
@@ -13,9 +11,9 @@ import swing.graphic.SnapshotLayerMock;
 public class SnapshotLayerJsonConverter implements gui.json.SnapshotLayerJsonConverter {
 
     @Override
-    public SnapshotLayer jsonToLayer(JSONObject jsonObj) {
+    public gui.graphic.SnapshotLayer jsonToLayer(JSONObject jsonObj) {
 
-        SnapshotLayer layer = null;
+        gui.graphic.SnapshotLayer layer = null;
 
         // Precondition
         if(jsonObj != null && jsonObj.has("image") && jsonObj.has("x") && jsonObj.has("y")){
@@ -25,32 +23,31 @@ public class SnapshotLayerJsonConverter implements gui.json.SnapshotLayerJsonCon
             int x = jsonObj.getInt("x");
             int y = jsonObj.getInt("y");
 
-            Image img;
-            // Get optionnal properties (width, height) if they are given
+            gui.graphic.Image img;
+            // Get optional properties (width, height) if they are given
             if(jsonObj.has("width") && jsonObj.has("height")){
                 int width = jsonObj.getInt("width");
                 int height = jsonObj.getInt("height");
 
-                // If there are optionnal properties, create Image with width and height
-                img = new ImageMock(width, height, name);
+                // If there are optional properties, create Image with width and height
+                img = new Image(height, width, name);
             }
             else{
-                // If there are no optionnal properties, create Image with name only
-                img = new ImageMock(name);
+                // If there are no optional properties, create Image with name only
+                img = new Image(name);
             }
 
-            layer = new SnapshotLayerMock(x, y, img);
+            layer = new SnapshotLayer(x, y, img);
         }
         else{
             System.out.println("One of the required fields (image, x, y) is missing in the snapshot layer json.");
         }
 
-        // Create new layer
         return layer;
     }
 
     @Override
-    public JSONObject layerToJson(SnapshotLayer layer) {
+    public JSONObject layerToJson(gui.graphic.SnapshotLayer layer) {
 
         JSONObject jsonLayer = null;
 
@@ -58,17 +55,17 @@ public class SnapshotLayerJsonConverter implements gui.json.SnapshotLayerJsonCon
         if(layer != null && layer.getImage() != null){
 
             jsonLayer = new JSONObject();
-            Image img = layer.getImage();
+            gui.graphic.Image img = layer.getImage();
 
             // Putting required properties into json (image, x, y)
             jsonLayer.put("image", img.getName());
             jsonLayer.put("x", layer.getX());
             jsonLayer.put("y", layer.getY());
 
-            // Putting optionnal properties into json, if they are set
-            if(img.getLength() != 0 && img.getWidth() != 0){
+            // Putting optional properties into json, if they are set
+            if(img.getHeight() != 0 && img.getWidth() != 0){
                 jsonLayer.put("width", img.getWidth());
-                jsonLayer.put("length", img.getLength());
+                jsonLayer.put("length", img.getHeight());
             }
         }
         else{
