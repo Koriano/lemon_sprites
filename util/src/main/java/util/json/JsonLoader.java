@@ -1,6 +1,4 @@
 package util.json;
-import java.io.InputStream; 
-import java.io.OutputStream;
 import org.json.JSONObject;
 
 /**
@@ -15,18 +13,23 @@ public interface JsonLoader {
     /**
     This method loads a json object from an input stream 
 
-    @pre stream != null
+    @pre !(path.equals(""))
+
+    @param path : the image path
     @return a json object    
      */
 
-    public JSONObject loadJson(InputStream stream); 
+    public JSONObject loadJson(String path);
 
 
     /**
     This method saves a json object to an output stream 
 
-    @pre stream != null  
+    @pre !(path.equals("")) && jsonObj != null
+
+    @param path : the image path
+    @param jsonObj : the json to save
      */
-    public void saveJson (OutputStream stream); 
+    public void saveJson (String path, JSONObject jsonObj);
 
 }
