@@ -25,10 +25,11 @@ public interface JsonLoader {
     /**
     This method saves a json object to an output stream 
 
-    @pre !(path.equals(""))
+    @pre !(path.equals("")) && jsonObj != null
 
     @param path : the image path
+    @param jsonObj : the json to save
      */
-    public void saveJson (String path);
+    public void saveJson (String path, JSONObject jsonObj);
 
 }
