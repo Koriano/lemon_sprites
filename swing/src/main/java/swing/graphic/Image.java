@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
  * @author Margaux SCHNELZAUER
  * @see gui.graphic.Image
  */
-public class Image implements gui.graphic.Image {
+public class Image extends ImageIcon implements gui.graphic.Image {
 
     private int height;
     private int width;
@@ -17,18 +17,15 @@ public class Image implements gui.graphic.Image {
     /**
      * Constructor of the image
      *
-     * @pre height >= 0 && width >=0 && !(name.equals(""))
-     * @param height The Image length
-     * @param width The image width
-     * @param name The image name
+     * @pre !(name.equals("")) && !(path.equals(""))
+     * @param path The image path
      */
-    public Image(int height, int width, String name){
+    public Image(String path){
 
-        if (height >= 0 && width >=0 && !(name.equals(""))) {
-            this.height = height;
-            this.width = width;
-            this.name = name;
-        }
+        super(path);
+        if (!(path.equals(""))) {
+            this.name = path;
+           }
 
         else {
             System.out.println("No conform parameters");
@@ -45,19 +42,7 @@ public class Image implements gui.graphic.Image {
      */
     @Override
     public int getHeight() {
-        int ret;
-
-        if (this.height >= 0) {
-            ret =  this.height;
-        }
-
-        else {
-            System.out.println("No conform parameters");
-            ret = 0;
-        }
-
-        return ret;
-
+        return super.getIconHeight();
     }
 
 
@@ -69,18 +54,7 @@ public class Image implements gui.graphic.Image {
      */
     @Override
     public int getWidth() {
-        int ret;
-
-        if (this.width >= 0) {
-            ret = this.width;
-        }
-
-        else {
-            System.out.println("No conform parameters");
-            ret = 0;
-        }
-
-        return ret;
+        return super.getIconWidth();
     }
 
 
@@ -102,6 +76,6 @@ public class Image implements gui.graphic.Image {
             return "";
         }
 
-
     }
+
 }

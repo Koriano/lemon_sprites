@@ -1,6 +1,7 @@
 package swing.graphic;
+
 import gui.graphic.Image;
-import javax.swing.ImageIcon;
+
 
 
 /**
@@ -12,24 +13,14 @@ import javax.swing.ImageIcon;
 public class ImageLoader implements gui.graphic.ImageLoader {
 
     /**
-     * This method load an image from a path, using an imageIcon.
+     * This method load an image from a path.
      *
      *
      * @param path : the image path
-     * @return the loaded image
+     * @return loadedImage : the loaded image
      */
     @Override
     public Image loadImage(String path) {
-
-        //create an imageIcon loaded an image from a path
-        ImageIcon image = new ImageIcon(path);
-
-        // get imageIcon properties
-        int height = image.getIconHeight();
-        int width = image.getIconWidth();
-        String name = image.getDescription();
-
-        // create and return  an Image from the ImageIcon
-        return new swing.graphic.Image(height, width, name);
+        return new swing.graphic.Image(path);
     }
 }
