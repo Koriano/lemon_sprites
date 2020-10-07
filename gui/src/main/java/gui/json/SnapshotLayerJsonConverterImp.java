@@ -1,16 +1,23 @@
-package swing.json;
+package gui.json;
 
+import gui.graphic.Image;
+import gui.graphic.SnapshotLayer;
+import gui.graphic.SnapshotLayerImp;
 import org.json.JSONObject;
-import swing.graphic.Image;
-import swing.graphic.SnapshotLayer;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
  * A class to convert Json object from/to snapshotlayer object.
- * @see gui.json.SnapshotLayerJsonConverter
+ * @see SnapshotLayerJsonConverterImp
  */
-public class SnapshotLayerJsonConverter implements gui.json.SnapshotLayerJsonConverter {
+public class SnapshotLayerJsonConverterImp implements SnapshotLayerJsonConverter {
+
+    private Image[] images;
+
+    public SnapshotLayerJsonConverterImp(Image[] images){
+        this.images = images;
+    }
 
     /**
      * This method converts a Json object to a snapshotlayer object
@@ -21,9 +28,9 @@ public class SnapshotLayerJsonConverter implements gui.json.SnapshotLayerJsonCon
      * @return a snapshotlayer object
      */
     @Override
-    public gui.graphic.SnapshotLayer jsonToLayer(JSONObject jsonObj) {
+    public SnapshotLayer jsonToLayer(JSONObject jsonObj) {
 
-        gui.graphic.SnapshotLayer layer = null;
+        SnapshotLayer layer = null;
 
         // Precondition
         if(jsonObj != null && jsonObj.has("image") && jsonObj.has("x") && jsonObj.has("y")){
@@ -33,21 +40,7 @@ public class SnapshotLayerJsonConverter implements gui.json.SnapshotLayerJsonCon
             int x = jsonObj.getInt("x");
             int y = jsonObj.getInt("y");
 
-            gui.graphic.Image img;
-            // Get optional properties (width, height) if they are given
-            if(jsonObj.has("width") && jsonObj.has("height")){
-                int width = jsonObj.getInt("width");
-                int height = jsonObj.getInt("height");
-
-                // If there are optional properties, create Image with width and height
-                img = new Image(height, width, name);
-            }
-            else{
-                // If there are no optional properties, create Image with name only
-                img = new Image(name);
-            }
-
-            layer = new SnapshotLayer(x, y, img);
+            layer = new SnapshotLayerImp(this.getImage(name), x, y);
         }
         else{
             System.out.println("One of the required fields (image, x, y) is missing in the snapshot layer json.");
@@ -91,5 +84,23 @@ public class SnapshotLayerJsonConverter implements gui.json.SnapshotLayerJsonCon
         }
 
         return jsonLayer;
+    }
+
+
+    public Image getImage(String name){
+
+        Image return_image = null;
+
+        if(name != null && !name.equals("")){
+
+            // Iterating over Image list
+            for(Image image: this.images){
+                if(name.equals(image.getName())){
+                    return_image = image;
+                }
+            }
+        }
+
+        return return_image;
     }
 }

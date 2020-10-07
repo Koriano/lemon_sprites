@@ -1,16 +1,16 @@
-package swing.graphic;
+package swing;
 
 import gui.graphic.Image;
-
+import gui.graphic.ImageLoader;
 
 
 /**
- * The implementation of the Image interface
+ * The implementation of the ImageImp interface
  * @author Margaux SCHNELZAUER
  * @see gui.graphic.ImageLoader
  */
 
-public class ImageLoader implements gui.graphic.ImageLoader {
+public class ImageLoaderImp implements ImageLoader {
 
     /**
      * This method load an image from a path.
@@ -21,6 +21,6 @@ public class ImageLoader implements gui.graphic.ImageLoader {
      */
     @Override
     public Image loadImage(String path) {
-        return new swing.graphic.Image(path);
+        return new ImageImp(path);
     }
 }

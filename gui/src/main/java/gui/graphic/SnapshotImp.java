@@ -1,26 +1,24 @@
-package swing.graphic;
-
-import gui.graphic.SnapshotLayer;
+package gui.graphic;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  * A snapshot that is composed of several snapshot layers.
  * @see gui.graphic.Snapshot
  */
-public class Snapshot implements gui.graphic.Snapshot {
+public class SnapshotImp implements Snapshot {
 
     /**
-     * The array containing every SnapshotLayer composing this snapshot
+     * The array containing every SnapshotLayerImp composing this snapshot
      */
-    private swing.graphic.SnapshotLayer[] snapshotLayers;
+    private SnapshotLayer[] snapshotLayers;
 
     /**
-     * The constructor of the swing.graphic.Snapshot class.
+     * The constructor of the gui.graphic.SnapshotImp class.
      * It receives an array of snapshots layers that compose this snapshot
-     * @param layers The array of SnapshotLayer instances that compose this snapshot.
+     * @param layers The array of SnapshotLayerImp instances that compose this snapshot.
      * @pre layers != null && layers.length > 0
      */
-    public Snapshot(swing.graphic.SnapshotLayer[] layers) {
+    public SnapshotImp(SnapshotLayer[] layers) {
         if (layers != null && layers.length > 0) {
             this.snapshotLayers = layers;
         }

@@ -1,4 +1,4 @@
-package swing.graphic;
+package gui.graphic;
 
 
 /**
@@ -6,12 +6,12 @@ package swing.graphic;
  * A class representing a snapshot layer that contains an image laying at a given location.
  * @see gui.graphic.SnapshotLayer
  */
-public class SnapshotLayer implements gui.graphic.SnapshotLayer {
+public class SnapshotLayerImp implements SnapshotLayer {
 
     /**
-     * The image composing the SnapshotLayer
+     * The image composing the SnapshotLayerImp
      */
-    private swing.graphic.Image image;
+    private Image image;
 
     /**
      * The X coordinate of the image
@@ -24,14 +24,14 @@ public class SnapshotLayer implements gui.graphic.SnapshotLayer {
     private int y;
 
     /**
-     * The constructor of the SnapshotLayer.
-     * It takes an Image, with its coordinaites
-     * @param img The image composing the SnapshotLayer
+     * The constructor of the SnapshotLayerImp.
+     * It takes an ImageImp, with its coordinaites
+     * @param img The image composing the SnapshotLayerImp
      * @param xCoord The X coordinate of the image
      * @param yCoord The Y coordinate of the image
      * @pre img != null && xCoord >= 0 && yCoord >= 0
      */
-    public SnapshotLayer(swing.graphic.Image img, int xCoord, int yCoord) {
+    public SnapshotLayerImp(Image img, int xCoord, int yCoord) {
         if (img != null && xCoord >= 0 && yCoord >= 0) {
             this.image = img;
             this.x = xCoord;
@@ -68,7 +68,7 @@ public class SnapshotLayer implements gui.graphic.SnapshotLayer {
      * @pre this.image != null
      */
     @Override
-    public swing.graphic.Image getImage() {
+    public Image getImage() {
         return this.image;
     }
 }
