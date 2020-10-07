@@ -1,9 +1,9 @@
-package swing.json;
+package gui.json;
 
-import gui.graphic.SnapshotLayer;
+
+import gui.graphic.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import swing.graphic.Snapshot;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -11,7 +11,14 @@ import swing.graphic.Snapshot;
  * A class to convert Json object from/to snapshot object.
  * @see gui.json.SnapshotJsonConverter
  */
-public class SnapshotJsonConverter implements gui.json.SnapshotJsonConverter{
+public class SnapshotJsonConverterImp implements SnapshotJsonConverter{
+
+    private SnapshotLayerJsonConverterImp layerConverter;
+
+
+    public SnapshotJsonConverterImp(SnapshotLayerJsonConverterImp layerConverter){
+        this.layerConverter = layerConverter;
+    }
 
     /**
      * This method converts a Json object to a snapshot object
@@ -22,32 +29,32 @@ public class SnapshotJsonConverter implements gui.json.SnapshotJsonConverter{
      * @return the snapshot described
      */
     @Override
-    public gui.graphic.Snapshot jsonToSnapshot(JSONObject jsonObj) {
+    public Snapshot jsonToSnapshot(JSONObject jsonObj) {
 
-        gui.graphic.Snapshot snapshot = null;
+        Snapshot snapshot = null;
 
         // Precondition
-        if(jsonObj != null){
+        if(jsonObj != null && this.layerConverter != null){
 
             // Getting snapshot layers
             if(jsonObj.has("layers")){
                 JSONArray jsonLayers = jsonObj.getJSONArray("layers");
                 int length = jsonLayers.length();
 
-                // Convert JSONArray to SnapshotLayer array
+                // Creating final layers tab
                 SnapshotLayer[] layers = new SnapshotLayer[length];
-                SnapshotLayerJsonConverter layerConverter = new SnapshotLayerJsonConverter();
 
+                // Iterating over every jsonLayer
                 for(int i=0; i<length; i++){
-                    layers[i] = layerConverter.jsonToLayer(jsonLayers.getJSONObject(i));
+                    layers[i] = this.layerConverter.jsonToLayer(jsonLayers.getJSONObject(i));
                 }
 
                 // Create returned snapshot
-                snapshot = new Snapshot(layers);
+                snapshot = new SnapshotImp(layers);
             }
         }
         else{
-            System.out.println("Wrong json content on snapshot converter.");
+            System.out.println("Wrong json content or wrong SnapshotLayerJsonConverter.");
         }
 
         return snapshot;
@@ -62,7 +69,7 @@ public class SnapshotJsonConverter implements gui.json.SnapshotJsonConverter{
      * @return the json describing the given snapshot
      */
     @Override
-    public JSONObject snapshotToJson(gui.graphic.Snapshot snapshot) {
+    public JSONObject snapshotToJson(Snapshot snapshot) {
 
         JSONObject jsonSnapshot = new JSONObject();
 
@@ -73,7 +80,7 @@ public class SnapshotJsonConverter implements gui.json.SnapshotJsonConverter{
             SnapshotLayer[] layers = snapshot.getSnapshotLayers();
 
             // Convert layer to json
-            SnapshotLayerJsonConverter layerConverter = new SnapshotLayerJsonConverter();
+            SnapshotLayerJsonConverterImp layerConverter = new SnapshotLayerJsonConverterImp(null);
             JSONArray jsonLayers = new JSONArray();
 
             for(SnapshotLayer layer: layers){
