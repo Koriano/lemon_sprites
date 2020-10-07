@@ -1,4 +1,5 @@
 package swing;
+
 import gui.graphic.Graphic;
 import gui.graphic.Snapshot;
 import gui.graphic.SnapshotLayer;
@@ -54,14 +55,8 @@ public class GraphicImp extends JFrame implements Graphic {
             JLabel labelImage = new JLabel(image.getLoadedImage());
             labelImage.setBounds(x, y, image.getWidth(), image.getHeight());
 
-
             this.contentPanel.add(labelImage, i, 1);
         }
-
-        this.setContentPane(this.contentPanel);
-
-        // Adjusting Jframe dimensions to images
-        this.pack();
     }
 
     /**
