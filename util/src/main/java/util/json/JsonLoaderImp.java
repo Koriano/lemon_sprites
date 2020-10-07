@@ -5,9 +5,9 @@ import org.json.JSONObject;
 import java.io.*;
 
 /**
- @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
-
- Implementation of the JsonLoader interface to load/save json from/to input/output stream.
+ * @author Mathis RACINNE-DIVET
+ *
+ * Implementation of the JsonLoader interface to load/save json from/to input/output stream.
  */
 
 public class JsonLoaderImp implements JsonLoader {

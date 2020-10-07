@@ -6,9 +6,13 @@ import javax.swing.ImageIcon;
 
 /**
  * The implementation of the ImageImp interface
+ *
  * @author Margaux SCHNELZAUER
  * @see gui.graphic.Image
+ *
+ * @inv this.height >= 0 && this.width >= 0 && !(this.name.equals(""))
  */
+
 public class ImageImp implements Image {
 
     private String name;
@@ -19,12 +23,12 @@ public class ImageImp implements Image {
     /**
      * Constructor of the image
      *
-     * @pre !path.equals("") && width >= 0 && height >= 0
+     * @pre !path.equals("")
      * @param path The image path
      */
     public ImageImp(String path){
 
-        if (!path.equals("") && width >= 0 && height >= 0) {
+        if (!path.equals("")) {
             this.loadedImage = new ImageIcon(path);
             this.width = this.loadedImage.getIconWidth();
             this.height = this.loadedImage.getIconHeight();
@@ -39,10 +43,10 @@ public class ImageImp implements Image {
 
 
     /**
-     * Give the image height
+     * Return the image height
      *
-     * @pre height >= 0
-     * @return the image height
+     * @pre this.height >= 0
+     * @return The image height
      */
     @Override
     public int getHeight() {
@@ -51,10 +55,10 @@ public class ImageImp implements Image {
 
 
     /**
-     * Give the image width
+     * Return the image width
      *
-     * @pre width >=0
-     * @return the image width
+     * @pre this.width >= 0
+     * @return The image width
      */
     @Override
     public int getWidth() {
@@ -63,10 +67,10 @@ public class ImageImp implements Image {
 
 
     /**
-     * Give the image name
+     * Return the image name
      *
-     * @pre !(name.equals(""))
-     * @return the image name
+     * @pre !(this.name.equals(""))
+     * @return The image name
      */
     @Override
     public String getName() {
@@ -79,7 +83,6 @@ public class ImageImp implements Image {
             System.out.println("No conform parameters");
             return "";
         }
-
     }
 
     /**

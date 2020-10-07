@@ -6,15 +6,24 @@ import gui.graphic.SnapshotLayerImp;
 import org.json.JSONObject;
 
 /**
- * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
+ * @author Alexandre HAMON
  *
  * A class to convert Json object from/to snapshotlayer object.
  * @see SnapshotLayerJsonConverterImp
  */
+
 public class SnapshotLayerJsonConverterImp implements SnapshotLayerJsonConverter {
 
+    /**
+     * The list of images already loaded.
+     */
     private Image[] images;
 
+    /**
+     * Constructor of the SnapshotLayerJsonConverterImp
+     *
+     * @param images: the images already loaded
+     */
     public SnapshotLayerJsonConverterImp(Image[] images){
         this.images = images;
     }
@@ -86,12 +95,19 @@ public class SnapshotLayerJsonConverterImp implements SnapshotLayerJsonConverter
         return jsonLayer;
     }
 
-
-    public Image getImage(String name){
+    /**
+     * Gives the image corresponding to the name given in paramters
+     *
+     * @pre name != null && !name.equals("") && this.images != null && this.images.length > 0
+     *
+     * @param name: the file name
+     * @return the loaded image corresponding
+     */
+    private Image getImage(String name){
 
         Image return_image = null;
 
-        if(name != null && !name.equals("")){
+        if(name != null && !name.equals("") && this.images != null && this.images.length > 0){
 
             // Iterating over Image list
             for(Image image: this.images){

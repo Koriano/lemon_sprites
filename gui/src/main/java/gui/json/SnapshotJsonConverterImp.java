@@ -1,21 +1,28 @@
 package gui.json;
 
-
 import gui.graphic.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
+ * @author Alexandre HAMON
  *
  * A class to convert Json object from/to snapshot object.
  * @see gui.json.SnapshotJsonConverter
  */
+
 public class SnapshotJsonConverterImp implements SnapshotJsonConverter{
 
+    /**
+     * The layer converter containing the images to create snapshot.
+     */
     private SnapshotLayerJsonConverterImp layerConverter;
 
-
+    /**
+     * Constructor of SnapshotJsonConverterImp
+     *
+     * @param layerConverter: the layer converter with already loaded images.
+     */
     public SnapshotJsonConverterImp(SnapshotLayerJsonConverterImp layerConverter){
         this.layerConverter = layerConverter;
     }

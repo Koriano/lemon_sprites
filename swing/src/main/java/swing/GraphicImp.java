@@ -6,11 +6,13 @@ import gui.graphic.SnapshotLayer;
 
 import javax.swing.*;
 
-
 /**
  * Class to implement graphic interface
  *
  * @author Margaux SCHNELZAUER
+ * @see gui.graphic.Graphic
+ *
+ * @inv this.height > 0 && this.width > 0
  */
 
 public class GraphicImp extends JFrame implements Graphic {
@@ -23,60 +25,81 @@ public class GraphicImp extends JFrame implements Graphic {
     public GraphicImp(){
         // creation of a panel to set the image
         this.contentPanel = new JLayeredPane();
-//        this.contentPanel.setLayout(null);
 
-        this.setSize(1000, 1000);
-        this.setLocationRelativeTo(null);
         this.setContentPane(this.contentPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
     /**
-     * Display a snapshot on a panel
+     * This method displays a snapshot on a graphic interface.
+     *
+     * @pre snapshot != null
      *
      * @param snapshot : a snapshot composed of snapshot layers
      */
     @Override
     public void displaySnapshot(Snapshot snapshot) {
 
-        SnapshotLayer[] layers = snapshot.getSnapshotLayers();
-        int length = layers.length;
+        if(snapshot != null) {
+            SnapshotLayer[] layers = snapshot.getSnapshotLayers();
+            int length = layers.length;
 
-        this.setSize(layers[0].getImage().getWidth(), layers[0].getImage().getHeight());
+            this.setSize(layers[0].getImage().getWidth(), layers[0].getImage().getHeight());
 
-        for (int i=0; i<length; i++) {
+            for (int i = 0; i < length; i++) {
 
-            // get the parameters
-            int x = layers[i].getX();
-            int y = layers[i].getY();
-            ImageImp image = (ImageImp) layers[i].getImage();
+                // get the parameters
+                int x = layers[i].getX();
+                int y = layers[i].getY();
+                ImageImp image = (ImageImp) layers[i].getImage();
 
-            JLabel labelImage = new JLabel(image.getLoadedImage());
-            labelImage.setBounds(x, y, image.getWidth(), image.getHeight());
+                JLabel labelImage = new JLabel(image.getLoadedImage());
+                labelImage.setBounds(x, y, image.getWidth(), image.getHeight());
 
-            this.contentPanel.add(labelImage, i, 1);
+                this.contentPanel.add(labelImage, i, 1);
+            }
         }
     }
 
     /**
-     * Give the window height
+     * Return the window height
      *
-     * @return window height
+     * @pre this.height > 0
+     * @return The window height
      */
     @Override
     public int getHeight(){
-        return super.getHeight();
+        int h = 0;
+
+        if(super.getHeight() > 0) {
+            h = super.getHeight();
+        }
+        else{
+            System.out.println("The window height can't be negative");
+        }
+
+        return h;
     }
 
 
     /**
-     * Give the window width
+     * Return the window width
      *
-     * @return window width
+     * @pre this.width > 0
+     * @return The window width
      */
     @Override
     public int getWidth(){
-        return super.getWidth();
+        int w = 0;
+
+        if(super.getWidth() > 0) {
+            w = super.getWidth();
+        }
+        else{
+            System.out.println("The window width can't be negative");
+        }
+
+        return w;
     }
 }

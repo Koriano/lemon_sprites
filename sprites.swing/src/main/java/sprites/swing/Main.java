@@ -15,6 +15,7 @@ import java.io.File;
  *
  * A main class to test implementation of lemon_sprites v1.0
  */
+
 public class Main {
     public static void main(String[] args){
         String IMAGE_DIRECTORY = "sprites.swing/img/";

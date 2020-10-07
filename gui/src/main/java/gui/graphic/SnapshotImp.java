@@ -1,10 +1,14 @@
 package gui.graphic;
 
 /**
- * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
+ * @author Mathis RACINNE-DIVET
+ *
  * A snapshot that is composed of several snapshot layers.
  * @see gui.graphic.Snapshot
+ *
+ * @inv this.snapshotLayers.size() > 0
  */
+
 public class SnapshotImp implements Snapshot {
 
     /**
@@ -15,6 +19,7 @@ public class SnapshotImp implements Snapshot {
     /**
      * The constructor of the gui.graphic.SnapshotImp class.
      * It receives an array of snapshots layers that compose this snapshot
+     *
      * @param layers The array of SnapshotLayerImp instances that compose this snapshot.
      * @pre layers != null && layers.length > 0
      */
@@ -27,8 +32,8 @@ public class SnapshotImp implements Snapshot {
     /**
      * This method returns the layers of the snapshot
      *
-     * @return the layers of the snapshot
      * @pre this.snapshotLayers.size() > 0
+     * @return the layers of the snapshot
      */
     @Override
     public SnapshotLayer[] getSnapshotLayers() {
