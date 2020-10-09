@@ -38,7 +38,7 @@ public class SceneImp implements Scene{
      */
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
-        int index = (int) (millis/this.totalDuration);
+        int index = (int) (this.totalDuration/millis);
 
         return this.snapshotList.get(index - 1);
     }

@@ -43,7 +43,7 @@ public class SpriteImp implements Sprite{
     public Image getCurrentImage(long millis) {
 
         // find the index of the image
-        int index = (int) (millis/this.totalDuration);
+        int index = (int) (this.totalDuration/millis);
 
         return this.imageList.get(index - 1);
     }
