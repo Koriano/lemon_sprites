@@ -37,15 +37,22 @@ public class SpriteImp implements Sprite{
      *
      * @pre millis >= 0 && millis < this.totalDuration
      * @param millis: the time at which you want the sprite image (in milliseconds)
+     *
      * @return the current image
+     * @post Image != null
      */
     @Override
     public Image getCurrentImage(long millis) {
 
+        assert millis >= 0 && millis < this.totalDuration : "Precondition violated";
+
         // find the index of the image
         int index = (int) (this.totalDuration/millis);
+        Image currentImage = this.imageList.get(index - 1);
 
-        return this.imageList.get(index - 1);
+        assert currentImage != null : "Precondition violated";
+
+        return currentImage;
     }
 
     /**
@@ -56,6 +63,10 @@ public class SpriteImp implements Sprite{
      */
     @Override
     public String getName() {
-        return this.name;
+
+        String name = this.name;
+        assert name != null : "Postcondition violated";
+
+        return name;
     }
 }

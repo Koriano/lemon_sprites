@@ -29,7 +29,6 @@ public class SceneImp implements Scene{
     /**
      * Return the image at the given time
      *
-     *
      * @pre millis >= 0 && millis < this.totalDuration
      * @post result != null
      *
@@ -38,9 +37,15 @@ public class SceneImp implements Scene{
      */
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
-        int index = (int) (this.totalDuration/millis);
+        // pre condition
+        assert millis >= 0 && millis < this.totalDuration : "Precondition violated";
 
-        return this.snapshotList.get(index - 1);
+        int index = (int) (this.totalDuration/millis);
+        Snapshot currentSnapshot = this.snapshotList.get(index - 1);
+
+        // post condition
+        assert currentSnapshot != null : "Postcondition violated";
+        return currentSnapshot;
     }
 
 
@@ -48,9 +53,16 @@ public class SceneImp implements Scene{
      * Give the background of the scene
      *
      * @return the background of the scene
+     * @post result != null
      */
     @Override
     public Image getBackground() {
-        return this.background;
+
+        Image background = this.background;
+
+        // post condition
+        assert background != null : "Postcondition violated";
+
+        return background;
     }
 }
