@@ -16,6 +16,9 @@ public class SpriteImp implements Sprite{
     private ArrayList<Image> imageList;
     private long totalDuration;
     private String name;
+    private boolean isVisible;
+    private int x;
+    private int y;
 
 
     /**
@@ -65,8 +68,85 @@ public class SpriteImp implements Sprite{
     public String getName() {
 
         String name = this.name;
+        
         assert name != null : "Postcondition violated";
-
         return name;
+    }
+
+
+    /**
+     * Get the visibility of the sprite
+     *
+     * @return the visibility of the sprite
+     */
+    @Override
+    public boolean getVisible() {
+        return this.isVisible;
+    }
+
+
+    /**
+     * Get the X position of the sprite
+     *
+     * @post result >= 0
+     *
+     * @return x position of the sprite
+     */
+    @Override
+    public int getX() {
+
+        int x = this.x;
+
+        assert x >= 0 : "Postcondition violated";
+        return x;
+    }
+
+
+    /**
+     * Get the Y position of the sprite
+     *
+     * @post result >= 0
+     *
+     * @return y position of the sprite
+     */
+    @Override
+    public int getY() {
+        int y = this.y;
+
+        assert y >= 0 : "Postcondition violated";
+        return y;
+    }
+
+
+    /**
+     * Get the list of the sprite images
+     *
+     * @post result != null
+     *
+     * @return list of the sprite images
+     */
+    @Override
+    public ArrayList<Image> getImage() {
+
+        ArrayList<Image> imageList = this.imageList;
+
+        assert imageList != null : "Postcondition violated";
+        return imageList;
+    }
+
+
+    /**
+     * Get the total duration of the sprite
+     *
+     * @post result >= 0
+     *
+     * @return total duration of the sprite
+     */
+    @Override
+    public long getDuration() {
+        long totalDuration = this.totalDuration;
+
+        assert totalDuration >= 0 : "Postcondition violated";
+        return totalDuration;
     }
 }
