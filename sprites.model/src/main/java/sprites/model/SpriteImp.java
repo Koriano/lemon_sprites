@@ -68,7 +68,7 @@ public class SpriteImp implements Sprite{
     public String getName() {
 
         String name = this.name;
-        
+
         assert name != null : "Postcondition violated";
         return name;
     }
