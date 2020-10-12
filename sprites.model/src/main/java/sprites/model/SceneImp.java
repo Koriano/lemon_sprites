@@ -13,7 +13,14 @@ import java.util.ArrayList;
 
 public class SceneImp implements Scene{
 
+    /**
+     * The array containing the sprites composing the scene
+     */
     private ArrayList<Sprite> spritesList;
+
+    /**
+     * The background of the scene
+     */
     private Image background;
 
 
@@ -30,7 +37,7 @@ public class SceneImp implements Scene{
 
 
     /**
-     * Return the image at the given time
+     * Return the snapshot at the given time
      *
      * @pre millis >= 0
      * @post result != null
@@ -41,23 +48,31 @@ public class SceneImp implements Scene{
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
 
+        // pre condition
         assert millis >= 0 : "Precondition violated";
 
+        // get the sprites list
         ArrayList<Sprite> spritesList = this.spritesList;
+
+        // get the size of the list
         int length = spritesList.size();
+
+        // create an array of snapshot layer
         SnapshotLayer[] layers = new SnapshotLayer[length];
 
-
+        // browse the sprites list
         for (int i = 0; i < length; i++){
-
+            // get sprite properties
             Image image = spritesList.get(i).getCurrentImage(millis);
             int x = spritesList.get(i).getX();
             int y = spritesList.get(i).getY();
 
+            // create and add a snapshot layer
             SnapshotLayer snapshotLayer = new SnapshotLayerImp(image, x, y);
             layers[i] = snapshotLayer;
         }
 
+        // create a snapshot
         Snapshot currentSnapshot = new SnapshotImp(layers);
 
         // post condition
