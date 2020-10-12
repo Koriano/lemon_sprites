@@ -2,16 +2,23 @@ package swing.sync;
 import util.sync.Scheduler;
 import util.sync.SchedulerListener;
 
-import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Mathis RACINNE-DIVET
  *
- * An interface that triggers a task at a given rate
+ * A class that triggers a task at a given rate, on the graphical thread
  *
  * @inv this.totalDuration >= 0 && this.delay >= 0 && this.listener != null
  */
-public class SchedulerImp implements Scheduler{
+public class SchedulerSwing implements Scheduler, ActionListener {
+
+    /**
+     * The graphical timer that will trigger event at a given rate
+     */
+    private Timer timer;
 
     /**
      * The total duration of the timer
@@ -29,32 +36,18 @@ public class SchedulerImp implements Scheduler{
     private SchedulerListener listener;
 
     /**
-     * The graphical timer
-     */
-    private Timer timer;
-
-    /**
      * Constructor of the graphical scheduler
+     * @param listener listener that will be triggered by the timer
      * @param delay the delay between two time triggers
      * @param totalDuration the total duration of the timer
+     * @pre delay >= 0 && totalDuration >= 0 && listener != null
      */
-    public SchedulerImp(long delay, long totalDuration){
-        assert delay >= 0 && totalDuration >= 0;
-
+    public SchedulerSwing(SchedulerListener listener, long delay, long totalDuration){
+        assert delay >= 0 && totalDuration >= 0 && listener != null;
+        this.listener = listener;
         this.delay = delay;
         this.totalDuration = totalDuration;
-        this.listener = new SchedulerListenerImp();//TODO Pass in param the instance of the window to display the new snapshot
-        this.timer = new Timer((int)this.delay, this.listener);
-    }
-
-    /**
-     * Run the thread and starts the timer
-     *
-     * @see Runnable#run()
-     */
-    @Override
-    public void run() {
-        this.start();
+        this.timer = new Timer((int)this.delay, this);
     }
 
     /**
@@ -66,7 +59,7 @@ public class SchedulerImp implements Scheduler{
     }
 
     /**
-     * Used to stop the thread ans the timer
+     * Used to stop the timer
      */
     @Override
     public void stop() {
@@ -93,5 +86,15 @@ public class SchedulerImp implements Scheduler{
     @Override
     public long getTotalDuration() {
         return this.totalDuration;
+    }
+
+    /**
+     * Invoked by the timer every delay ms.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        this.listener.trigger(System.currentTimeMillis());
     }
 }
