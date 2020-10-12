@@ -1,23 +1,21 @@
 package util.io;
 
-import java.util.ArrayList;
+import java.io.InputStream;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
- * A generic Loader of a generic type from an input stream
+ * A generic Loader of a generic type from an input stream containing a zip file
  */
-public interface ZipLoader {
+public interface ZipLoader<T,R> extends Loader<T> {
 
     /**
-     * Load objects of a specific type from a zip file
+     * Load object from an input stream containing a zip file
      *
-     * @pre path != null && !"".equals(path) && type != null
+     * @pre stream != null
      *
-     * @param path: the file
-     * @param type: the type of object returned
-     * @param <T>: the type of object returned
-     * @return a list containing every file found in the zip of the specified type
+     * @param stream: the stream containing the zip file
+     * @return the T object loaded
      */
-    public <T> ArrayList<T> loadFromZip(String path, T type);
+    public T load(InputStream stream);
 }

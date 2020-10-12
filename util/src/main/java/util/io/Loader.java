@@ -1,5 +1,7 @@
 package util.io;
 
+import java.io.InputStream;
+
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
@@ -10,12 +12,12 @@ package util.io;
 public interface Loader<T> {
 
     /**
-     * Load object from a file
+     * Load object from an input stream
      *
-     * @pre path != null && !"".equals(path)
+     * @pre stream != null
      *
-     * @param path: the file path
+     * @param path: the stream containing the file
      * @return the object loaded
      */
-    public T load(String path);
+    public T load(InputStream stream);
 }
