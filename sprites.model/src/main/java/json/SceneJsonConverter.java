@@ -30,12 +30,12 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
      *
      * @param spriteConverter: the sprite converter conatining already loaded images
      *
-     * @pre spriteConverter != null && loadedBackground != null
+     * @pre spriteConverter != null
      */
     public SceneJsonConverter(SpriteJsonConverter spriteConverter){
 
         assert spriteConverter != null:
-                "SceneJsonConverter#constructor : spriteConverter";
+                "SceneJsonConverter#constructor : precondition violated";
 
         this.spriteConverter = spriteConverter;
     }
