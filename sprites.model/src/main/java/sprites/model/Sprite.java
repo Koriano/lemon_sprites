@@ -38,9 +38,7 @@ public interface Sprite {
 
 
     /**
-     * Return the visibility of the sprites
-     *
-     * @post result != null
+     * Return the visibility of the sprite
      *
      * @return the visibility of the sprite
      */
