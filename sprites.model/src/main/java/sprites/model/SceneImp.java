@@ -1,7 +1,6 @@
 package sprites.model;
 
 import gui.graphic.*;
-
 import java.util.ArrayList;
 
 /**
