@@ -13,6 +13,8 @@ import util.json.JsonLoaderImp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -53,8 +55,14 @@ public class Main {
         SnapshotJsonConverterImp snapConverter = new SnapshotJsonConverterImp(layerConverter);
 
         // Converting json to snapshot
-        JSONObject json = jloader.loadJson("sprites.swing/json/snapshot.json");
-        Snapshot snapshot = snapConverter.convertFromJson(json);
+        FileInputStream stream = null;
+        try {
+            stream = new FileInputStream("sprites.swing/json/snapshot.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        JSONObject json = jloader.loadJson(stream);
+        Snapshot snapshot = snapConverter.jsonToSnapshot(json);
 
         // Displaying snapshot
         GraphicImp graphic = new GraphicImp();
