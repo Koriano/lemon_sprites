@@ -1,16 +1,17 @@
 package sprites.model;
 
 import gui.graphic.Image;
-
 import java.util.ArrayList;
+
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
  * A Sprite is described by a list of images depending on the time
  *
- * @inv this.list.size() > 0 && this.totalDuration >= 0 && this.name != null
+ * @inv this.list.size() > 0 && this.totalDuration >= 0 && this.name != null && this.x >=0 && this.y >= 0 && this.imageList != null
  */
+
 public interface Sprite {
 
     /**
@@ -49,7 +50,7 @@ public interface Sprite {
     /**
      * Return the X position of the sprites
      *
-     * @post result != null
+     * @post result >=0
      *
      * @return the x position of the sprites
      */
@@ -60,7 +61,7 @@ public interface Sprite {
     /**
      * Return the Y position of the sprites
      *
-     * @post result != null
+     * @post result >= 0
      *
      * @return the y position of the sprites
      */
@@ -81,7 +82,7 @@ public interface Sprite {
     /**
      * Return the sprite duration
      *
-     * @post result != null
+     * @post result >= 0
      *
      * @return the sprite duration
      */
