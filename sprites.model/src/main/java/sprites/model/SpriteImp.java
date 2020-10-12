@@ -13,12 +13,34 @@ import java.util.ArrayList;
 
 public class SpriteImp implements Sprite{
 
-
+    /**
+     * The array containing the images composing the sprite
+     */
     private ArrayList<Image> imageList;
+
+    /**
+     * The total duration of the sprite
+     */
     private long totalDuration;
+
+    /**
+     * The name of the sprite
+     */
     private String name;
+
+    /**
+     * The visibility of the sprite
+     */
     private boolean isVisible;
+
+    /**
+     * The X position of the sprite
+     */
     private int x;
+
+    /**
+     * The Y position of the sprite
+     */
     private int y;
 
 
@@ -55,7 +77,6 @@ public class SpriteImp implements Sprite{
         Image currentImage = this.imageList.get(index - 1);
 
         assert currentImage != null : "Precondition violated";
-
         return currentImage;
     }
 
