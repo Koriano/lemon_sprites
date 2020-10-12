@@ -61,7 +61,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        JSONObject json = jloader.loadJson(stream);
+        JSONObject json = jloader.load(stream);
         Snapshot snapshot = snapConverter.jsonToSnapshot(json);
 
         // Displaying snapshot

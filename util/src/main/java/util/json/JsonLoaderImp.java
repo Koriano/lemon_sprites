@@ -22,7 +22,7 @@ public class JsonLoaderImp implements Loader<JSONObject> {
    * @pre stream != null
    */
   @Override
-  public JSONObject loadJson(InputStream stream) {
+  public JSONObject load(InputStream stream) {
     assert stream != null;
 
     // The JSONObject to return

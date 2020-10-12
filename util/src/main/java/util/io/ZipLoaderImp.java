@@ -80,7 +80,7 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
 
                     // If json file, laod it with jsn loader, else it'es a resource (load it with resource loader)
                     if ("json".equals(ext)){
-                        jsonContent = json_loader.loadJson(zis);
+                        jsonContent = json_loader.load(zis);
                     }
                     else{
                         resources.add(this.resourceLoader.load(zis));
