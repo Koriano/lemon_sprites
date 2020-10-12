@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class SpriteImp implements Sprite{
 
+
     private ArrayList<Image> imageList;
     private long totalDuration;
     private String name;
@@ -80,7 +81,7 @@ public class SpriteImp implements Sprite{
      * @return the visibility of the sprite
      */
     @Override
-    public boolean getVisible() {
+    public boolean isVisible() {
         return this.isVisible;
     }
 
@@ -126,7 +127,7 @@ public class SpriteImp implements Sprite{
      * @return list of the sprite images
      */
     @Override
-    public ArrayList<Image> getImage() {
+    public ArrayList<Image> getImages() {
 
         ArrayList<Image> imageList = this.imageList;
 
