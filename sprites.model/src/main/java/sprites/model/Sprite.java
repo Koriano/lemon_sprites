@@ -2,6 +2,8 @@ package sprites.model;
 
 import gui.graphic.Image;
 
+import java.util.ArrayList;
+
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
@@ -22,6 +24,8 @@ public interface Sprite {
      */
     public Image getCurrentImage(long millis);
 
+
+
     /**
      * Return the name of the sprite
      *
@@ -30,4 +34,48 @@ public interface Sprite {
      * @return the name of the Sprite
      */
     public String getName();
+
+
+
+    /**
+     * Return the visibility of the sprites
+     *
+     * @post result != null
+     *
+     * @return the visibility of the sprite
+     */
+    public boolean getVisible();
+
+
+
+    /**
+     * Return the X position of the sprites
+     *
+     * @post result != null
+     *
+     * @return the x position of the sprites
+     */
+    public int getX();
+
+
+
+    /**
+     * Return the Y position of the sprites
+     *
+     * @post result != null
+     *
+     * @return the y position of the sprites
+     */
+    public int getY();
+
+
+    
+    /**
+     * Return the list of the sprites Images
+     *
+     * @post result != null
+     *
+     * @return the list of the sprites Images
+     */
+    public ArrayList<Image> getImage();
 }
