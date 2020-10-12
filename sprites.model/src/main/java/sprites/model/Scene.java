@@ -31,4 +31,12 @@ public interface Scene {
      * @return the Image background of the scene
      */
     public Image getBackground();
+
+    
+    /**
+     * Get the sprites
+     *
+     * @return the sprites of the scene
+     */
+    public Sprite getSprites();
 }
