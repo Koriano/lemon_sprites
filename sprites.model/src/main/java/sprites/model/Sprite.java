@@ -28,7 +28,7 @@ public interface Sprite {
 
 
     /**
-     * Return the name of the sprite
+     * Get the name of the sprite
      *
      * @post result != null
      *
@@ -39,16 +39,16 @@ public interface Sprite {
 
 
     /**
-     * Return the visibility of the sprite
+     * Get the visibility of the sprite
      *
      * @return the visibility of the sprite
      */
-    public boolean getVisible();
+    public boolean isVisible();
 
 
 
     /**
-     * Return the X position of the sprites
+     * Get the X position of the sprites
      *
      * @post result >=0
      *
@@ -59,7 +59,7 @@ public interface Sprite {
 
 
     /**
-     * Return the Y position of the sprites
+     * Get the Y position of the sprites
      *
      * @post result >= 0
      *
@@ -70,17 +70,17 @@ public interface Sprite {
 
     
     /**
-     * Return the list of the sprites Images
+     * Get the list of the sprites Images
      *
      * @post result != null
      *
      * @return the list of the sprites Images
      */
-    public ArrayList<Image> getImage();
+    public ArrayList<Image> getImages();
 
 
     /**
-     * Return the sprite duration
+     * Get the sprite duration
      *
      * @post result >= 0
      *
