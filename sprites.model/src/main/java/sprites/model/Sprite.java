@@ -78,4 +78,14 @@ public interface Sprite {
      * @return the list of the sprites Images
      */
     public ArrayList<Image> getImage();
+
+
+    /**
+     * Return the sprite duration
+     *
+     * @post result != null
+     *
+     * @return the sprite duration
+     */
+    public long getDuration();
 }
