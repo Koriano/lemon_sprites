@@ -12,6 +12,15 @@ package gui.graphic;
 public interface Image {
 
   /**
+   * Set the image name
+   *
+   * @pre name != null && !"".equals(name)
+   * @param name: the image name
+   */
+
+  public void setName(String name);
+
+  /**
    * Return the image height
    *
    * @pre this.height >= 0

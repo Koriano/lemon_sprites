@@ -2,6 +2,7 @@ package swing;
 import gui.graphic.Image;
 
 import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -16,31 +17,38 @@ import javax.swing.ImageIcon;
 public class ImageImp implements Image {
 
     private String name;
-    private int width;
-    private int height;
-    private ImageIcon loadedImage;
+    private BufferedImage loadedImage;
 
     /**
      * Constructor of the image
      *
-     * @pre !path.equals("")
-     * @param path The image path
+     * @pre image != null
+     * @param image The loaded image
      */
-    public ImageImp(String path){
+    public ImageImp(BufferedImage image){
 
-        if (!path.equals("")) {
-            this.loadedImage = new ImageIcon(path);
-            this.width = this.loadedImage.getIconWidth();
-            this.height = this.loadedImage.getIconHeight();
-
-            String[] parts = path.split("/");
-            this.name = parts[parts.length-1];
+        if (image != null) {
+            this.loadedImage = image;
+            this.name = name;
        }
         else {
             System.out.println("No conform parameters");
         }
     }
 
+
+    /**
+     * Set the image name
+     *
+     * @param name : the image name
+     * @pre name != null && !"".equals(name)
+     */
+    @Override
+    public void setName(String name) {
+        if(name != null && !"".equals(name)){
+            this.name = name;
+        }
+    }
 
     /**
      * Return the image height
@@ -50,7 +58,7 @@ public class ImageImp implements Image {
      */
     @Override
     public int getHeight() {
-        return this.height;
+        return this.loadedImage.getHeight();
     }
 
 
@@ -62,7 +70,7 @@ public class ImageImp implements Image {
      */
     @Override
     public int getWidth() {
-        return this.width;
+        return this.loadedImage.getWidth();
     }
 
 
@@ -91,9 +99,9 @@ public class ImageImp implements Image {
      * @pre this.loadedImage != null
      * @return the loaded image
      */
-    public ImageIcon getLoadedImage(){
+    public BufferedImage getLoadedImage(){
 
-        ImageIcon img = null;
+        BufferedImage img = null;
 
         if(this.loadedImage != null){
             img = this.loadedImage;
