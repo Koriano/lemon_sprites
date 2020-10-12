@@ -5,16 +5,9 @@ package util.sync;
  *
  * An interface that triggers a task at a given rate
  *
- * @inv this.totalDuration >= 0 && ths.delay >= 0 && this.listener != null
+ * @inv this.totalDuration >= 0 && ths.delay >= 0
  */
-public interface Scheduler extends Runnable{
-
-    /**
-     * Run the thread and starts the timer
-     * @see Runnable#run()
-     */
-    @Override
-    public void run();
+public interface Scheduler {
 
     /**
      * Used to start the timer
@@ -22,7 +15,7 @@ public interface Scheduler extends Runnable{
     public void start();
 
     /**
-     * Used to stop the thread ans the timer
+     * Used to stop the timer
      */
     public void stop();
 

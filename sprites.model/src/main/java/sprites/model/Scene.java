@@ -8,14 +8,14 @@ import gui.graphic.Snapshot;
  *
  * A Scene is described by a list of snapshots depending on the time
  *
- * @inv this.sprites.length > 0 && this.background != null && this.totalDuration >= 0
+ * @inv this.sprites.length > 0 && this.background != null
  */
 public interface Scene {
 
     /**
      * Method to get the snapshot at the time t=millis
      *
-     * @pre millis >= 0 && millis < this.totalDuration
+     * @pre millis >= 0
      * @post result != null
      *
      * @param millis: the time at which you want the sprite image (in milliseconds)
@@ -24,7 +24,7 @@ public interface Scene {
     public Snapshot getCurrentSnapshot(long millis);
 
     /**
-     * Returns the background of the scene
+     * Get the background of the scene
      *
      * @post result != null
      *
