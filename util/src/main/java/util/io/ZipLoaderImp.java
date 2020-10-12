@@ -16,30 +16,38 @@ import java.util.zip.ZipInputStream;
  */
 public class ZipLoaderImp<T,R> implements ZipLoader<T> {
 
-    private static String IMG_DIRECTORY = "sprites.swing/img/";
-
     /**
-     * The jsonConverter with already loaded images
+     * The jsonConverter which will parse the JSON file contained in the zip
      */
     private JsonConverter<T> jsonConverter;
 
-
+    /**
+     * The Loader that will load the data from the zip (such as a JSON file or images)
+     */
     private Loader<R> resourceLoader;
+
+    /**
+     * the ArrayList that will contain the loaded resources, such as images
+     */
+    private ArrayList<R> resourcesList;
 
     /**
      * The constructor of the ZipLoaderImp class, taking a jsonConverter as an argument
      *
-     * @pre jsonConverter != null && resourceLoader != null
+     * @pre jsonConverter != null && resourceLoader != null && resourcesList != null
      *
-     * @param jsonConverter: the jsonConverter which contains loaded images
+     * @param jsonConverter : the jsonConverter which will parse the JSON file contained in the zip
+     * @param resourceLoader : the Loader that will load the data from the zip (such as a JSON file or images)
+     * @param resourcesList : the ArrayList that will contain the loaded resources, such as images
      */
-    public ZipLoaderImp(JsonConverter<T> jsonConverter, Loader<R> resourceLoader){
+    public ZipLoaderImp(JsonConverter<T> jsonConverter, Loader<R> resourceLoader, ArrayList<R> resourcesList){
 
-        assert jsonConverter != null && resourceLoader != null:
+        assert jsonConverter != null && resourceLoader != null && resourcesList != null:
                 "ZipLoaderImp#constructor: precondition violated";
 
         this.jsonConverter = jsonConverter;
         this.resourceLoader = resourceLoader;
+        this.resourcesList = resourcesList;
 
     }
 
@@ -60,7 +68,6 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
         ZipInputStream zis = new ZipInputStream(stream);
 
         // Initializing entry convertion
-        ArrayList<R> resources = new ArrayList<>();
         JsonLoaderImp json_loader = new JsonLoaderImp();
         ZipEntry entry;
         String ext;
@@ -78,12 +85,11 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
                     // get its extension
                     ext = this.extension(entry);
 
-                    // If json file, laod it with jsn loader, else it'es a resource (load it with resource loader)
+                    // If json file, load it with jsn loader, else it is a resource (load it with resource loader)
                     if ("json".equals(ext)){
                         jsonContent = json_loader.load(zis);
-                    }
-                    else{
-                        resources.add(this.resourceLoader.load(zis));
+                    } else {
+                        this.resourcesList.add(this.resourceLoader.load(zis));//TODO ajouter le nom à l'image chargée en le récupérant avec entry
                     }
                 }
 
@@ -91,7 +97,7 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
                 entry = null;
             }
         }while (entry != null);
-
+        System.out.println(jsonContent);
         // Create a new object from json file
         return this.jsonConverter.convertFromJson(jsonContent);
     }
@@ -112,7 +118,7 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
         // Split the name with slashes : /foo/bar/file.txt -> ["foo", "bar", "file.txt"]
         String[] slash_split = entryName.split("/");
         // Split the file name with dot : file.txt -> ["file", "txt"]
-        String[] dot_split = slash_split[slash_split.length-1].split(".");
+        String[] dot_split = slash_split[slash_split.length-1].split("\\.");
 
         // Return the extension
         return dot_split[dot_split.length-1];

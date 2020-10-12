@@ -18,24 +18,6 @@ import java.util.ArrayList;
  */
 public class SpriteJsonConverter implements JsonConverter<Sprite> {
 
-    /**
-     * Already loaded images
-     */
-    private Image[] loadedImages;
-
-    /**
-     * Constructor of SpriteJsonConverter, constructed with already loaded images
-     *
-     * @param images: list of already laoded image
-     *
-     * @pre images != null
-     */
-    public SpriteJsonConverter(Image[] images){
-        // Precondition
-        assert images != null: "SpriteJsonConverter precondition violated.";
-
-        this.loadedImages = images;
-    }
 
     /**
      * Convert a object of type Sprite to json object
@@ -99,35 +81,6 @@ public class SpriteJsonConverter implements JsonConverter<Sprite> {
 
         JSONArray array = jsonSprite.getJSONArray("images");
 
-        return null;
-    }
-
-    /**
-     * Gives the image corresponding to the name given in parameters
-     *
-     * @pre name != null && !name.equals("") && this.images != null && this.images.length > 0
-     * @post result != null
-     *
-     * @param name: the file name
-     * @return the loaded image corresponding
-     */
-    public Image getImage(String name){
-
-        assert name != null && !name.equals("") && this.loadedImages != null && this.loadedImages.length > 0:
-                "SpriteJsonConverter#getImage : precondition violated";
-
-        Image img = null;
-
-        // Iterating over Image list
-        for(Image image: this.loadedImages){
-            if(name.equals(image.getName())){
-                img = image;
-            }
-        }
-
-        assert img != null:
-                "SpriteJsonConverter#GetImage: Postcondition violated";
-
-        return img;
+        return null; //TODO Fixer ce retour par terrible (il faudra aussi passer le ArrayList<Image> au constructeur de la classe pour rebalancer ça dans le constructeur de Sprite)
     }
 }

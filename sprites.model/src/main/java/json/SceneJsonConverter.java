@@ -21,24 +21,35 @@ import java.util.ArrayList;
 public class SceneJsonConverter implements JsonConverter<Scene> {
 
     /**
-     * The sprite converter containing loaded images
+     * The array that contains the images used to build the sprites of the scene
+     */
+    private ArrayList<Image> images;
+
+
+    /**
+     * The converter used to convert JSON into sprites and vice versa
      */
     private SpriteJsonConverter spriteConverter;
+
 
     /**
      * A constructor for the SceneJsonConverter, instanciated with a SpriteJsonConverter
      *
-     * @param spriteConverter: the sprite converter conatining already loaded images
+     * @param images: the array that contains the images used to build the sprites of the scene
      *
-     * @pre spriteConverter != null
+     * @pre images != null
      */
-    public SceneJsonConverter(SpriteJsonConverter spriteConverter){
+    public SceneJsonConverter(ArrayList<Image> images){
 
-        assert spriteConverter != null:
+        assert images != null:
                 "SceneJsonConverter#constructor : precondition violated";
 
-        this.spriteConverter = spriteConverter;
+        this.images = images;
+        this.spriteConverter = new SpriteJsonConverter();
     }
+
+
+
 
     /**
      * Convert a object of type scene to json object
@@ -93,7 +104,14 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
 
         // Get background
         String backgroundName = jsonScene.getString("background");
-        Image background = this.spriteConverter.getImage(backgroundName);
+        Image background = null;
+
+        // Iterating over Image list
+        for(Image image : this.images){
+            if(backgroundName.equals(image.getName())){
+                background = image;
+            }
+        }
 
         // Get sprites
         JSONArray jsonSprites = jsonScene.getJSONArray("sprites");
@@ -103,12 +121,14 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
             sprites.add(this.spriteConverter.convertFromJson(jsonSprites.getJSONObject(i)));
         }
 
+        // Create scene
         Scene scene = new SceneImp(sprites, background);
+
         // Postcondition
         assert scene != null && scene.getBackground() != null:
                 "SceneJsonConverter#convertFromJson: postcondition violated";
 
-        // Create scene and return it
         return scene;
     }
+
 }
