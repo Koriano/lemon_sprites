@@ -80,6 +80,7 @@ public class SceneImp implements Scene{
     }
 
 
+
     /**
      * Give the background of the scene
      *
@@ -95,5 +96,17 @@ public class SceneImp implements Scene{
         assert background != null : "Postcondition violated";
 
         return background;
+    }
+
+    
+
+    /**
+     * Get the list of the sprites
+     *
+     * @return the list of the scene sprites
+     */
+    @Override
+    public ArrayList<Sprite> getSprites() {
+        return this.spritesList;
     }
 }
