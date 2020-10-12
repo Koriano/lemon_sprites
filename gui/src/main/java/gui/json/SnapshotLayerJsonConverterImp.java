@@ -4,15 +4,16 @@ import gui.graphic.Image;
 import gui.graphic.SnapshotLayer;
 import gui.graphic.SnapshotLayerImp;
 import org.json.JSONObject;
+import util.json.JsonConverter;
 
 /**
  * @author Alexandre HAMON
  *
  * A class to convert Json object from/to snapshotlayer object.
- * @see SnapshotLayerJsonConverterImp
+ * @see JsonConverter
  */
 
-public class SnapshotLayerJsonConverterImp implements SnapshotLayerJsonConverter {
+public class SnapshotLayerJsonConverterImp implements JsonConverter<SnapshotLayer> {
 
     /**
      * The list of images already loaded.
@@ -37,7 +38,7 @@ public class SnapshotLayerJsonConverterImp implements SnapshotLayerJsonConverter
      * @return a snapshotlayer object
      */
     @Override
-    public SnapshotLayer jsonToLayer(JSONObject jsonObj) {
+    public SnapshotLayer convertFromJson(JSONObject jsonObj) {
 
         SnapshotLayer layer = null;
 
@@ -67,7 +68,7 @@ public class SnapshotLayerJsonConverterImp implements SnapshotLayerJsonConverter
      * @return a json describing the given layer
      */
     @Override
-    public JSONObject layerToJson(gui.graphic.SnapshotLayer layer) {
+    public JSONObject convertToJson(gui.graphic.SnapshotLayer layer) {
 
         JSONObject jsonLayer = null;
 

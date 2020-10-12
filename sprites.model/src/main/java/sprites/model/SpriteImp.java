@@ -170,5 +170,6 @@ public class SpriteImp implements Sprite{
 
         assert totalDuration >= 0 : "Postcondition violated";
         return totalDuration;
+
     }
 }

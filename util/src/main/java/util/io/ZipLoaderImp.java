@@ -7,7 +7,7 @@ import java.io.InputStream;
  *
  * A generic Loader of a generic type from an input stream containing a zip file
  */
-public interface ZipLoader<T> extends Loader<T>{
+public class ZipLoaderImp<T> implements ZipLoader<T> {
 
     /**
      * Load object from an input stream containing a zip file
@@ -17,5 +17,9 @@ public interface ZipLoader<T> extends Loader<T>{
      * @param stream: the stream containing the zip file
      * @return the T object loaded
      */
-    public T load(InputStream stream);
+    public T load(InputStream stream){
+
+
+        return null;
+    }
 }

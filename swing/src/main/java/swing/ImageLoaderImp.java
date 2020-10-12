@@ -1,31 +1,40 @@
 package swing;
 
 import gui.graphic.Image;
-import gui.graphic.ImageLoader;
+import util.io.Loader;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 
 /**
  * The implementation of the ImageImp interface
  *
  * @author Margaux SCHNELZAUER
- * @see gui.graphic.ImageLoader
+ * @see Loader
  */
 
-public class ImageLoaderImp implements ImageLoader {
+public class ImageLoaderImp implements Loader<Image> {
 
     /**
-     * Method to load an image
+     * Load object from an input stream
      *
-     * @pre path != null && !path.equals("")
+     * @pre stream != null
      *
-     * @param path : the image path
-     * @return the loaded image
+     * @param stream: the stream containing the file
+     * @return the object loaded
      */
     @Override
-    public Image loadImage(String path) {
+    public Image load(InputStream stream){
         ImageImp image = null;
 
-        if(path != null && !path.equals("")){
-            image = new ImageImp(path);
+        if(stream != null){
+            try {
+                BufferedImage loadedImage = ImageIO.read(stream);
+                image = new ImageImp(loadedImage);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         else{
             System.out.println("No conform parameter");

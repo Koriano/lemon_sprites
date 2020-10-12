@@ -3,15 +3,16 @@ package gui.json;
 import gui.graphic.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import util.json.JsonConverter;
 
 /**
  * @author Alexandre HAMON
  *
  * A class to convert Json object from/to snapshot object.
- * @see gui.json.SnapshotJsonConverter
+ * @see JsonConverter
  */
 
-public class SnapshotJsonConverterImp implements SnapshotJsonConverter{
+public class SnapshotJsonConverterImp implements JsonConverter<Snapshot> {
 
     /**
      * The layer converter containing the images to create snapshot.
@@ -36,7 +37,7 @@ public class SnapshotJsonConverterImp implements SnapshotJsonConverter{
      * @return the snapshot described
      */
     @Override
-    public Snapshot jsonToSnapshot(JSONObject jsonObj) {
+    public Snapshot convertFromJson(JSONObject jsonObj) {
 
         Snapshot snapshot = null;
 
@@ -53,7 +54,7 @@ public class SnapshotJsonConverterImp implements SnapshotJsonConverter{
 
                 // Iterating over every jsonLayer
                 for(int i=0; i<length; i++){
-                    layers[i] = this.layerConverter.jsonToLayer(jsonLayers.getJSONObject(i));
+                    layers[i] = this.layerConverter.convertFromJson(jsonLayers.getJSONObject(i));
                 }
 
                 // Create returned snapshot
@@ -76,7 +77,7 @@ public class SnapshotJsonConverterImp implements SnapshotJsonConverter{
      * @return the json describing the given snapshot
      */
     @Override
-    public JSONObject snapshotToJson(Snapshot snapshot) {
+    public JSONObject convertToJson(Snapshot snapshot) {
 
         JSONObject jsonSnapshot = new JSONObject();
 
@@ -91,7 +92,7 @@ public class SnapshotJsonConverterImp implements SnapshotJsonConverter{
             JSONArray jsonLayers = new JSONArray();
 
             for(SnapshotLayer layer: layers){
-                jsonLayers.put(layerConverter.layerToJson(layer));
+                jsonLayers.put(layerConverter.convertToJson(layer));
             }
 
             jsonSnapshot.put("layers", jsonLayers);

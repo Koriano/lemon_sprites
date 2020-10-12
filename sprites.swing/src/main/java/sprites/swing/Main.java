@@ -1,14 +1,18 @@
 package sprites.swing;
 
+import gui.graphic.Image;
 import gui.graphic.Snapshot;
 import gui.json.SnapshotJsonConverterImp;
 import gui.json.SnapshotLayerJsonConverterImp;
 import org.json.JSONObject;
 import swing.GraphicImp;
 import swing.ImageImp;
+import swing.ImageLoaderImp;
 import util.json.JsonLoaderImp;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -17,6 +21,7 @@ import java.io.File;
  */
 
 public class Main {
+
     public static void main(String[] args){
         String IMAGE_DIRECTORY = "sprites.swing/img/";
         JsonLoaderImp jloader = new JsonLoaderImp();
@@ -29,9 +34,18 @@ public class Main {
         int nb_images = images_name.length;
 
         // Loading images
-        ImageImp[] loaded_images = new ImageImp[nb_images];
+        Image[] loaded_images = new ImageImp[nb_images];
+        FileInputStream fin;
+        ImageLoaderImp imgLoader = new ImageLoaderImp();
+
         for(int i=0; i<nb_images; i++){
-            loaded_images[i] = new ImageImp(IMAGE_DIRECTORY + images_name[i]);
+            try {
+                fin = new FileInputStream(new File(IMAGE_DIRECTORY + images_name[i]));
+                loaded_images[i] = imgLoader.load(fin);
+                loaded_images[i].setName(images_name[i]);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         // Initializing converters with loaded images
@@ -40,7 +54,7 @@ public class Main {
 
         // Converting json to snapshot
         JSONObject json = jloader.loadJson("sprites.swing/json/snapshot.json");
-        Snapshot snapshot = snapConverter.jsonToSnapshot(json);
+        Snapshot snapshot = snapConverter.convertFromJson(json);
 
         // Displaying snapshot
         GraphicImp graphic = new GraphicImp();
