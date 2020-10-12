@@ -3,6 +3,8 @@ package sprites.model;
 import gui.graphic.Image;
 import gui.graphic.Snapshot;
 
+import java.util.ArrayList;
+
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
@@ -31,4 +33,12 @@ public interface Scene {
      * @return the Image background of the scene
      */
     public Image getBackground();
+
+    
+    /**
+     * Get the sprites
+     *
+     * @return the sprites of the scene
+     */
+    public ArrayList<Sprite> getSprites();
 }

@@ -1,35 +1,44 @@
 package sprites.model;
 
-import gui.graphic.Image;
-import gui.graphic.Snapshot;
+import gui.graphic.*;
 import java.util.ArrayList;
 
+/**
+ * A class to implement Sprite Interface
+ *
+ * @author Margaux SCHNELZAUER
+ * @see sprites.model.Scene
+ */
 
 public class SceneImp implements Scene{
 
-    private ArrayList<Snapshot> snapshotList;
-    private long totalDuration;
+    /**
+     * The array containing the sprites composing the scene
+     */
+    private ArrayList<Sprite> spritesList;
+
+    /**
+     * The background of the scene
+     */
     private Image background;
 
 
     /**
      * Constructor of the scene
      *
-     * @param snapshotList : a list of snapshot
-     * @param totalDuration : the duration of the scene
+     * @param spritesList : a list of snapshot
      * @param background : the background of the scene
      */
-    public SceneImp(ArrayList<Snapshot> snapshotList, long totalDuration, Image background){
-        this.snapshotList = snapshotList;
-        this.totalDuration = totalDuration;
+    public SceneImp(ArrayList<Sprite> spritesList, Image background){
+        this.spritesList = spritesList;
         this.background = background;
     }
 
 
     /**
-     * Return the image at the given time
+     * Return the snapshot at the given time
      *
-     * @pre millis >= 0 && millis < this.totalDuration
+     * @pre millis >= 0
      * @post result != null
      *
      * @param millis: the time at which you want the sprite image (in milliseconds)
@@ -37,16 +46,39 @@ public class SceneImp implements Scene{
      */
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
-        // pre condition
-        assert millis >= 0 && millis < this.totalDuration : "Precondition violated";
 
-        int index = (int) (this.totalDuration/millis);
-        Snapshot currentSnapshot = this.snapshotList.get(index - 1);
+        // pre condition
+        assert millis >= 0 : "Precondition violated";
+
+        // get the sprites list
+        ArrayList<Sprite> spritesList = this.spritesList;
+
+        // get the size of the list
+        int length = spritesList.size();
+
+        // create an array of snapshot layer
+        SnapshotLayer[] layers = new SnapshotLayer[length];
+
+        // browse the sprites list
+        for (int i = 0; i < length; i++){
+            // get sprite properties
+            Image image = spritesList.get(i).getCurrentImage(millis);
+            int x = spritesList.get(i).getX();
+            int y = spritesList.get(i).getY();
+
+            // create and add a snapshot layer
+            SnapshotLayer snapshotLayer = new SnapshotLayerImp(image, x, y);
+            layers[i] = snapshotLayer;
+        }
+
+        // create a snapshot
+        Snapshot currentSnapshot = new SnapshotImp(layers);
 
         // post condition
         assert currentSnapshot != null : "Postcondition violated";
         return currentSnapshot;
     }
+
 
 
     /**
@@ -64,5 +96,17 @@ public class SceneImp implements Scene{
         assert background != null : "Postcondition violated";
 
         return background;
+    }
+
+    
+
+    /**
+     * Get the list of the sprites
+     *
+     * @return the list of the scene sprites
+     */
+    @Override
+    public ArrayList<Sprite> getSprites() {
+        return this.spritesList;
     }
 }
