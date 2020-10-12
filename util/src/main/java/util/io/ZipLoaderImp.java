@@ -106,6 +106,7 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
      * @return the extension of the file
      */
     private String extension(ZipEntry entry){
+        assert entry != null;
         String entryName = entry.getName();
 
         // Split the name with slashes : /foo/bar/file.txt -> ["foo", "bar", "file.txt"]
