@@ -42,6 +42,7 @@ public class GraphicImp extends JFrame implements Graphic {
     public void displaySnapshot(Snapshot snapshot) {
 
         if(snapshot != null) {
+            this.contentPanel.removeAll();
             SnapshotLayer[] layers = snapshot.getSnapshotLayers();
             int length = layers.length;
 
@@ -54,7 +55,7 @@ public class GraphicImp extends JFrame implements Graphic {
                 int y = layers[i].getY();
                 ImageImp image = (ImageImp) layers[i].getImage();
 
-                JLabel labelImage = new JLabel(image.getLoadedImage());
+                JLabel labelImage = new JLabel(new ImageIcon(image.getLoadedImage()));
                 labelImage.setBounds(x, y, image.getWidth(), image.getHeight());
 
                 this.contentPanel.add(labelImage, i, 1);

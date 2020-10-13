@@ -1,6 +1,7 @@
 package util.json;
 
 import org.json.JSONObject;
+import util.io.Loader;
 
 import java.io.*;
 
@@ -10,75 +11,60 @@ import java.io.*;
  * Implementation of the JsonLoader interface to load/save json from/to input/output stream.
  */
 
-public class JsonLoaderImp implements JsonLoader {
+public class JsonLoaderImp implements Loader<JSONObject> {
 
   /**
-   * @see JsonLoader
-   * This method loads a json object from an input stream
+   * @see Loader#load(InputStream) 
+   * Load a JSONObject from an input stream
    *
-   * @param path The path of the file to load
-   * @pre path != null
-   * @return a json object
+   * @param stream: the stream containing the file
+   * @return the JSONObject loaded
+   * @pre stream != null
    */
   @Override
-  public JSONObject loadJson(String path) {
+  public JSONObject load(InputStream stream) {
+    assert stream != null;
+
     // The JSONObject to return
     JSONObject jsonObject = null;
 
-    if (path != null) {
-      File jsonFile = new File(path);
+    // Try with resource stream - closes the stream at the end of use
+    try {
+      BufferedReader bf = new BufferedReader(new InputStreamReader(stream));
+      StringBuilder json = new StringBuilder();
+      String line = bf.readLine();
 
-      // Checks if the given path leads to an actual file on the disk
-      if (jsonFile.exists()) {
-        try {
-          BufferedReader bf = new BufferedReader(new FileReader(path));
-          StringBuilder json = new StringBuilder();
-          String line = bf.readLine();
-
-          // Reading each line of the json file
-          while (line != null) {
-            json.append(line);
-            line = bf.readLine();
-          }
-
-          // Parsing the json into a JSONObject
-          jsonObject = new JSONObject(json.toString());
-
-        } catch (Exception e) {
-          e.printStackTrace();
-          System.err.println("Cannot read the file " + path);
-        }
-
-      } else {
-        System.err.println("Error : the file " + path + " does not exist !");
+      // Reading each line of the json file
+      while (line != null) {
+        json.append(line);
+        line = bf.readLine();
       }
+
+      // Parsing the json into a JSONObject
+      jsonObject = new JSONObject(json.toString());
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.err.println("Cannot read the file");
     }
+
     return jsonObject;
   }
 
 
   /**
-   * This method saves a json object to an output stream
-   * @param path The path of the file to save
+   * This method saves a json object using an output stream
+   * @param stream The OutputStream of the file to save
    * @param jsonObj The JSON object to write in a file
-   * @pre stream != null
+   * @pre stream != null && jsonObj != null
    */
-  @Override
-  public void saveJson (String path, JSONObject jsonObj) {
-    if (path != null && jsonObj != null) {
-      File jsonFile = new File(path);
+  public void saveJson(OutputStream stream, JSONObject jsonObj) {
+    assert stream != null && jsonObj != null;
 
-      if (jsonFile.exists()) {
-        jsonFile.delete();
-      }
+    PrintWriter pw = new PrintWriter(stream);
+    pw.println(jsonObj.toString());
+    pw.close();
 
-      // Try with ressource -> the output stream is automatically closed
-      try (PrintWriter pw = new PrintWriter(jsonFile);) {
-        pw.println(jsonObj.toString());
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
-      }
-    }
   }
 
 }

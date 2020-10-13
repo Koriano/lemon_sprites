@@ -40,6 +40,12 @@
       <version>v0.1</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>sprites.model</groupId>
+      <artifactId>sprites.model</artifactId>
+      <version>v0.1</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>
