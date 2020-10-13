@@ -9,7 +9,6 @@ import swing.ImageLoaderImp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import sprites.model.Scene;
@@ -49,7 +48,7 @@ public class Main implements SchedulerListener {
     /**
      * Refresh rate of the scheduler in milliseconds
      */
-    private final static long delay = 1000;
+    private final static long delay = 17;//17 ms for 60 frames/s~
 
     /**
      * Total duration of the scene in milliseconds
@@ -99,7 +98,6 @@ public class Main implements SchedulerListener {
      */
     @Override
     public void trigger(long timeOftrigger) {
-        System.out.println("Trigger graphique !");
         Snapshot snapshot = scene.getCurrentSnapshot(timeOftrigger - startTime);
         graphic.displaySnapshot(snapshot);
     }

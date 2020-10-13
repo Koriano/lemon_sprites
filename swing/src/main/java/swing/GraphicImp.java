@@ -42,6 +42,7 @@ public class GraphicImp extends JFrame implements Graphic {
     public void displaySnapshot(Snapshot snapshot) {
 
         if(snapshot != null) {
+            this.contentPanel.removeAll();
             SnapshotLayer[] layers = snapshot.getSnapshotLayers();
             int length = layers.length;
 

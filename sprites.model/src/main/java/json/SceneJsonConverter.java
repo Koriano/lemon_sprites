@@ -106,6 +106,7 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
         // Get background
         String backgroundName = jsonScene.getString("background");
         Image background = this.images.get(backgroundName);
+        background.setName(backgroundName);
 
         // Get sprites
         JSONArray jsonSprites = jsonScene.getJSONArray("sprites");

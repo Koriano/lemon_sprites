@@ -57,14 +57,15 @@ public class SceneImp implements Scene{
         int length = spritesList.size();
 
         // create an array of snapshot layer
-        SnapshotLayer[] layers = new SnapshotLayer[length];
+        SnapshotLayer[] layers = new SnapshotLayer[length+1];
+        layers[0] = new SnapshotLayerImp(this.background, 0, 0);
 
         // browse the sprites list
-        for (int i = 0; i < length; i++){
+        for (int i = 1; i < length+1; i++){
             // get sprite properties
-            Image image = spritesList.get(i).getCurrentImage(millis);
-            int x = spritesList.get(i).getX();
-            int y = spritesList.get(i).getY();
+            Image image = spritesList.get(i-1).getCurrentImage(millis);
+            int x = spritesList.get(i-1).getX();
+            int y = spritesList.get(i-1).getY();
 
             // create and add a snapshot layer
             SnapshotLayer snapshotLayer = new SnapshotLayerImp(image, x, y);
