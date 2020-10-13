@@ -48,11 +48,19 @@ public class SpriteImp implements Sprite{
      * Constructor of a sprite
      *
      * @param name : name of the sprite
+     * @param x : the x coordinate of the sprite
+     * @param y : the y coordinate of the sprite
+     * @param isVisible : whether the sprite is displayed or not
      * @param imageList : a list of images
      * @param totalDuration : the total duration of the sprite
+     * @pre name != null && x >= 0 && y >= 0 && imageList != null && totalDuration >= 0
      */
-    public SpriteImp(String name, ArrayList<Image> imageList, long totalDuration){
+    public SpriteImp(String name, int x, int y, boolean isVisible, ArrayList<Image> imageList, long totalDuration){
+        assert name != null && x >= 0 && y >= 0 && imageList != null && totalDuration >= 0;
         this.name = name;
+        this.x = x;
+        this.y = y;
+        this.isVisible = isVisible;
         this.imageList = imageList;
         this.totalDuration = totalDuration;
     }

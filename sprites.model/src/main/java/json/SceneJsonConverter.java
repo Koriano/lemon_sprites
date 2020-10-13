@@ -33,7 +33,7 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
 
 
     /**
-     * A constructor for the SceneJsonConverter, instanciated with a SpriteJsonConverter
+     * A constructor for the SceneJsonConverter
      *
      * @param images: the array that contains the images used to build the sprites of the scene
      *
@@ -45,7 +45,7 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
                 "SceneJsonConverter#constructor : precondition violated";
 
         this.images = images;
-        this.spriteConverter = new SpriteJsonConverter();
+        this.spriteConverter = new SpriteJsonConverter(images);
     }
 
 

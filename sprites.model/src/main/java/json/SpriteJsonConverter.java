@@ -4,6 +4,7 @@ import gui.graphic.Image;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sprites.model.Sprite;
+import sprites.model.SpriteImp;
 import util.json.JsonConverter;
 
 import java.util.ArrayList;
@@ -17,6 +18,27 @@ import java.util.ArrayList;
  * @inv this.loadedImages != null
  */
 public class SpriteJsonConverter implements JsonConverter<Sprite> {
+
+    /**
+     * The array that contains the images used to build the sprites
+     */
+    private ArrayList<Image> images;
+
+
+    /**
+     * A constructor for the SpriteJsonConverter
+     *
+     * @param images: the array that contains the images used to build the sprites
+     *
+     * @pre images != null
+     */
+    public SpriteJsonConverter(ArrayList<Image> images){
+
+        assert images != null:
+                "SpriteJsonConverter#constructor : precondition violated";
+
+        this.images = images;
+    }
 
 
     /**
@@ -45,10 +67,10 @@ public class SpriteJsonConverter implements JsonConverter<Sprite> {
         spriteRet.put("visible", sprite.isVisible());
 
         // Get image names
-        ArrayList<Image> images = sprite.getImages();
+        ArrayList<Image> spriteImages = sprite.getImages();
         JSONArray names = new JSONArray();
 
-        for(Image img: images){
+        for(Image img: spriteImages){
             names.put(img.getName());
         }
 
@@ -65,13 +87,13 @@ public class SpriteJsonConverter implements JsonConverter<Sprite> {
      * @return the sprite described by the json object
      *
      * @pre jsonSprite != null && jsonSprite.has("name") && jsonSprite.has("duration")
-     * @post result != null && result.getName() != null && !result.getName().equals("") && result.getDuration() > 0
+     * @post result != null
      */
     @Override
     public Sprite convertFromJson(JSONObject jsonSprite) {
 
         assert jsonSprite != null && jsonSprite.has("name") && jsonSprite.has("duration"):
-                "SpriteJsonConverter#convertFromJson";
+                "SpriteJsonConverter#convertFromJson: precondition violated";
 
         String name = jsonSprite.getString("name");
         int duration = jsonSprite.getInt("duration");
@@ -79,8 +101,13 @@ public class SpriteJsonConverter implements JsonConverter<Sprite> {
         int y = jsonSprite.getInt("y");
         boolean visible = jsonSprite.getBoolean("visible");
 
-        JSONArray array = jsonSprite.getJSONArray("images");
+        // Create sprite
+        Sprite result = new SpriteImp(name, x, y, visible, this.images, duration);
 
-        return null; //TODO Fixer ce retour par terrible (il faudra aussi passer le ArrayList<Image> au constructeur de la classe pour rebalancer ça dans le constructeur de Sprite)
+        // Postcondition
+        assert result != null:
+                "SpriteJsonConverter#convertFromJson: postcondition violated";
+
+        return result;
     }
 }

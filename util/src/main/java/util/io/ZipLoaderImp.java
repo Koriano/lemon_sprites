@@ -97,7 +97,6 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
                 entry = null;
             }
         }while (entry != null);
-        System.out.println(jsonContent);
         // Create a new object from json file
         return this.jsonConverter.convertFromJson(jsonContent);
     }
