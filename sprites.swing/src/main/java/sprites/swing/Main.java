@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import sprites.model.Scene;
 import swing.sync.SchedulerSwing;
@@ -40,10 +41,25 @@ public class Main implements SchedulerListener {
      */
     private static Scheduler graphicalScheduler;
 
+    /**
+     * The system time at the beginning of the animation
+     */
+    private static long startTime;
+
+    /**
+     * Refresh rate of the scheduler in milliseconds
+     */
+    private final static long delay = 1000;
+
+    /**
+     * Total duration of the scene in milliseconds
+     */
+    private final static long totalDuration = 15000;
+
     public static void main(String[] args){
         // Preparing ZipLoader
         String DATA_DIRECTORY = "sprites.swing/data/";
-        ArrayList<Image> images = new ArrayList<>();
+        HashMap<String, Image> images = new HashMap<>();
         SceneJsonConverter jsonConverter = new SceneJsonConverter(images);
         ImageLoaderImp imgLoader = new ImageLoaderImp();
         ZipLoaderImp<Scene, Image> zipLoad = new ZipLoaderImp<>(jsonConverter, imgLoader, images);
@@ -63,12 +79,13 @@ public class Main implements SchedulerListener {
         // If scene successfully loaded, create window and scheduler -> starts the graphical application
         if (scene != null) {
             Snapshot snapshot = scene.getCurrentSnapshot(0);
+            startTime = System.currentTimeMillis();
 
             // Displaying snapshot
             graphic = new GraphicImp();
             graphic.displaySnapshot(snapshot);
 
-            graphicalScheduler = new SchedulerSwing(new Main(), 1000, 10000);//TODO Récupérer delay et totalDuration en fction des Scene/Snapshot
+            graphicalScheduler = new SchedulerSwing(new Main(), delay, totalDuration);
 
             graphicalScheduler.start();
 
@@ -83,7 +100,7 @@ public class Main implements SchedulerListener {
     @Override
     public void trigger(long timeOftrigger) {
         System.out.println("Trigger graphique !");
-        Snapshot snapshot = scene.getCurrentSnapshot(timeOftrigger);
+        Snapshot snapshot = scene.getCurrentSnapshot(timeOftrigger - startTime);
         graphic.displaySnapshot(snapshot);
     }
 }

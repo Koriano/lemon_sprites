@@ -29,8 +29,8 @@ public class JsonLoaderImp implements Loader<JSONObject> {
     JSONObject jsonObject = null;
 
     // Try with resource stream - closes the stream at the end of use
-    try (InputStreamReader streamReader = new InputStreamReader(stream)){
-      BufferedReader bf = new BufferedReader(streamReader);
+    try {
+      BufferedReader bf = new BufferedReader(new InputStreamReader(stream));
       StringBuilder json = new StringBuilder();
       String line = bf.readLine();
 

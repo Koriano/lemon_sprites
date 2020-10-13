@@ -8,6 +8,7 @@ import sprites.model.SpriteImp;
 import util.json.JsonConverter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Alexandre HAMON
@@ -20,19 +21,19 @@ import java.util.ArrayList;
 public class SpriteJsonConverter implements JsonConverter<Sprite> {
 
     /**
-     * The array that contains the images used to build the sprites
+     * The map that contains the images used to build the sprites, related to their names
      */
-    private ArrayList<Image> images;
+    private HashMap<String, Image> images;
 
 
     /**
      * A constructor for the SpriteJsonConverter
      *
-     * @param images: the array that contains the images used to build the sprites
+     * @param images: the map that contains the images used to build the sprites, related to their names
      *
      * @pre images != null
      */
-    public SpriteJsonConverter(ArrayList<Image> images){
+    public SpriteJsonConverter(HashMap<String, Image> images){
 
         assert images != null:
                 "SpriteJsonConverter#constructor : precondition violated";
@@ -101,8 +102,22 @@ public class SpriteJsonConverter implements JsonConverter<Sprite> {
         int y = jsonSprite.getInt("y");
         boolean visible = jsonSprite.getBoolean("visible");
 
+        JSONArray jsonImagesArray = jsonSprite.getJSONArray("images");
+
+        ArrayList<Image> imagesList = new ArrayList<>();
+
+        // Select the loaded images used in the current sprite
+        for (int i = 0; i < jsonImagesArray.length(); i++) {
+            Image img = this.images.get(jsonImagesArray.getString(i));
+
+            if (img != null) {
+                img.setName(jsonImagesArray.getString(i));
+                imagesList.add(img);
+            }
+        }
+
         // Create sprite
-        Sprite result = new SpriteImp(name, x, y, visible, this.images, duration);
+        Sprite result = new SpriteImp(name, x, y, visible, imagesList, duration);
 
         // Postcondition
         assert result != null:

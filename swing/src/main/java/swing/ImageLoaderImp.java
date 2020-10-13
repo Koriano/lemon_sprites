@@ -26,18 +26,14 @@ public class ImageLoaderImp implements Loader<Image> {
      */
     @Override
     public Image load(InputStream stream){
+        assert stream != null;
         ImageImp image = null;
 
-        if(stream != null){
-            try {
-                BufferedImage loadedImage = ImageIO.read(stream);
-                image = new ImageImp(loadedImage);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        else{
-            System.out.println("No conform parameter");
+        try {
+            BufferedImage loadedImage = ImageIO.read(stream);
+            image = new ImageImp(loadedImage);
+        } catch(Exception e) {
+            e.printStackTrace();
         }
 
         return image;

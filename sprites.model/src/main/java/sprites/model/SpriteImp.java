@@ -53,10 +53,10 @@ public class SpriteImp implements Sprite{
      * @param isVisible : whether the sprite is displayed or not
      * @param imageList : a list of images
      * @param totalDuration : the total duration of the sprite
-     * @pre name != null && x >= 0 && y >= 0 && imageList != null && totalDuration >= 0
+     * @pre name != null && x >= 0 && y >= 0 && imageList != null && imageList.size() > 0 && totalDuration >= 0
      */
     public SpriteImp(String name, int x, int y, boolean isVisible, ArrayList<Image> imageList, long totalDuration){
-        assert name != null && x >= 0 && y >= 0 && imageList != null && totalDuration >= 0;
+        assert name != null && x >= 0 && y >= 0 && imageList != null && imageList.size() > 0 && totalDuration >= 0;
         this.name = name;
         this.x = x;
         this.y = y;
@@ -81,8 +81,8 @@ public class SpriteImp implements Sprite{
         assert millis >= 0 && millis < this.totalDuration : "Precondition violated";
 
         // find the index of the image
-        int index = (int) (this.totalDuration/millis);
-        Image currentImage = this.imageList.get(index - 1);
+        int index = (int) ((millis%this.totalDuration)*this.imageList.size()/this.totalDuration);
+        Image currentImage = this.imageList.get(index);
 
         assert currentImage != null : "Precondition violated";
         return currentImage;

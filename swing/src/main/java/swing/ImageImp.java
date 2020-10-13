@@ -11,29 +11,30 @@ import java.awt.image.BufferedImage;
  * @author Margaux SCHNELZAUER
  * @see gui.graphic.Image
  *
- * @inv this.height >= 0 && this.width >= 0 && !(this.name.equals(""))
+ * @inv this.loadedImage.getHeight() >= 0 && this.loadedImage.getWidth() >= 0 && this.name != null &&!(this.name.equals(""))
  */
 
 public class ImageImp implements Image {
 
+    /**
+     * The name of the image
+     */
     private String name;
+
+    /**
+     * The data of the image
+     */
     private BufferedImage loadedImage;
 
     /**
      * Constructor of the image
      *
-     * @pre image != null
+     * @pre image != null && name != null
      * @param image The loaded image
      */
     public ImageImp(BufferedImage image){
-
-        if (image != null) {
-            this.loadedImage = image;
-            this.name = name;
-       }
-        else {
-            System.out.println("No conform parameters");
-        }
+        assert image != null;
+        this.loadedImage = image;
     }
 
 
@@ -45,19 +46,21 @@ public class ImageImp implements Image {
      */
     @Override
     public void setName(String name) {
-        if(name != null && !"".equals(name)){
-            this.name = name;
-        }
+        assert name != null && !"".equals(name);
+
+        this.name = name;
     }
 
     /**
      * Return the image height
      *
-     * @pre this.height >= 0
+     * @pre this.loadedImage.getHeight() >= 0
      * @return The image height
      */
     @Override
     public int getHeight() {
+        assert this.loadedImage.getHeight() >= 0;
+
         return this.loadedImage.getHeight();
     }
 
@@ -65,11 +68,13 @@ public class ImageImp implements Image {
     /**
      * Return the image width
      *
-     * @pre this.width >= 0
+     * @pre this.loadedImage.getWidth() >= 0
      * @return The image width
      */
     @Override
     public int getWidth() {
+        assert this.loadedImage.getWidth() >= 0;
+
         return this.loadedImage.getWidth();
     }
 
@@ -77,20 +82,14 @@ public class ImageImp implements Image {
     /**
      * Return the image name
      *
-     * @pre !(this.name.equals(""))
+     * @pre this.name != null && !"".equals(this.name)
      * @return The image name
      */
     @Override
     public String getName() {
+        assert this.name != null && !"".equals(this.name);
 
-        if (!(this.name.equals(""))) {
-            return this.name;
-        }
-
-        else {
-            System.out.println("No conform parameters");
-            return "";
-        }
+        return this.name;
     }
 
     /**
@@ -100,13 +99,8 @@ public class ImageImp implements Image {
      * @return the loaded image
      */
     public BufferedImage getLoadedImage(){
+        assert this.loadedImage != null;
 
-        BufferedImage img = null;
-
-        if(this.loadedImage != null){
-            img = this.loadedImage;
-        }
-
-        return img;
+        return this.loadedImage;
     }
 }

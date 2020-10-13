@@ -6,6 +6,7 @@ import util.json.JsonLoaderImp;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -27,9 +28,9 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
     private Loader<R> resourceLoader;
 
     /**
-     * the ArrayList that will contain the loaded resources, such as images
+     * the HashMap that will contain the loaded resources, such as images, related to their names
      */
-    private ArrayList<R> resourcesList;
+    private HashMap<String, R> resourcesList;
 
     /**
      * The constructor of the ZipLoaderImp class, taking a jsonConverter as an argument
@@ -38,9 +39,9 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
      *
      * @param jsonConverter : the jsonConverter which will parse the JSON file contained in the zip
      * @param resourceLoader : the Loader that will load the data from the zip (such as a JSON file or images)
-     * @param resourcesList : the ArrayList that will contain the loaded resources, such as images
+     * @param resourcesList : the HashMap that will contain the loaded resources, such as images, related to their names
      */
-    public ZipLoaderImp(JsonConverter<T> jsonConverter, Loader<R> resourceLoader, ArrayList<R> resourcesList){
+    public ZipLoaderImp(JsonConverter<T> jsonConverter, Loader<R> resourceLoader, HashMap<String, R> resourcesList){
 
         assert jsonConverter != null && resourceLoader != null && resourcesList != null:
                 "ZipLoaderImp#constructor: precondition violated";
@@ -89,7 +90,10 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
                     if ("json".equals(ext)){
                         jsonContent = json_loader.load(zis);
                     } else {
-                        this.resourcesList.add(this.resourceLoader.load(zis));//TODO ajouter le nom à l'image chargée en le récupérant avec entry
+                        String[] entryParse = entry.getName().split("/");
+                        if (entryParse.length > 0) {
+                            this.resourcesList.put(entryParse[entryParse.length-1],this.resourceLoader.load(zis));
+                        }
                     }
                 }
 

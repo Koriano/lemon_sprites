@@ -9,6 +9,7 @@ import sprites.model.Sprite;
 import util.json.JsonConverter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Alexandre HAMON
@@ -21,9 +22,9 @@ import java.util.ArrayList;
 public class SceneJsonConverter implements JsonConverter<Scene> {
 
     /**
-     * The array that contains the images used to build the sprites of the scene
+     * The map that contains the images used to build the sprites of the scene, related to their names
      */
-    private ArrayList<Image> images;
+    private HashMap<String, Image> images;
 
 
     /**
@@ -35,11 +36,11 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
     /**
      * A constructor for the SceneJsonConverter
      *
-     * @param images: the array that contains the images used to build the sprites of the scene
+     * @param images: the map that contains the images used to build the sprites of the scene, related to their names
      *
      * @pre images != null
      */
-    public SceneJsonConverter(ArrayList<Image> images){
+    public SceneJsonConverter(HashMap<String, Image> images){
 
         assert images != null:
                 "SceneJsonConverter#constructor : precondition violated";
@@ -104,14 +105,7 @@ public class SceneJsonConverter implements JsonConverter<Scene> {
 
         // Get background
         String backgroundName = jsonScene.getString("background");
-        Image background = null;
-
-        // Iterating over Image list
-        for(Image image : this.images){
-            if(backgroundName.equals(image.getName())){
-                background = image;
-            }
-        }
+        Image background = this.images.get(backgroundName);
 
         // Get sprites
         JSONArray jsonSprites = jsonScene.getJSONArray("sprites");
