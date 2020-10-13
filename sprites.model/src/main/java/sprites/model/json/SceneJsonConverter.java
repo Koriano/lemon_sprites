@@ -1,4 +1,4 @@
-package json;
+package sprites.model.json;
 
 import gui.graphic.Image;
 import org.json.JSONArray;

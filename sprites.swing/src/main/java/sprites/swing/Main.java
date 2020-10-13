@@ -2,7 +2,7 @@ package sprites.swing;
 
 import gui.graphic.Image;
 import gui.graphic.Snapshot;
-import json.SceneJsonConverter;
+import sprites.model.json.SceneJsonConverter;
 import swing.GraphicImp;
 import swing.ImageLoaderImp;
 
