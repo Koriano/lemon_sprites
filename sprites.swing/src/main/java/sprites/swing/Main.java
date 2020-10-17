@@ -57,7 +57,7 @@ public class Main implements SchedulerListener {
 
     public static void main(String[] args){
         // Preparing ZipLoader
-        String DATA_DIRECTORY = "sprites.swing/data/";
+        String DATA_DIRECTORY = "data/";
         HashMap<String, Image> images = new HashMap<>();
         SceneJsonConverter jsonConverter = new SceneJsonConverter(images);
         ImageLoaderImp imgLoader = new ImageLoaderImp();
