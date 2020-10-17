@@ -1,0 +1,16 @@
+/*
+ * HAMON Alexandre, RACINNE-DIVET Mathis, SCHNELZAUER-HENRY Margaux
+ */
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation "junit:junit:4.13.1"
+    implementation project(':gui')
+    implementation project(':util')
+}

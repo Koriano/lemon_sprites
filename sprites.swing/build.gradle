@@ -1,0 +1,23 @@
+/*
+ * HAMON Alexandre, RACINNE-DIVET Mathis, SCHNELZAUER-HENRY Margaux
+ */
+
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'sprites.swing.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation "junit:junit:4.13.1"
+    implementation project(':swing')
+    implementation project(':util')
+    implementation project(':sprites.model')
+    implementation project(':gui')
+}

@@ -1,0 +1,6 @@
+/*
+ * HAMON Alexandre, RACINNE-DIVET Mathis, SCHNELZAUER-HENRY Margaux
+ */
+
+rootProject.name = 'LemonProject'
+include 'util', 'gui', 'sprites.model', 'sprites.swing', 'swing'
