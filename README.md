@@ -6,9 +6,8 @@ Alexandre HAMON, Mathis RACINNE-DIVET and Margaux SCHNELZAUER-HENRY
 
 ---
 
-## Build
-To build the binairies, run `build.cmd` in the root directory.
-A folder named target will be created in each module, with the binairies.
+## Build & run
+To build and run the project, simply run the `gradle run` command in the root directory.
 
 ## Clean
-To clear all the generated binairies, simply run `clean.cmd` in the root directory.
+To clear all the generated binairies, simply run the `gradle clean` command in the root directory.
