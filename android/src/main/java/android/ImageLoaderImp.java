@@ -1,10 +1,10 @@
 package android;
 
 
-
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import util.io.Loader;
+import gui.graphic.Image;
 
 
 /**
@@ -13,17 +13,18 @@ import util.io.Loader;
  * @author Margaux SCHNELZAUER
  * @see
  */
-public class ImageLoaderImp implements Loader<ImageImp> {
+public class ImageLoaderImp implements Loader<Image> {
 
 
     @Override
-    public ImageImp load(InputStream stream) {
+    public Image load(InputStream stream) {
         assert stream != null;
         ImageImp image = null;
 
         try {
             BufferedInputStream loadedImage = new BufferedInputStream(stream);
-            image = new ImageImp(loadedImage);
+            image = new ImageImp(loadedImage) {
+            };
 
         } catch(Exception e) {
             e.printStackTrace();
