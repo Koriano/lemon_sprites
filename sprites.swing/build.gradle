@@ -6,9 +6,8 @@ plugins {
     id 'application'
 }
 
-application {
-    mainClass = 'sprites.swing.Main'
-}
+apply plugin: 'application'
+mainClassName = 'sprites.swing.Main'
 
 repositories {
     mavenCentral()
