@@ -1,29 +1,27 @@
-package sprites.swing;
+package sprites.android;
+
+import android.ImageLoaderImp;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import gui.graphic.Image;
 import gui.graphic.Snapshot;
-import sprites.model.json.SceneJsonConverter;
-import swing.GraphicImp;
-import swing.ImageLoaderImp;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-
 import sprites.model.Scene;
-import swing.sync.SchedulerSwing;
+import sprites.model.json.SceneJsonConverter;
 import util.io.ZipLoaderImp;
-import util.sync.Scheduler;
 import util.sync.SchedulerListener;
+import util.sync.SchedulerUtil;
+import android.GraphicImp;
+import android.view.SurfaceView;
+
+import java.util.HashMap;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
- * The main class for the swing version of LemonSprites
+ * The main class for the android version of LemonSprites
  */
-
-public class Main implements SchedulerListener {
+public class Main extends AppCompatActivity implements SchedulerListener {
 
     /**
      * The static instance of the window
@@ -36,11 +34,6 @@ public class Main implements SchedulerListener {
     private static Scene scene;
 
     /**
-     * The static instance of the graphical scheduler
-     */
-    private static Scheduler graphicalScheduler;
-
-    /**
      * The system time at the beginning of the animation
      */
     private static long startTime;
@@ -48,32 +41,28 @@ public class Main implements SchedulerListener {
     /**
      * Refresh rate of the scheduler in milliseconds
      */
-    private final static long delay = 17;//17 ms for 60 frames/s~
+    private final static long delay = 100;
 
     /**
      * Total duration of the scene in milliseconds
      */
     private final static long totalDuration = 15000;
 
-    public static void main(String[] args){
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         // Preparing ZipLoader
-        String DATA_DIRECTORY = "data/";
         HashMap<String, Image> images = new HashMap<>();
         SceneJsonConverter jsonConverter = new SceneJsonConverter(images);
         ImageLoaderImp imgLoader = new ImageLoaderImp();
         ZipLoaderImp<Scene, Image> zipLoad = new ZipLoaderImp<>(jsonConverter, imgLoader, images);
 
         // Loading zip and creating scene
+        scene = zipLoad.load(this.getResources().openRawResource(R.raw.scene));
 
-        scene = null;
-        try {
-            scene = zipLoad.load(new FileInputStream(new File(DATA_DIRECTORY+"scene.zip")));
-
-        } catch (FileNotFoundException e) {
-            System.err.println("ERROR : FAILED TO LOAD ZIP FILE !");
-            e.printStackTrace();
-        }
-
+        setContentView(R.layout.activity_main);
 
         // If scene successfully loaded, create window and scheduler -> starts the graphical application
         if (scene != null) {
@@ -81,15 +70,16 @@ public class Main implements SchedulerListener {
             startTime = System.currentTimeMillis();
 
             // Displaying snapshot
-            graphic = new GraphicImp();
+            graphic = new GraphicImp(((SurfaceView)this.findViewById(R.id.surfaceView)).getHolder());
             graphic.displaySnapshot(snapshot);
 
-            graphicalScheduler = new SchedulerSwing(new Main(), delay, totalDuration);
-
-            graphicalScheduler.start();
+            SchedulerUtil scheduler = new SchedulerUtil(this, delay, totalDuration);
+            scheduler.start();
 
         }
+
     }
+
 
     /**
      * The task triggered by the scheduler

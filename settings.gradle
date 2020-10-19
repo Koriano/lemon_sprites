@@ -3,4 +3,10 @@
  */
 
 rootProject.name = 'LemonProject'
-include 'util', 'gui', 'sprites.model', 'sprites.swing', 'swing'
+include ':util'
+include ':gui'
+include ':sprites.model'
+include ':sprites.swing'
+include ':swing'
+include ':android'
+include ':sprites.android'
