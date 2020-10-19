@@ -2,7 +2,7 @@ package android;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
+import android.view.SurfaceHolder;
 
 import gui.graphic.Graphic;
 import gui.graphic.Snapshot;
@@ -17,14 +17,26 @@ import gui.graphic.SnapshotLayer;
  * @inv this.height > 0 && this.width > 0
  */
 
-public class GraphicImp extends BitmapDrawable implements Graphic {
+public class GraphicImp implements Graphic {
 
-    private Canvas canvas;
+    /**
+     * SurfaceHolder which holds the canvas
+     */
+    private SurfaceHolder holder;
 
+    /**
+     * The coordinates of the currently displayed snapshot
+     */
     private int width, height;
 
-    public GraphicImp(){
-        this.canvas = null;
+    /**
+     * The constructor of the class
+     * @param holder the SurfaceHolder which holds the canvas
+     * @pre holder != null
+     */
+    public GraphicImp(SurfaceHolder holder){
+        assert holder != null;
+        this.holder = holder;
     }
 
     /**
@@ -42,31 +54,38 @@ public class GraphicImp extends BitmapDrawable implements Graphic {
         int w = 0;
         ImageImp img;
 
-        // For each layer
-        for(SnapshotLayer layer: snapshot.getSnapshotLayers()){
+        // get the lock on the holder's canvas
 
-            // Get image
-            img = (ImageImp) layer.getImage();
+        Canvas canvas = this.holder.lockCanvas();
 
-            // Save larger image dimensions
-            if(img.getWidth() > w){
-                w = img.getWidth();
+        if (canvas != null) {
+            // For each layer
+            for(SnapshotLayer layer: snapshot.getSnapshotLayers()){
+
+                // Get image
+                img = (ImageImp) layer.getImage();
+
+                // Save larger image dimensions
+                if(img.getWidth() > w){
+                    w = img.getWidth();
+                }
+
+                if(img.getHeight() > h){
+                    h = img.getHeight();
+                }
+
+                // Add bitmap to canvas
+                canvas.drawBitmap(img.getLoadedImage(), layer.getX(), layer.getY(), new Paint());
             }
 
-            if(img.getHeight() > h){
-                h = img.getHeight();
-            }
+            // Save best dimensions to attributes
+            this.width = w;
+            this.height = h;
 
-            // Add bitmap to canvas
-            this.canvas.drawBitmap(img.getLoadedImage(), layer.getX(), layer.getY(), new Paint());
+            // Release the lock of the canvas, and update the canvas to the holder
+            this.holder.unlockCanvasAndPost(canvas);
         }
 
-        // Save best dimensions to attributes
-        this.width = w;
-        this.height = h;
-
-        // Call drawing with canvas
-        this.draw(this.canvas);
     }
 
     /**

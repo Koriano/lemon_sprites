@@ -39,6 +39,9 @@ repositories {
 
 dependencies {
     implementation project(':util')
+    implementation project(':android')
+    implementation project(':gui')
+    implementation project(':sprites.model')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

@@ -20,7 +20,7 @@ import util.sync.SchedulerListener;
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
- * A main class to test implementation of lemon_sprites v1.0
+ * The main class for the swing version of LemonSprites
  */
 
 public class Main implements SchedulerListener {
