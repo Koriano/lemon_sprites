@@ -19,4 +19,39 @@ public interface SpriteAction {
      * @return the sprite updated
      */
     public Sprite updateSprite(Sprite sprite, long millis);
+
+    /**
+     * Returns the starting time of the action
+     *
+     * @return the starting time of the action
+     */
+    public int getStartTime();
+
+    /**
+     * Returns the ending time of the action
+     *
+     * @return the ending time of the action
+     */
+    public int getEndTime();
+
+    /**
+     * Returns the end coordinate on the x axis
+     *
+     * @return the end coordinate on the x axis
+     */
+    public int getEndX();
+
+    /**
+     * Returns the end coordinate on the y axis
+     *
+     * @return the end coordinate on the y axis
+     */
+    public int getEndY();
+
+    /**
+     * Returns the visibility of the sprite
+     *
+     * @return the visibility of the sprite
+     */
+    public int getVisible();
 }
