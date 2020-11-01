@@ -74,6 +74,7 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
 
         // Get required properties of the object and put it into the json
         returnedJson.put("background", object.getBackground().getName());
+        returnedJson.put("duration", object.getDuration());
 
         // Optional properties
         if(object.getSprites() != null && object.getActions() != null){
@@ -126,7 +127,8 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
 
         // Get required properties from json and convert into Sequence
         Image background = this.images.get(json.getString("background"));
-        
+        long duration = json.getLong("duration");
+
         // Optional properties
         if(json.has("sprites") && json.has("actions")){
 
@@ -149,10 +151,10 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
                 actions.put(jsonAction.getString("sprite"), this.actionJsonConverter.convertFromJson(jsonAction));
             }
 
-            returnedSequence = new Sequence(background, sprites, actions);
+            returnedSequence = new Sequence(background, duration, sprites, actions);
         }
         else{
-            returnedSequence = new Sequence(background, null, null);
+            returnedSequence = new Sequence(background, duration, null, null);
         }
 
         invariant();
