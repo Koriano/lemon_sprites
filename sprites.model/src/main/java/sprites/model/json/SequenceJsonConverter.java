@@ -16,9 +16,14 @@ import java.util.HashMap;
  *
  * A class that implements the {@link JsonConverter} for Sequence objects
  *
- * @inv this.spriteJsonConverter != null && actionJsonConverter != null
+ * @inv this.spriteJsonConverter != null && actionJsonConverter != null && images != null
  */
 public class SequenceJsonConverter implements JsonConverter<Sequence> {
+
+    /**
+     * List of images of zip file
+     */
+    private HashMap<String, Image> images;
 
     /**
      * Json converter to convert json to sprites
@@ -34,6 +39,7 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
      * Constructor of SequenceJsonConverter class
      */
     public SequenceJsonConverter(HashMap<String, Image> images){
+        this.images = images;
         this.spriteJsonConverter = new SpriteJsonConverter(images);
         this.actionJsonConverter = new ActionJsonConverter();
         invariant();
@@ -43,7 +49,7 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
      * Invariant of the class
      */
     private void invariant(){
-        assert this.spriteJsonConverter != null && actionJsonConverter != null: "Invariant violated";
+        assert this.spriteJsonConverter != null && actionJsonConverter != null && images != null: "Invariant violated";
     }
 
     /**
@@ -53,20 +59,21 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
      *
      * @return the json object describing the specified Sequence
      *
-     * @pre object != null && object.getBackground() != null && !"".equals(object.getBackground())
+     * @pre object != null && object.getBackground() != null
+     *
      * @post result != null
      */
     @Override
     public JSONObject convertToJson(Sequence object) {
 
         // Precondition
-        assert object != null && object.getBackground() != null && !"".equals(object.getBackground()): "Precondition violated";
+        assert object != null && object.getBackground() != null: "Precondition violated";
 
         // Returned object
         JSONObject returnedJson = new JSONObject();
 
         // Get required properties of the object and put it into the json
-        returnedJson.put("background", object.getBackground());
+        returnedJson.put("background", object.getBackground().getName());
 
         // Optional properties
         if(object.getSprites() != null && object.getActions() != null){
@@ -118,8 +125,8 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
         Sequence returnedSequence = null;
 
         // Get required properties from json and convert into Sequence
-        String background = json.getString("background");
-
+        Image background = this.images.get(json.getString("background"));
+        
         // Optional properties
         if(json.has("sprites") && json.has("actions")){
 
