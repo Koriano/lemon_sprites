@@ -3,6 +3,8 @@ package sprites.model;
 import gui.graphic.Image;
 import gui.graphic.Snapshot;
 
+import java.util.ArrayList;
+
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
@@ -47,4 +49,18 @@ public interface Sequence {
      * @return the total duration of the sequence
      */
     public long getDuration();
+
+    /**
+     * Returns the list of the sprites composing the sequence
+     *
+     * @return the list of sprites
+     */
+    public ArrayList<Sprite> getSprites();
+
+    /**
+     * Returns the list of actions composing the sequence
+     *
+     * @return the list of actions 
+     */
+    public ArrayList<SpriteAction> getActions();
 }
