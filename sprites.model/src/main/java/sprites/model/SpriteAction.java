@@ -21,6 +21,13 @@ public interface SpriteAction {
     public Sprite updateSprite(Sprite sprite, long millis);
 
     /**
+     * Returns the name of the associated sprite
+     *
+     * @return the name of the associated sprite
+     */
+    public String getSprite();
+
+    /**
      * Returns the starting time of the action
      *
      * @return the starting time of the action

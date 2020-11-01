@@ -18,19 +18,20 @@ public class ActionJsonConverter implements JsonConverter<SpriteAction> {
      *
      * @return the json object describing the specified ActionSprite
      *
-     * @pre object != null && object.getStartTime() >= 0
-     * @post result != null
+     * @pre object != null && object.getStartTime() >= 0 && object.getSprite() != null && !"".equals(object.getSprite())
+     * @post returnedJson.keySet().size() > 0 && returnedJson.has("time") && returnedJson.has("sprite")
      */
     @Override
     public JSONObject convertToJson(SpriteAction object) {
 
         // Precondition
-        assert object != null: "Precondition violated.";
+        assert object != null && object.getStartTime() >= 0 && object.getSprite() != null && !"".equals(object.getSprite()): "Precondition violated.";
 
         // Returned object
         JSONObject returnedJson = new JSONObject();
 
         // Get properties and put it into json
+        returnedJson.put("sprite", object.getSprite());
         returnedJson.put("time", object.getStartTime());
         returnedJson.put("endTime", object.getEndTime());
         returnedJson.put("endX", object.getEndX());
@@ -38,7 +39,7 @@ public class ActionJsonConverter implements JsonConverter<SpriteAction> {
         returnedJson.put("visible", object.getVisible());
 
         // Postcondition
-        assert returnedJson.keySet().size() > 0 && returnedJson.has("time"): "Postcondition violated";
+        assert returnedJson.keySet().size() > 0 && returnedJson.has("time") && returnedJson.has("sprite"): "Postcondition violated";
 
         return returnedJson;
     }
@@ -50,31 +51,32 @@ public class ActionJsonConverter implements JsonConverter<SpriteAction> {
      *
      * @return the ActionSprite described by the json object
      *
-     * @pre json != null && json.has("time")
-     * @post result != null
+     * @pre json != null && json.has("time") && json.has("sprite")
+     * @post returnedAction != null && returnedAction.getStartTime() >= 0 && returnedAction.getSprite() != null && !"".equals(returnedAction.getSprite())
      */
     @Override
     public SpriteAction convertFromJson(JSONObject json) {
 
         // Precondition
-        assert json != null && json.has("time"): "Precondition violated";
+        assert json != null && json.has("time") && json.has("sprite"): "Precondition violated";
 
         // Returned object
         SpriteAction returnedAction = null;
 
         // Get required properties from json and put it into object
+        String sprite = json.getString("sprite");
         int time = json.getInt("time");
 
         // And other properties, if given
         if(json.has("endTime") && json.has("endX") && json.has("endY")) {
-            returnedAction = new SpriteAction(time, json.getInt("endTime"), json.getInt("endX"), json.getInt("endY"));
+            returnedAction = new SpriteAction(sprite, time, json.getInt("endTime"), json.getInt("endX"), json.getInt("endY"));
         }
         else if(json.has("visible")){
-            returnedAction = new SpriteAction(time, json.getBoolean("visible"));
+            returnedAction = new SpriteAction(sprite, time, json.getBoolean("visible"));
         }
 
         // Postcondition
-        assert returnedAction != null && returnedAction.getStartTime() >= -1: "Postcondition violated";
+        assert returnedAction != null && returnedAction.getStartTime() >= 0 && returnedAction.getSprite() != null && !"".equals(returnedAction.getSprite()): "Postcondition violated";
 
         return returnedAction;
     }
