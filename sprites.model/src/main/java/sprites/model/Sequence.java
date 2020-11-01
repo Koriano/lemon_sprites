@@ -12,14 +12,7 @@ import java.util.ArrayList;
  */
 public interface Sequence {
 
-    /**
-     * Updates every Sprite depending on the time passed
-     *
-     * @pre millis >= 0 && millis <= this.duration
-     *
-     * @param millis: the time at which update the sprites
-     */
-    public void updateSprites(long millis);
+
 
     /**
      * Get the snapshot at a current time
@@ -32,6 +25,7 @@ public interface Sequence {
      */
     public Snapshot getCurrentSnapshot(long millis);
 
+
     /**
      * Get the background of the sequence
      *
@@ -39,7 +33,8 @@ public interface Sequence {
      *
      * @return the background of the sequence
      */
-    public String getBackground();
+    public Image getBackground();
+
 
     /**
      * Returns the total duration of the sequence
@@ -50,12 +45,14 @@ public interface Sequence {
      */
     public long getDuration();
 
+
     /**
      * Returns the list of the sprites composing the sequence
      *
      * @return the list of sprites
      */
     public ArrayList<Sprite> getSprites();
+
 
     /**
      * Returns the list of actions composing the sequence
