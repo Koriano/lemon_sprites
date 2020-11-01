@@ -17,7 +17,8 @@ public interface Movie {
      * @pre millis >= 0 && millis <= math.sum(this.sequences.getDuration())
      *
      * @param millis: the current time
-     * @return
+     *
+     * @return the current snapshot
      */
     public Snapshot getCurrentSnapshot(long millis);
 
