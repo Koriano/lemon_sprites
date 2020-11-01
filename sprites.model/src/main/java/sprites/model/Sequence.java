@@ -16,6 +16,7 @@ public interface Sequence {
      * Get the snapshot at a current time
      *
      * @pre millis >= 0 && millis <= this.duration
+     * @post currentSnapshot != null
      *
      * @param millis: the current time to get the current snapshot
      *
