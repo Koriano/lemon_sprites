@@ -1,7 +1,6 @@
 package sprites.model;
 
-import gui.graphic.Image;
-import gui.graphic.Snapshot;
+import gui.graphic.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,18 +50,6 @@ public class SequenceImp implements Sequence{
 
 
 
-    /**
-     * Updates every Sprite depending on the time passed
-     *
-     * @pre millis >= 0 && millis <= this.duration
-     *
-     * @param millis: the time at which update the sprites
-     */
-    @Override
-    public void updateSprites(long millis) {
-
-    }
-
 
     /**
      * Get the snapshot at a current time
@@ -75,6 +62,11 @@ public class SequenceImp implements Sequence{
      */
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
+        // pre condition
+        assert millis >= 0 : "Precondition violated";
+
+        
+
         return null;
     }
 
@@ -88,8 +80,11 @@ public class SequenceImp implements Sequence{
      * @return the background of the sequence
      */
     @Override
-    public String getBackground() {
-        return null;
+    public Image getBackground() {
+        // pre condition
+        assert this.background != null  : "Precondition violated";
+
+        return this.background;
     }
 
 
@@ -102,7 +97,10 @@ public class SequenceImp implements Sequence{
      */
     @Override
     public long getDuration() {
-        return 0;
+        // pre condition
+        assert this.duration > 0 : "Precondition violated";
+
+        return this.duration;
     }
 
 
@@ -115,7 +113,8 @@ public class SequenceImp implements Sequence{
      */
     @Override
     public ArrayList<Sprite> getSprites() {
-        return null;
+
+        return this.sprites;
     }
 
 
