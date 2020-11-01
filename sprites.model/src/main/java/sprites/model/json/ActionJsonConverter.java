@@ -5,6 +5,8 @@ import sprites.model.SpriteAction;
 import util.json.JsonConverter;
 
 /**
+ * @author Alexandre HAMON
+ *
  * A class that implements the {@link JsonConverter} interface for SpriteAction objects
  */
 public class ActionJsonConverter implements JsonConverter<SpriteAction> {

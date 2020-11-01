@@ -10,6 +10,13 @@ import util.json.JsonConverter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author Alexandre HAMON
+ *
+ * A class which implements the {@link JsonConverter} to convert json from/to Movie objects
+ *
+ * @inv this.sequenceJsonConverter != null
+ */
 public class MovieJsonConverter implements JsonConverter<Movie> {
 
     /**
@@ -29,6 +36,15 @@ public class MovieJsonConverter implements JsonConverter<Movie> {
         assert images != null: "Precondition violated";
 
         this.sequenceJsonConverter = new SequenceJsonConverter(images);
+
+        invariant();
+    }
+
+    /**
+     * Invariant of the class
+     */
+    private void invariant(){
+        assert this.sequenceJsonConverter != null: "Invariant violated";
     }
 
     /**
@@ -58,6 +74,8 @@ public class MovieJsonConverter implements JsonConverter<Movie> {
         }
 
         returnedJson.put("sequences", jsonSequences);
+
+        invariant();
 
         // Postcondition
         assert returnedJson.has("sequences"): "Postcondition violated";
@@ -93,6 +111,8 @@ public class MovieJsonConverter implements JsonConverter<Movie> {
         }
 
         returnedMovie = new Movie(sequences);
+
+        invariant();
 
         // Postcondition
         assert returnedMovie != null: "Postcondition violated";

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * @author Alexandre HAMON
+ *
  * A class that implements the {@link JsonConverter} for Sequence objects
  *
  * @inv this.spriteJsonConverter != null && actionJsonConverter != null
