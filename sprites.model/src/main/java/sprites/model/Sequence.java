@@ -39,7 +39,7 @@ public interface Sequence {
      *
      * @return the background of the sequence
      */
-    public String getBackground();
+    public Image getBackground();
 
     /**
      * Returns the total duration of the sequence
