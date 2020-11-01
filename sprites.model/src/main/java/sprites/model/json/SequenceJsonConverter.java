@@ -37,6 +37,10 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
 
     /**
      * Constructor of SequenceJsonConverter class
+     *
+     * @param images: the list of images used for the sequence
+     *
+     * @pre images != null
      */
     public SequenceJsonConverter(HashMap<String, Image> images){
         this.images = images;
@@ -141,14 +145,11 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
             }
 
             // Get actions
-            HashMap<String, SpriteAction> actions = new HashMap<>();
+            ArrayList<SpriteAction> actions = new ArrayList<>();
             JSONArray jsonActions = json.getJSONArray("actions");
-            JSONObject jsonAction;
 
             for(int i=0; i<jsonActions.length(); i++){
-                jsonAction = jsonActions.getJSONObject(i);
-
-                actions.put(jsonAction.getString("sprite"), this.actionJsonConverter.convertFromJson(jsonAction));
+                actions.add(this.actionJsonConverter.convertFromJson(jsonActions.getJSONObject(i)));
             }
 
             returnedSequence = new Sequence(background, duration, sprites, actions);

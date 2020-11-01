@@ -12,8 +12,6 @@ import java.util.ArrayList;
  */
 public interface Sequence {
 
-
-
     /**
      * Get the snapshot at a current time
      *
