@@ -27,13 +27,15 @@ public class SpriteActionImp implements SpriteAction{
      * @param endTime the end time of the action
      * @param endX the end X coordinate of the action
      * @param endY the end Y coordinate of the action
+     * @param isVisible the visibility of the action
      */
-    public SpriteActionImp(String sprite, long time, long endTime, int endX, int endY) {
+    public SpriteActionImp(String sprite, long time, long endTime, int endX, int endY, boolean isVisible) {
         this.endX = endX;
         this.endY = endY;
         this.startTime = time;
         this.endTime = endTime;
         this.sprite = sprite;
+        this.isVisible = isVisible;
     }
 
 
