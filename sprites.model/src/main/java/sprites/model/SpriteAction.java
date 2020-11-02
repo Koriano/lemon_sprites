@@ -80,7 +80,6 @@ public interface SpriteAction {
     public boolean getVisible();
 
 
-
     /**
      * Set the start and end coordinate of the sprite
      *
