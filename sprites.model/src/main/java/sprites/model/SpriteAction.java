@@ -60,5 +60,5 @@ public interface SpriteAction {
      *
      * @return the visibility of the sprite
      */
-    public int getVisible();
+    public boolean getVisible();
 }
