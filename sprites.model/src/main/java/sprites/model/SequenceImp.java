@@ -1,9 +1,8 @@
 package sprites.model;
 
 import gui.graphic.*;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class SequenceImp implements Sequence{
 
@@ -34,10 +33,10 @@ public class SequenceImp implements Sequence{
     /**
      * The constructor of the class
      *
-     * @param background
-     * @param sprites
-     * @param actions
-     * @param duration
+     * @param background : the background of the sequence
+     * @param sprites : the list of the sprites composing the sequence
+     * @param actions : the liste of the actions related to the sprites in the sequence
+     * @param duration : the duration of the sequence
      */
     public SequenceImp(Image background, ArrayList<Sprite> sprites, ArrayList<SpriteAction> actions, long duration){
 
@@ -79,6 +78,7 @@ public class SequenceImp implements Sequence{
 
 
         for (int k=1; k<lengthSprite+1; k++){
+
             // get the name of the sprite
             Sprite sprite = spritesList.get(k-1);
             String spriteName = sprite.getName();
@@ -88,20 +88,21 @@ public class SequenceImp implements Sequence{
 
                SpriteAction action = actionsList.get(i);
 
-                if (action.getSprite().equals(spriteName)) {
-                    // search the good time interval
+                // search the good time interval
+                if (action.getSprite().equals(spriteName) && (millis < action.getEndTime() && millis > action.getStartTime())) {
 
-                    if (millis < action.getEndTime() && millis > action.getStartTime()) {
-                        //update the sprite
-                        sprite = action.updateSprite(sprite, millis);
+                    //update the sprite
+                    sprite = action.updateSprite(sprite, millis);
 
-                        // get the new coordinate
-                        int X = sprite.getX();
-                        int Y = sprite.getY();
+                    // get the new coordinate
+                    int X = sprite.getX();
+                    int Y = sprite.getY();
 
-                        // search the sprite image
-                        Image image = spritesList.get(k-1).getCurrentImage(millis);
+                    // get the sprite image
+                    Image image = spritesList.get(k-1).getCurrentImage(millis);
 
+                    // check if the action is visible
+                    if (action.getVisible()){
                         // create and add a snapshot layer
                         SnapshotLayer snapshotLayer = new SnapshotLayerImp(image, X, Y);
                         layers[i] = snapshotLayer;
@@ -113,6 +114,9 @@ public class SequenceImp implements Sequence{
         // create a snapshot
         Snapshot currentSnapshot = new SnapshotImp(layers);
 
+        invariant();
+        assert currentSnapshot != null : "Post condition";
+
         return currentSnapshot;
     }
 
@@ -121,15 +125,11 @@ public class SequenceImp implements Sequence{
     /**
      * Get the background of the sequence
      *
-     * @pre this.background != null && !"".equals(this.background)
-     *
      * @return the background of the sequence
      */
     @Override
     public Image getBackground() {
-        // pre condition
-        assert this.background != null  : "Precondition violated";
-
+        invariant();
         return this.background;
     }
 
@@ -137,19 +137,13 @@ public class SequenceImp implements Sequence{
     /**
      * Returns the total duration of the sequence
      *
-     * @pre this.duration > 0
-     *
      * @return the total duration of the sequence
      */
     @Override
     public long getDuration() {
-        // pre condition
-        assert this.duration > 0 : "Precondition violated";
-
+        invariant();
         return this.duration;
     }
-
-
 
 
     /**
@@ -159,10 +153,9 @@ public class SequenceImp implements Sequence{
      */
     @Override
     public ArrayList<Sprite> getSprites() {
+        invariant();
         return this.sprites;
     }
-
-
 
 
     /**
@@ -172,6 +165,17 @@ public class SequenceImp implements Sequence{
      */
     @Override
     public ArrayList<SpriteAction> getActions() {
+        invariant();
         return this.actions;
+    }
+
+
+    /**
+     * Check if the invariant condition is verified
+     */
+    private void invariant(){
+        assert this.background != null : "Invariant violated";
+        assert ((this.sprites.size() > 0 && this.actions.size() > 0) || ( this.sprites.size() == 0 && this.actions.size() == 0)) : "Invariant violated" ;
+        assert this.duration > 0 : "invariant violated";
     }
 }
