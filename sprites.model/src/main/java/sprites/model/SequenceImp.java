@@ -50,11 +50,11 @@ public class SequenceImp implements Sequence{
 
 
 
-
     /**
      * Get the snapshot at a current time
      *
      * @pre millis >= 0 && millis <= this.duration
+     * @post currentSnapshot != null
      *
      * @param millis: the current time to get the current snapshot
      *
@@ -78,9 +78,10 @@ public class SequenceImp implements Sequence{
         layers[0] = new SnapshotLayerImp(this.background, 0, 0);
 
 
-        for (int k=0; k<lengthSprite; k++){
+        for (int k=1; k<lengthSprite+1; k++){
             // get the name of the sprite
-            String spriteName = spritesList.get(k).getName();
+            Sprite sprite = spritesList.get(k-1);
+            String spriteName = sprite.getName();
 
             // search the sprites action
             for (int i=0; i<lengthAction; i++){
@@ -89,58 +90,17 @@ public class SequenceImp implements Sequence{
 
                 if (action.getSprite().equals(spriteName)) {
                     // search the good time interval
+
                     if (millis < action.getEndTime() && millis > action.getStartTime()) {
+                        //update the sprite
+                        sprite = action.updateSprite(sprite, millis);
 
-                        int previousX;
-                        int previousY;
-
-                        // layers parameters
-                        int X;
-                        int Y;
-                        Image image;
-
-                        //search the previous X and Y
-                        // the action is the first of the list
-                        if (i == 0) {
-                            previousX = 0;
-                            previousY = 0;
-                        }
-
-                        else {
-                            SpriteAction previouscAction = actionsList.get(i - 1);
-
-                            // check if the previous action is for the same sprite
-                            if (action.getSprite().equals(previouscAction.getSprite())) {
-                                // check if the action have a X and Y coordinate
-                                if (previouscAction.getEndX() != -1 && previouscAction.getEndY() != -1) {
-                                    previousX = previouscAction.getEndX();
-                                    previousY = previouscAction.getEndY();
-                                }
-
-                                else {
-                                    previousX = 0;
-                                    previousY = 0;
-                                }
-
-                            }
-
-                            else {
-                                previousX = 0;
-                                previousY = 0;
-                            }
-                        }
-
-                        // current coordinate calculation
-                        int deltaX = action.getEndX() - previousX;
-                        int deltaY = action.getEndY() - previousY;
-                        long deltaT = action.getEndTime() - action.getStartTime();
-
-                        X = (int) ((deltaX / deltaT) * millis + previousX);
-                        Y = (int) ((deltaY / deltaT) * millis + previousY);
-
+                        // get the new coordinate
+                        int X = sprite.getX();
+                        int Y = sprite.getY();
 
                         // search the sprite image
-                        image = spritesList.get(k).getCurrentImage(millis);
+                        Image image = spritesList.get(k-1).getCurrentImage(millis);
 
                         // create and add a snapshot layer
                         SnapshotLayer snapshotLayer = new SnapshotLayerImp(image, X, Y);
