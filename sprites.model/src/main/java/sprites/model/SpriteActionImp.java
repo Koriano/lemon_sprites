@@ -51,7 +51,20 @@ public class SpriteActionImp implements SpriteAction{
      */
     @Override
     public Sprite updateSprite(Sprite sprite, long millis) {
-        return null;
+
+        assert sprite != null && millis >= 0 && millis >= this.startTime && millis <= this.endTime : "Pre condition violated";
+
+        // interval calculation
+        int deltaX = this.endX - this.startX;
+        int deltaY = this.endY - this.startY;
+        long deltaT = this.endTime - this.startTime;
+
+        // new coordinate calculation
+        int newX = (int) ((((long) deltaX / deltaT) * millis) + this.startX);
+        int newY = (int) ((((long) deltaY / deltaT) * millis) + this.startY);
+
+        // return a new sprite with the new X and Y coordinate
+        return new SpriteImp(sprite.getName(), newX, newY, sprite.isVisible(), sprite.getImages(), sprite.getDuration());;
     }
 
 
