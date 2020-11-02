@@ -42,6 +42,29 @@ public interface SpriteAction {
     public int getEndTime();
 
     /**
+     * Returns the start coordinate on the x axis
+     *
+     * @return the start coordinate on the x axis
+     */
+    public int getStartX();
+
+    /**
+     * Returns the start coordinate on the y axis
+     *
+     * @return the start coordinate on the y axis
+     */
+    public int getStartY();
+
+
+    /**
+     * Set the start and end coordinate of the sprite
+     *
+     * @return the new coordinate
+     */
+    public void setCoordinate(int startX, int startY, int endX, int endY);
+
+
+    /**
      * Returns the end coordinate on the x axis
      *
      * @return the end coordinate on the x axis
