@@ -3,7 +3,13 @@ package sprites.model;
 import gui.graphic.*;
 import java.util.ArrayList;
 
-
+/**
+ * @author Margaux SCHNELZAUER
+ *
+ * A class to implement Sequence interface
+ *
+ * @see sprites.model.Sequence
+ */
 public class SequenceImp implements Sequence{
 
     /**
