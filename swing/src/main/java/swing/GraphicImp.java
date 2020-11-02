@@ -5,11 +5,13 @@ import gui.graphic.Snapshot;
 import gui.graphic.SnapshotLayer;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Class to implement graphic interface
  *
- * @author Margaux SCHNELZAUER
+ * @author Margaux SCHNELZAUER, Mathis RACINNE-DIVET
  * @see gui.graphic.Graphic
  *
  * @inv this.height > 0 && this.width > 0
@@ -18,13 +20,27 @@ import javax.swing.*;
 public class GraphicImp extends JFrame implements Graphic {
 
     private JLayeredPane contentPanel;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem importMenuItem;
 
     /**
-     * Constuctor of the class
+     * Constructor of the class
+     * @pre menuListener != null
      */
-    public GraphicImp(){
+    public GraphicImp(ActionListener menuListener){
+        assert menuListener != null;
         // creation of a panel to set the image
         this.contentPanel = new JLayeredPane();
+
+        this.menuBar = new JMenuBar();
+        this.fileMenu = new JMenu("File");
+        this.importMenuItem = new JMenuItem("Import ZIP");
+        this.importMenuItem.addActionListener(menuListener);
+        this.fileMenu.add(this.importMenuItem);
+        this.menuBar.add(this.fileMenu);
+
+        this.setJMenuBar(this.menuBar);
 
         this.setContentPane(this.contentPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
