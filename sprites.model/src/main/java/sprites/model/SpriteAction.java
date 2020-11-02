@@ -32,14 +32,14 @@ public interface SpriteAction {
      *
      * @return the starting time of the action
      */
-    public int getStartTime();
+    public long getStartTime();
 
     /**
      * Returns the ending time of the action
      *
      * @return the ending time of the action
      */
-    public int getEndTime();
+    public long getEndTime();
 
     /**
      * Returns the start coordinate on the x axis
