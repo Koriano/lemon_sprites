@@ -63,12 +63,14 @@ public interface SpriteAction {
      */
     public int getEndX();
 
+
     /**
      * Returns the end coordinate on the y axis
      *
      * @return the end coordinate on the y axis
      */
     public int getEndY();
+
 
     /**
      * Returns the visibility of the sprite
