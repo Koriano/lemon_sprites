@@ -1,9 +1,17 @@
 package sprites.model;
 
 import gui.graphic.Snapshot;
-
 import java.util.ArrayList;
 
+
+/**
+ * @author Margaux SCHNELZAUER
+ *
+ * Movie class implements the movie interface
+ *
+ * @inv this.sequences.size() > 0
+ * @see sprites.model.Movie
+ */
 public class MovieImp implements Movie{
 
     /**
@@ -18,7 +26,6 @@ public class MovieImp implements Movie{
      * @param sequences
      */
     public MovieImp(ArrayList<Sequence> sequences){
-
         this.sequences = sequences;
     }
 
@@ -43,7 +50,6 @@ public class MovieImp implements Movie{
         for (int i=0; i<length; i++){
             // total duration calculation
             totalDuration += seqList.get(i).getDuration();
-
         }
 
         // pre condition
@@ -69,9 +75,9 @@ public class MovieImp implements Movie{
 
             // new duration calculation
             currentDuration = newCurrentDuration;
-
         }
-
+        // check the invariant condition
+        invariant();
 
         return currentSnapshot;
     }
@@ -88,7 +94,15 @@ public class MovieImp implements Movie{
     public ArrayList<Sequence> getSequences() {
         // pre condition
         assert this.sequences != null && this.sequences.size() > 0: "Precondition violated";
+        invariant();
 
         return this.sequences;
+    }
+
+    /**
+     * Check if the invariant condition is verified
+     */
+    private void invariant() {
+        assert this.sequences.size() > 0 : "Invariant violated";
     }
 }
