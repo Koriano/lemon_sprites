@@ -2,6 +2,7 @@ package sprites.model.json;
 
 import org.json.JSONObject;
 import sprites.model.SpriteAction;
+import sprites.model.SpriteActionImp;
 import util.json.JsonConverter;
 
 /**
@@ -69,10 +70,10 @@ public class ActionJsonConverter implements JsonConverter<SpriteAction> {
 
         // And other properties, if given
         if(json.has("endTime")){
-            returnedAction = new SpriteAction(sprite, time, json.getInt("endTime"), json.getInt("endX"), json.getInt("endY"), json.getBoolean("visible"));
+            returnedAction = new SpriteActionImp(sprite, time, json.getInt("endTime"), json.getInt("endX"), json.getInt("endY"), json.getBoolean("visible"));
         }
         else{
-            returnedAction = new SpriteAction(sprite, time, -1, json.getInt("endX"), json.getInt("endY"), json.getBoolean("visible"));
+            returnedAction = new SpriteActionImp(sprite, time, -1, json.getInt("endX"), json.getInt("endY"), json.getBoolean("visible"));
         }
 
         // Postcondition

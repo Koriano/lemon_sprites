@@ -5,6 +5,7 @@ import javafx.collections.transformation.SortedList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sprites.model.Sequence;
+import sprites.model.SequenceImp;
 import sprites.model.Sprite;
 import sprites.model.SpriteAction;
 import util.json.JsonConverter;
@@ -183,7 +184,7 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
             // Set starting coordinates on actions
             for(Sprite sprite:sprites){
 
-                ArrayList<Integer> times = new ArrayList<>();
+                ArrayList<Long> times = new ArrayList<>();
 
                 // Get every start time from action to a specific sprite
                 for(SpriteAction action:actions){
@@ -233,11 +234,11 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
 
                         // If visibility action the sprite doesn't move
                         if(action.getEndTime() == -1){
-                            action.setCoordinates(initial_x, initial_y, initial_x, initial_y);
+                            action.setCoordinate(initial_x, initial_y, initial_x, initial_y);
                         }
                         // If moving action, the sprite moves
                         else{
-                            action.setCoordinates(initial_x, initial_y, action.getEndX(), action.getEndY());
+                            action.setCoordinate(initial_x, initial_y, action.getEndX(), action.getEndY());
                         }
                     }
                     // if last action, set endtime with total duration
@@ -245,12 +246,12 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
 
                         // If visibility action, the sprite doesn't move
                         if(action.getEndTime() == actionList.size()-1){
-                            action.setCoordinates(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
+                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
                             lastAction.setEndTime(duration);
                         }
                         // If moving action, the sprite moves
                         else{
-                            action.setCoordinates(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
+                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
                         }
                     }
                     // else set coordinates with the last action and set endtime for visibility action
@@ -258,21 +259,21 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
 
                         // If visibility action, the sprite doesn't move
                         if(action.getEndTime() == -1){
-                            action.setCoordinates(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
+                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
                             lastAction.setEndTime(action.getStartTime());
                         }
                         // If moving action, the sprite moves
                         else{
-                            action.setCoordinates(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
+                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
                         }
                     }
                 }
             }
 
-            returnedSequence = new Sequence(background, duration, sprites, actions);
+            returnedSequence = new SequenceImp(background, sprites, actions, duration);
         }
         else{
-            returnedSequence = new Sequence(background, duration, null, null);
+            returnedSequence = new SequenceImp(background, null, null, duration);
         }
 
 
