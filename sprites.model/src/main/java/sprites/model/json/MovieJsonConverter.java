@@ -4,6 +4,7 @@ import gui.graphic.Image;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sprites.model.Movie;
+import sprites.model.MovieImp;
 import sprites.model.Sequence;
 import util.json.JsonConverter;
 
@@ -110,7 +111,7 @@ public class MovieJsonConverter implements JsonConverter<Movie> {
             sequences.add(this.sequenceJsonConverter.convertFromJson(jsonSequences.getJSONObject(i)));
         }
 
-        returnedMovie = new Movie(sequences);
+        returnedMovie = new MovieImp(sequences);
 
         invariant();
 
