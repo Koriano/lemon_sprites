@@ -57,14 +57,6 @@ public interface SpriteAction {
 
 
     /**
-     * Set the start and end coordinate of the sprite
-     *
-     * @return the new coordinate
-     */
-    public void setCoordinate(int startX, int startY, int endX, int endY);
-
-
-    /**
      * Returns the end coordinate on the x axis
      *
      * @return the end coordinate on the x axis
@@ -83,5 +75,31 @@ public interface SpriteAction {
      *
      * @return the visibility of the sprite
      */
-    public int getVisible();
+    public boolean getVisible();
+
+
+
+    /**
+     * Set the start and end coordinate of the sprite
+     *
+     * @return the new coordinate
+     */
+    public void setCoordinate(int startX, int startY, int endX, int endY);
+
+
+    /**
+     * Set the end time of the sprite action
+     *
+     * @return the new end time
+     */
+    public void setEndTime(long endTime);
+
+
+    /**
+     * Set the visibility of the sprite
+     *
+     * @return the visibility of the sprite
+     */
+    public void setIsVisible(boolean isVisible);
+
 }
