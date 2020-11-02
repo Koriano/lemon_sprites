@@ -37,7 +37,7 @@ public class ActionJsonConverter implements JsonConverter<SpriteAction> {
         returnedJson.put("endTime", object.getEndTime());
         returnedJson.put("endX", object.getEndX());
         returnedJson.put("endY", object.getEndY());
-        returnedJson.put("visible", object.getVisible());
+        returnedJson.put("visible", object.isVisible());
 
         // Postcondition
         assert returnedJson.keySet().size() > 0 && returnedJson.has("time") && returnedJson.has("sprite"): "Postcondition violated";

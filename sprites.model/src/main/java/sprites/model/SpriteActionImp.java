@@ -151,7 +151,7 @@ public class SpriteActionImp implements SpriteAction{
      * @return the visibility of the sprite
      */
     @Override
-    public boolean getVisible() {
+    public boolean isVisible() {
         return this.isVisible;
     }
 

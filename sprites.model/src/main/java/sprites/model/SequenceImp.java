@@ -102,7 +102,7 @@ public class SequenceImp implements Sequence{
                     Image image = spritesList.get(k-1).getCurrentImage(millis);
 
                     // check if the action is visible
-                    if (action.getVisible()){
+                    if (action.isVisible()){
                         // create and add a snapshot layer
                         SnapshotLayer snapshotLayer = new SnapshotLayerImp(image, X, Y);
                         layers[i] = snapshotLayer;
