@@ -64,7 +64,7 @@ public class SpriteActionImp implements SpriteAction{
         int newY = (int) ((((long) deltaY / deltaT) * millis) + this.startY);
 
         // return a new sprite with the new X and Y coordinate
-        return new SpriteImp(sprite.getName(), newX, newY, sprite.isVisible(), sprite.getImages(), sprite.getDuration());;
+        return new SpriteImp(sprite.getName(), newX, newY, sprite.isVisible(), sprite.getImages(), sprite.getDuration());
     }
 
 
