@@ -1,23 +1,55 @@
 package sprites.model;
 
+
+/**
+ * @author Margaux SCHNELZAUER
+ *
+ * A class to implement SpriteAction Interface
+ *
+ * @see sprites.model.SpriteAction
+ */
 public class SpriteActionImp implements SpriteAction{
 
-
+    /**
+     * The X coordinate for the start of the action
+     */
     int startX;
 
+    /**
+     * The Y coordinate for the start of the action
+     */
     int startY;
 
+    /**
+     * The X coordinate for the end of the action
+     */
     int endX;
 
+    /**
+     * The Y coordinate for the end of the action
+     */
     int endY;
 
+    /**
+     * The start time of the action
+     */
     long startTime;
 
+    /**
+     * The end time of the action
+     */
     long endTime;
 
+    /**
+     * The name of the sprite
+     */
     String sprite;
 
+    /**
+     * The visibility of the action
+     */
     boolean isVisible;
+
 
     /**
      * The constructor of the class
@@ -158,8 +190,6 @@ public class SpriteActionImp implements SpriteAction{
 
     /**
      * Set the start and end coordinate of the sprite
-     *
-     * @return the new coordinate
      */
     @Override
     public void setCoordinate(int startX, int startY, int endX, int endY) {
@@ -172,8 +202,6 @@ public class SpriteActionImp implements SpriteAction{
 
     /**
      * Set the end time of the sprite action
-     *
-     * @return the new end time
      */
     @Override
     public void setEndTime(long endTime) {
@@ -183,8 +211,6 @@ public class SpriteActionImp implements SpriteAction{
 
     /**
      * Set the visibility of the sprite
-     *
-     * @return the visibility of the sprite
      */
     @Override
     public void setIsVisible(boolean isVisible) {
