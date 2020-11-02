@@ -1,7 +1,6 @@
 package sprites.model.json;
 
 import gui.graphic.Image;
-import javafx.collections.transformation.SortedList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sprites.model.Sequence;
