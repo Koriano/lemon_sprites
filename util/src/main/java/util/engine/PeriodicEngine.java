@@ -7,6 +7,9 @@ import util.sync.SchedulerListener;
  * @author Mathis RACINNE-DIVET
  *
  * Defines an Engine that holds a Scheduler which will trigger the engine periodically.
+ *
+ * @see util.engine.Engine
+ * @see util.sync.SchedulerListener
  */
 public abstract class PeriodicEngine implements Engine, SchedulerListener {
 
