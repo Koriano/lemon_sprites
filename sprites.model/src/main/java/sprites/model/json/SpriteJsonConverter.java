@@ -100,7 +100,6 @@ public class SpriteJsonConverter implements JsonConverter<Sprite> {
         int duration = jsonSprite.getInt("duration");
         int x = jsonSprite.getInt("x");
         int y = jsonSprite.getInt("y");
-        boolean visible = jsonSprite.getBoolean("visible");
 
         JSONArray jsonImagesArray = jsonSprite.getJSONArray("images");
 
@@ -117,7 +116,7 @@ public class SpriteJsonConverter implements JsonConverter<Sprite> {
         }
 
         // Create sprite
-        Sprite result = new SpriteImp(name, x, y, visible, imagesList, duration);
+        Sprite result = new SpriteImp(name, x, y, true, imagesList, duration);
 
         // Postcondition
         assert result != null:

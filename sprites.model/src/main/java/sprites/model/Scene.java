@@ -9,8 +9,6 @@ import java.util.ArrayList;
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
  * A Scene is described by a list of snapshots depending on the time
- *
- * @inv this.sprites.length > 0 && this.background != null
  */
 public interface Scene {
 

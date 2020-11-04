@@ -1,12 +1,9 @@
 package gui.graphic;
 
-
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
  * A generic image (having a name and dimensions) independant from the graphic system
- *
- * @inv this.height >= 0 && this.width >= 0 && !(this.name.equals(""))
  */
 
 public interface Image {
@@ -15,6 +12,7 @@ public interface Image {
    * Set the image name
    *
    * @pre name != null && !"".equals(name)
+   *
    * @param name: the image name
    */
 
@@ -24,6 +22,7 @@ public interface Image {
    * Return the image height
    *
    * @pre this.height >= 0
+   *
    * @return The image height
    */
 
@@ -33,6 +32,7 @@ public interface Image {
    * Return the image width
    *
    * @pre this.width >= 0
+   *
    * @return The image width
    */
 
@@ -41,7 +41,8 @@ public interface Image {
   /**
    * Return the image name
    *
-   * @pre !(this.name.equals(""))
+   * @pre this.name != null && !"".equals(this.name)
+   *
    * @return The image name
    */
    

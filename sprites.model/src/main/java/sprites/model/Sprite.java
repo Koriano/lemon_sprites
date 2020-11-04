@@ -17,10 +17,11 @@ public interface Sprite {
     /**
      * Method to get the image at the time t=millis
      *
-     * @pre millis >= 0 && millis < this.totalDuration
+     * @pre millis >= 0
      * @post Image != null
      *
      * @param millis: the time at which you want the sprite image (in milliseconds)
+     *
      * @return the Image corresponding at the time millis
      */
     public Image getCurrentImage(long millis);
@@ -49,8 +50,6 @@ public interface Sprite {
 
     /**
      * Get the X position of the sprites
-     *
-     * @post result >=0
      *
      * @return the x position of the sprites
      */

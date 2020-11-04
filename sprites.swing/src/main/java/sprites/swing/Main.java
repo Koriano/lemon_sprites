@@ -1,11 +1,18 @@
 package sprites.swing;
 
+import gui.graphic.GraphicEngine;
 import gui.graphic.Image;
 import gui.graphic.Snapshot;
+import sprites.model.Movie;
+import sprites.model.SingleObjectHolderImp;
+import sprites.model.SpritesEngine;
+import sprites.model.json.MovieJsonConverter;
 import sprites.model.json.SceneJsonConverter;
 import swing.GraphicImp;
 import swing.ImageLoaderImp;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +23,10 @@ import swing.sync.SchedulerSwing;
 import util.io.ZipLoaderImp;
 import util.sync.Scheduler;
 import util.sync.SchedulerListener;
+import util.sync.SchedulerUtil;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -23,27 +34,27 @@ import util.sync.SchedulerListener;
  * The main class for the swing version of LemonSprites
  */
 
-public class Main implements SchedulerListener {
+public class Main implements ActionListener {
+
+    /**
+     * The path of the zip file to load
+     */
+    private static String filePath = null;
 
     /**
      * The static instance of the window
      */
-    private static GraphicImp graphic;
+    private static GraphicImp graphic = null;
 
     /**
-     * The static instance of the currently displayed scene
+     * The sprites periodic engine
      */
-    private static Scene scene;
+    private static SpritesEngine spritesEngine = null;
 
     /**
-     * The static instance of the graphical scheduler
+     * The graphical periodic engine
      */
-    private static Scheduler graphicalScheduler;
-
-    /**
-     * The system time at the beginning of the animation
-     */
-    private static long startTime;
+    private static GraphicEngine graphicEngine = null;
 
     /**
      * Refresh rate of the scheduler in milliseconds
@@ -51,54 +62,107 @@ public class Main implements SchedulerListener {
     private final static long delay = 17;//17 ms for 60 frames/s~
 
     /**
-     * Total duration of the scene in milliseconds
+     * Total duration of the schedulers in milliseconds
      */
-    private final static long totalDuration = 15000;
+    private final static long totalDuration = 150000;
+
+    /**
+     * The listener that will be used by the scheduler and le graphic menu bar
+     */
+    private final static Main listener = new Main();
 
     public static void main(String[] args){
-        // Preparing ZipLoader
-        String DATA_DIRECTORY = "data/";
-        HashMap<String, Image> images = new HashMap<>();
-        SceneJsonConverter jsonConverter = new SceneJsonConverter(images);
-        ImageLoaderImp imgLoader = new ImageLoaderImp();
-        ZipLoaderImp<Scene, Image> zipLoad = new ZipLoaderImp<>(jsonConverter, imgLoader, images);
+        // Loading zip
+        showFileChooser();
+    }
 
-        // Loading zip and creating scene
 
-        scene = null;
-        try {
-            scene = zipLoad.load(new FileInputStream(new File(DATA_DIRECTORY+"scene.zip")));
-
-        } catch (FileNotFoundException e) {
-            System.err.println("ERROR : FAILED TO LOAD ZIP FILE !");
-            e.printStackTrace();
+    /**
+     * Displays a file chooser to select the zip file to load
+     */
+    private static void showFileChooser() {
+        JFileChooser fileChooser = new JFileChooser(new File("data/"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Fichier Zip", "zip"));
+        if (fileChooser.showDialog(graphic, "Charger") == JFileChooser.APPROVE_OPTION) {
+            filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            loadZip();
         }
+    }
 
 
-        // If scene successfully loaded, create window and scheduler -> starts the graphical application
-        if (scene != null) {
-            Snapshot snapshot = scene.getCurrentSnapshot(0);
-            startTime = System.currentTimeMillis();
+    /**
+     * Loads the zip file and starts the movie
+     */
+    private static void loadZip() {
+        if (filePath != null) {
 
-            // Displaying snapshot
-            graphic = new GraphicImp();
-            graphic.displaySnapshot(snapshot);
 
-            graphicalScheduler = new SchedulerSwing(new Main(), delay, totalDuration);
+            // Preparing ZipLoader
+            HashMap<String, Image> images = new HashMap<>();
+            MovieJsonConverter jsonConverter = new MovieJsonConverter(images);
+            ImageLoaderImp imgLoader = new ImageLoaderImp();
+            ZipLoaderImp<Movie, Image> zipLoad = new ZipLoaderImp<>(jsonConverter, imgLoader, images);
 
-            graphicalScheduler.start();
+            // Loading zip and creating scene
+            Movie movie = null;
+            try {
+                movie = zipLoad.load(new FileInputStream(new File(filePath)));
+
+            } catch (FileNotFoundException e) {
+                System.err.println("ERROR : FAILED TO LOAD ZIP FILE !");
+                e.printStackTrace();
+            }
+
+
+
+
+            // If movie successfully loaded, create window and engines -> starts the graphical application
+            if (movie != null) {
+                // If the spriteEngine is already started
+                if (spritesEngine != null) {
+                    // Stop the scheduler
+                    spritesEngine.stop();
+                }
+                // If the graphicEngine is already started
+                if (graphicEngine != null) {
+                    // Stop the scheduler
+                    graphicEngine.stop();
+                }
+
+                // Displaying snapshot
+                if (graphic == null) {
+                    graphic = new GraphicImp(listener);
+                }
+
+                SingleObjectHolderImp<Snapshot> snapshotHolder = new SingleObjectHolderImp<>();
+
+                // Sprites engine
+                spritesEngine = new SpritesEngine(movie, snapshotHolder);
+                SchedulerUtil spritesScheduler = new SchedulerUtil(spritesEngine, delay, totalDuration);
+                spritesEngine.setScheduler(spritesScheduler);
+
+                // Graphical engine
+                graphicEngine = new GraphicEngine(snapshotHolder, graphic);
+                SchedulerSwing graphicalScheduler = new SchedulerSwing(graphicEngine, delay, totalDuration);
+                graphicEngine.setScheduler(graphicalScheduler);
+
+                // Start the movie by launching the engines
+                spritesEngine.start();
+                graphicEngine.start();
+
+            }
 
         }
     }
 
+
     /**
-     * The task triggered by the scheduler
+     * Invoked when an action occurs on the menu bar.
      *
-     * @param timeOftrigger
+     * @param e the event to be processed
      */
     @Override
-    public void trigger(long timeOftrigger) {
-        Snapshot snapshot = scene.getCurrentSnapshot(timeOftrigger - startTime);
-        graphic.displaySnapshot(snapshot);
+    public void actionPerformed(ActionEvent e) {
+        showFileChooser();
     }
 }

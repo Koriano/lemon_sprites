@@ -68,7 +68,7 @@ public class ZipLoaderImp<T,R> implements ZipLoader<T> {
         // Casting stream into ZipInputStream to use specific methods
         ZipInputStream zis = new ZipInputStream(stream);
 
-        // Initializing entry convertion
+        // Initializing entry conversion
         JsonLoaderImp json_loader = new JsonLoaderImp();
         ZipEntry entry;
         String ext;
