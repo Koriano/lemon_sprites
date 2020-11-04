@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author Margaux SCHNELZAUER
  * @see sprites.model.Sprite
  *
- * @inv this.imageList.size() > 0 && this.totalDuration >= 0 && this.name != null && this.x >=0 && this.y >= 0 && this.imageList != null
+ * @inv this.imageList.size() > 0 && this.totalDuration >= 0 && this.name != null && this.imageList != null
  */
 
 public class SpriteImp implements Sprite{
@@ -74,7 +74,7 @@ public class SpriteImp implements Sprite{
      * Invariant of the class
      */
     private void invariant(){
-        assert this.imageList.size() > 0 && this.totalDuration >= 0 && this.name != null && this.x >=0 && this.y >= 0 && this.imageList != null: "Invariant violated";
+        assert this.imageList.size() > 0 && this.totalDuration >= 0 && this.name != null && this.imageList != null: "Invariant violated";
     }
 
     /**

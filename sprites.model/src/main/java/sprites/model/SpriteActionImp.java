@@ -66,10 +66,10 @@ public class SpriteActionImp implements SpriteAction{
      * @param endY the end Y coordinate of the action
      * @param isVisible the visibility of the action
      *
-     * @pre sprite != null && !"".equals(sprite) && time >= 0 && endTime >= 0
+     * @pre sprite != null && !"".equals(sprite) && time >= 0
      */
     public SpriteActionImp(String sprite, long time, long endTime, int endX, int endY, boolean isVisible) {
-        assert sprite != null && !"".equals(sprite) && time >= 0 && endTime >= 0: "Precondition violated";
+        assert sprite != null && !"".equals(sprite) && time >= 0: "Precondition violated";
 
         this.endX = endX;
         this.endY = endY;
