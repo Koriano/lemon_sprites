@@ -95,8 +95,10 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
             // Convert Actions to json
             JSONArray jsonActions = new JSONArray();
 
-            for(SpriteAction act:object.getActions()){
-                jsonActions.put(this.actionJsonConverter.convertToJson(act));
+            for(ArrayList<SpriteAction> actList : object.getActions().values()){
+                for (SpriteAction act : actList) {
+                    jsonActions.put(this.actionJsonConverter.convertToJson(act));
+                }
             }
 
             // Add sprites and json to returned json
@@ -183,93 +185,92 @@ public class SequenceJsonConverter implements JsonConverter<Sequence> {
             // Set starting coordinates on actions
             for(Sprite sprite:sprites){
 
-                ArrayList<Long> times = new ArrayList<>();
+                ArrayList<SpriteAction> spriteActions = new ArrayList<>();
 
                 // Get every start time from action to a specific sprite
                 for(SpriteAction action:actions){
                     if(sprite.getName().equals(action.getSprite())){
-                        times.add(action.getStartTime());
+                        spriteActions.add(action);
                     }
                 }
-                // Sort by start time
-                Collections.sort(times);
 
-                // put sorted times with key
-                sortedActions.put(sprite.getName(), new ArrayList<>());
-
-                // Sort action by startTime
-                for(SpriteAction action:actions){
-                    for(int i=0; i<times.size(); i++){
-                        if(times.get(i) == action.getStartTime()) {
-                            sortedActions.get(sprite.getName()).add(action);
-                        }
-                    }
-                }
+                sortedActions.put(sprite.getName(), spriteActions);
             }
 
             // Assign coordinates to action
             for(String key:sortedActions.keySet()){
                 ArrayList<SpriteAction> actionList = sortedActions.get(key);
 
-                // Get actions for a sprite
-                for(int i=0; i<actionList.size(); i++){
+                int initial_x = 0;
+                int initial_y = 0;
 
-                    SpriteAction action = actionList.get(i);
-                    SpriteAction lastAction = actionList.get(i-1);
+                // get sprite initial coordinates
+                for (Sprite sprite : sprites) {
+                    if (sprite.getName().equals(key)) {
+                        initial_x = sprite.getX();
+                        initial_y = sprite.getY();
+                    }
+                }
 
-                    // If first action
-                    if(i == 0){
+                if(actionList.size() == 1){
 
-                        int initial_x = 0;
-                        int initial_y = 0;
+                    actionList.get(0).setCoordinate(initial_x, initial_y, actionList.get(0).getEndX(), actionList.get(0).getEndY());
+                    actionList.get(0).setEndTime(duration);
+                }
+                else {
+                    // Get actions for a sprite
+                    for (int i = 0; i < actionList.size(); i++) {
 
-                        // get sprite initial coordinates
-                        for(Sprite sprite:sprites){
-                            if(sprite.getName().equals(key)){
-                                initial_x = sprite.getX();
-                                initial_y = sprite.getY();
+                        SpriteAction action = actionList.get(i);
+
+                        // If first action
+                        if (i == 0) {
+
+                            // If visibility action the sprite doesn't move
+                            if (action.getEndTime() == -1) {
+                                action.setCoordinate(initial_x, initial_y, initial_x, initial_y);
+                                action.setEndTime(actionList.get(i+1).getStartTime());
+                            }
+                            // If moving action, the sprite moves
+                            else {
+                                action.setCoordinate(initial_x, initial_y, action.getEndX(), action.getEndY());
                             }
                         }
+                        // if last action, set endtime with total duration
+                        else {
+                            SpriteAction lastAction = actionList.get(i - 1);
 
-                        // If visibility action the sprite doesn't move
-                        if(action.getEndTime() == -1){
-                            action.setCoordinate(initial_x, initial_y, initial_x, initial_y);
-                        }
-                        // If moving action, the sprite moves
-                        else{
-                            action.setCoordinate(initial_x, initial_y, action.getEndX(), action.getEndY());
-                        }
-                    }
-                    // if last action, set endtime with total duration
-                    else if(i == actionList.size()-1){
+                            if (i == actionList.size() - 1) {
 
-                        // If visibility action, the sprite doesn't move
-                        if(action.getEndTime() == actionList.size()-1){
-                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
-                            lastAction.setEndTime(duration);
-                        }
-                        // If moving action, the sprite moves
-                        else{
-                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
-                        }
-                    }
-                    // else set coordinates with the last action and set endtime for visibility action
-                    else{
+                                // If visibility action, the sprite doesn't move
+                                if (action.getEndTime() == - 1) {
+                                    action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
+                                    action.setEndTime(duration);
+                                }
+                                // If moving action, the sprite moves
+                                else {
+                                    action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
+                                }
+                            }
+                            // else set coordinates with the last action and set endtime for visibility action
+                            else {
 
-                        // If visibility action, the sprite doesn't move
-                        if(action.getEndTime() == -1){
-                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
-                            lastAction.setEndTime(action.getStartTime());
-                        }
-                        // If moving action, the sprite moves
-                        else{
-                            action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
+                                // If visibility action, the sprite doesn't move
+                                if (action.getEndTime() == -1) {
+                                    action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), lastAction.getEndX(), lastAction.getEndY());
+                                    action.setEndTime(actionList.get(i+1).getStartTime());
+                                }
+                                // If moving action, the sprite moves
+                                else {
+                                    action.setCoordinate(lastAction.getEndX(), lastAction.getEndY(), action.getEndX(), action.getEndY());
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            returnedSequence = new SequenceImp(background, sprites, actions, duration);
+            returnedSequence = new SequenceImp(background, sprites, sortedActions, duration);
         }
         else{
             returnedSequence = new SequenceImp(background, null, null, duration);

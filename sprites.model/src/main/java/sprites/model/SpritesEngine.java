@@ -51,7 +51,14 @@ public class SpritesEngine extends PeriodicEngine {
     public void update() {
         assert this.movie != null && this.snapshotHolder != null;
 
-        this.snapshotHolder.setObject(this.movie.getCurrentSnapshot(this.lastTrigger));
+        Snapshot snapshot = this.movie.getCurrentSnapshot(this.lastTrigger);
+        if (snapshot !=  null) {
+            this.snapshotHolder.setObject(snapshot);
+
+        } else {
+            this.stop();
+        }
+
 
     }
 
@@ -62,7 +69,7 @@ public class SpritesEngine extends PeriodicEngine {
      */
     @Override
     public void trigger(long timeOftrigger) {
-        this.lastTrigger = timeOftrigger;
+        this.lastTrigger = timeOftrigger - this.getStartTime();
         this.update();
     }
 }

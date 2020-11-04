@@ -4,6 +4,7 @@ import gui.graphic.Image;
 import gui.graphic.Snapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -54,9 +55,9 @@ public interface Sequence {
 
 
     /**
-     * Returns the list of actions composing the sequence
+     * Returns the map of actions composing the sequence
      *
-     * @return the list of actions 
+     * @return the map of actions
      */
-    public ArrayList<SpriteAction> getActions();
+    public HashMap<String,ArrayList<SpriteAction>> getActions();
 }

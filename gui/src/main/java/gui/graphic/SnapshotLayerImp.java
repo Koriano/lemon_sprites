@@ -34,14 +34,13 @@ public class SnapshotLayerImp implements SnapshotLayer {
      * @param img The image composing the SnapshotLayerImp
      * @param xCoord The X coordinate of the image
      * @param yCoord The Y coordinate of the image
-     * @pre img != null && xCoord >= 0 && yCoord >= 0
+     * @pre img != null
      */
     public SnapshotLayerImp(Image img, int xCoord, int yCoord) {
-        if (img != null && xCoord >= 0 && yCoord >= 0) {
-            this.image = img;
-            this.x = xCoord;
-            this.y = yCoord;
-        }
+        assert img != null: "Precondition violated";
+        this.image = img;
+        this.x = xCoord;
+        this.y = yCoord;
     }
 
     /**

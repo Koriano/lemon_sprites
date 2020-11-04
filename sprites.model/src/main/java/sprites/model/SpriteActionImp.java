@@ -50,6 +50,11 @@ public class SpriteActionImp implements SpriteAction{
      */
     boolean isVisible;
 
+    /**
+     * Whether the action has been consumed
+     */
+    boolean isConsumed;
+
 
     /**
      * The constructor of the class
@@ -68,6 +73,7 @@ public class SpriteActionImp implements SpriteAction{
         this.endTime = endTime;
         this.sprite = sprite;
         this.isVisible = isVisible;
+        this.isConsumed = false;
     }
 
 
@@ -84,16 +90,19 @@ public class SpriteActionImp implements SpriteAction{
     @Override
     public Sprite updateSprite(Sprite sprite, long millis) {
 
-        assert sprite != null && millis >= 0 && millis >= this.startTime && millis <= this.endTime : "Pre condition violated";
+        assert sprite != null && millis >= 0 && millis >= this.startTime && millis <= this.endTime : sprite + " " + millis + " " + this.startTime + " " + this.endTime;
 
         // interval calculation
         int deltaX = this.endX - this.startX;
         int deltaY = this.endY - this.startY;
         long deltaT = this.endTime - this.startTime;
 
+        float dxDt = ((float)deltaX / (float)deltaT);
+        float dyDt = ((float)deltaY / (float)deltaT);
+
         // new coordinate calculation
-        int newX = (int) ((((long) deltaX / deltaT) * millis) + this.startX);
-        int newY = (int) ((((long) deltaY / deltaT) * millis) + this.startY);
+        int newX = (int) ((dxDt * (float)(millis - startTime)) + this.startX);
+        int newY = (int) ((dyDt * (float)(millis - startTime)) + this.startY);
 
         // return a new sprite with the new X and Y coordinate
         return new SpriteImp(sprite.getName(), newX, newY, sprite.isVisible(), sprite.getImages(), sprite.getDuration());
@@ -187,6 +196,16 @@ public class SpriteActionImp implements SpriteAction{
         return this.isVisible;
     }
 
+    /**
+     * Returns the state of achievement of the action, i.e. if the action has been consumed
+     *
+     * @return the state of achievement of the action, i.e. if the action has been consumed
+     */
+    @Override
+    public boolean isConsumed() {
+        return this.isConsumed;
+    }
+
 
     /**
      * Set the start and end coordinate of the sprite
@@ -215,5 +234,16 @@ public class SpriteActionImp implements SpriteAction{
     @Override
     public void setIsVisible(boolean isVisible) {
         this.isVisible = isVisible;
+    }
+
+    /**
+     * Sets the state of achievement of the action, i.e. if the action has been consumed
+     *
+     * @param isConsumed
+     * @return the state of achievement of the action, i.e. if the action has been consumed
+     */
+    @Override
+    public void setConsumed(boolean isConsumed) {
+        this.isConsumed = isConsumed;
     }
 }

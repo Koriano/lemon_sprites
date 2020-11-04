@@ -50,6 +50,7 @@ public class SnapshotLayerJsonConverterImp implements JsonConverter<SnapshotLaye
             int x = jsonObj.getInt("x");
             int y = jsonObj.getInt("y");
 
+            System.out.println(name);
             layer = new SnapshotLayerImp(this.getImage(name), x, y);
         }
         else{

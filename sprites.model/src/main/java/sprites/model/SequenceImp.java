@@ -2,6 +2,7 @@ package sprites.model;
 
 import gui.graphic.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Margaux SCHNELZAUER
@@ -33,7 +34,7 @@ public class SequenceImp implements Sequence{
     /**
      * A list of actions related to the sprites in the sequence
      */
-    private ArrayList<SpriteAction> actions;
+    private HashMap<String,ArrayList<SpriteAction>> actions;
 
 
     /**
@@ -44,7 +45,7 @@ public class SequenceImp implements Sequence{
      * @param actions : the liste of the actions related to the sprites in the sequence
      * @param duration : the duration of the sequence
      */
-    public SequenceImp(Image background, ArrayList<Sprite> sprites, ArrayList<SpriteAction> actions, long duration){
+    public SequenceImp(Image background, ArrayList<Sprite> sprites, HashMap<String,ArrayList<SpriteAction>> actions, long duration){
 
         this.actions = actions;
         this.background = background;
@@ -71,54 +72,86 @@ public class SequenceImp implements Sequence{
         assert millis >= 0 : "Precondition violated";
 
         // get the sprites and actions array
-        ArrayList<SpriteAction> actionsList = this.actions;
-        int lengthAction = actionsList.size();
+        HashMap<String,ArrayList<SpriteAction>> actionsMap = this.actions;
 
         ArrayList<Sprite> spritesList = this.sprites;
         int lengthSprite = spritesList.size();
 
 
         // create an array of snapshot layer
-        SnapshotLayer[] layers = new SnapshotLayer[lengthSprite+1];
-        layers[0] = new SnapshotLayerImp(this.background, 0, 0);
+        ArrayList<SnapshotLayer> layers = new ArrayList<>();
+        layers.add(new SnapshotLayerImp(this.background, 0, 0));
 
 
-        for (int k=1; k<lengthSprite+1; k++){
+        // For each sprites
+        for (int k=0; k<lengthSprite; k++) {
 
             // get the name of the sprite
-            Sprite sprite = spritesList.get(k-1);
+            Sprite sprite = spritesList.get(k);
             String spriteName = sprite.getName();
 
+            ArrayList<SpriteAction> actionsList = actionsMap.get(spriteName);
+
+            boolean spriteUpdated = false;
+            int i = 0;
+
             // search the sprites action
-            for (int i=0; i<lengthAction; i++){
+            while (!spriteUpdated && i < actionsList.size()) {
+                SpriteAction action = actionsList.get(i);
 
-               SpriteAction action = actionsList.get(i);
+                // If the start time and end time are equals.
+                if (action.getStartTime() == action.getEndTime() && !action.isConsumed() && millis >= action.getStartTime()) {
+                    action.setConsumed(true);
+                    sprite = action.updateSprite(sprite, action.getStartTime());
+                    spriteUpdated = true;
 
-                // search the good time interval
-                if (action.getSprite().equals(spriteName) && (millis < action.getEndTime() && millis > action.getStartTime())) {
+                } else if (action.getStartTime() != action.getEndTime() && millis > action.getStartTime()) {
 
-                    //update the sprite
-                    sprite = action.updateSprite(sprite, millis);
+                    if (!action.isConsumed() && (i == 0 || i == actionsList.size() - 1)) {
+                        if (i == 0 && millis >= actionsList.get(i + 1).getStartTime()) {
+                            action.setConsumed(true);
+                            action = actionsList.get(i + 1);
+                        }
 
+                        //update the sprite
+                        sprite = action.updateSprite(sprite, millis);
+                        spriteUpdated = true;
+
+                    } else if (!action.isConsumed() && millis < action.getEndTime() && millis < actionsList.get(i + 1).getStartTime()) {
+                        sprite = action.updateSprite(sprite, millis);
+                        spriteUpdated = true;
+
+                    }// If the current time is greater than the next action
+                    else if (!action.isConsumed() && millis >= actionsList.get(i + 1).getStartTime()) {
+                        action.setConsumed(true);
+                        action = actionsList.get(i + 1);
+                        sprite = action.updateSprite(sprite, millis);
+                        spriteUpdated = true;
+                    }
+                }
+
+                if (spriteUpdated) {
                     // get the new coordinate
                     int X = sprite.getX();
                     int Y = sprite.getY();
 
                     // get the sprite image
-                    Image image = spritesList.get(k-1).getCurrentImage(millis);
+                    Image image = sprite.getCurrentImage(millis);
 
                     // check if the action is visible
                     if (action.isVisible()){
                         // create and add a snapshot layer
                         SnapshotLayer snapshotLayer = new SnapshotLayerImp(image, X, Y);
-                        layers[i] = snapshotLayer;
+                        layers.add(snapshotLayer);
                     }
                 }
+                i++;
             }
         }
 
         // create a snapshot
-        Snapshot currentSnapshot = new SnapshotImp(layers);
+        SnapshotLayerImp[] snapLayer = new SnapshotLayerImp[layers.size()];
+        Snapshot currentSnapshot = new SnapshotImp(layers.toArray(snapLayer));
 
         invariant();
         assert currentSnapshot != null : "Post condition";
@@ -165,12 +198,12 @@ public class SequenceImp implements Sequence{
 
 
     /**
-     * Returns the list of actions composing the sequence
+     * Returns the map of actions composing the sequence
      *
-     * @return the list of actions
+     * @return the map of actions
      */
     @Override
-    public ArrayList<SpriteAction> getActions() {
+    public HashMap<String,ArrayList<SpriteAction>> getActions() {
         invariant();
         return this.actions;
     }

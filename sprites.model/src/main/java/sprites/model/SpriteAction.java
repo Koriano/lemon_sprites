@@ -81,6 +81,13 @@ public interface SpriteAction {
 
 
     /**
+     * Returns the state of achievement of the action, i.e. if the action has been consumed
+     * @return the state of achievement of the action, i.e. if the action has been consumed
+     */
+    public boolean isConsumed();
+
+
+    /**
      * Set the start and end coordinate of the sprite
      *
      * @return the new coordinate
@@ -102,5 +109,12 @@ public interface SpriteAction {
      * @return the visibility of the sprite
      */
     public void setIsVisible(boolean isVisible);
+
+
+    /**
+     * Sets the state of achievement of the action, i.e. if the action has been consumed
+     * @return the state of achievement of the action, i.e. if the action has been consumed
+     */
+    public void setConsumed(boolean isConsumed);
 
 }

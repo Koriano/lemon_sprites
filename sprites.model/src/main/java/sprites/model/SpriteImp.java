@@ -56,7 +56,7 @@ public class SpriteImp implements Sprite{
      * @pre name != null && x >= 0 && y >= 0 && imageList != null && imageList.size() > 0 && totalDuration >= 0
      */
     public SpriteImp(String name, int x, int y, boolean isVisible, ArrayList<Image> imageList, long totalDuration){
-        assert name != null && x >= 0 && y >= 0 && imageList != null && imageList.size() > 0 && totalDuration >= 0;
+        assert name != null && imageList != null && imageList.size() > 0 && totalDuration >= 0: name + " " + x + " " + y + " " + imageList + " " + imageList.size() + " " + totalDuration;
         this.name = name;
         this.x = x;
         this.y = y;
@@ -69,7 +69,7 @@ public class SpriteImp implements Sprite{
     /**
      * Return the image at the given time
      *
-     * @pre millis >= 0 && millis < this.totalDuration
+     * @pre millis >= 0
      * @param millis: the time at which you want the sprite image (in milliseconds)
      *
      * @return the current image
@@ -78,7 +78,7 @@ public class SpriteImp implements Sprite{
     @Override
     public Image getCurrentImage(long millis) {
 
-        assert millis >= 0 && millis < this.totalDuration : "Precondition violated";
+        assert millis >= 0: "Precondition violated";
 
         // find the index of the image
         int index = (int) ((millis%this.totalDuration)*this.imageList.size()/this.totalDuration);
@@ -118,7 +118,6 @@ public class SpriteImp implements Sprite{
     /**
      * Get the X position of the sprite
      *
-     * @post result >= 0
      *
      * @return x position of the sprite
      */
@@ -127,7 +126,6 @@ public class SpriteImp implements Sprite{
 
         int x = this.x;
 
-        assert x >= 0 : "Postcondition violated";
         return x;
     }
 
@@ -135,7 +133,6 @@ public class SpriteImp implements Sprite{
     /**
      * Get the Y position of the sprite
      *
-     * @post result >= 0
      *
      * @return y position of the sprite
      */
@@ -143,7 +140,6 @@ public class SpriteImp implements Sprite{
     public int getY() {
         int y = this.y;
 
-        assert y >= 0 : "Postcondition violated";
         return y;
     }
 

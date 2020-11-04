@@ -33,11 +33,9 @@ public class MovieImp implements Movie{
     /**
      * Get the snapshot at the current time passed
      *
-     * @pre millis >= 0 && millis <= math.sum(this.sequences.getDuration())
-     *
      * @param millis: the current time
      *
-     * @return the current snapshot
+     * @return the current snapshot, or null if millis is greater than the movie's length
      */
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
@@ -52,8 +50,11 @@ public class MovieImp implements Movie{
             totalDuration += seqList.get(i).getDuration();
         }
 
-        // pre condition
-        assert millis >= 0 && millis <= totalDuration : "Precondition violated";
+
+        // Check if the movie is ended
+        if (millis > totalDuration) {
+            return null;
+        }
 
 
         // search the current sequence
@@ -70,7 +71,7 @@ public class MovieImp implements Movie{
             // check if the time is into the start and the end of the sequences(i)
             if (millis >= currentDuration && millis <= newCurrentDuration){
                 // get the current snapshot from the current sequence
-                currentSnapshot = sequence.getCurrentSnapshot(millis);
+                currentSnapshot = sequence.getCurrentSnapshot(millis - currentDuration);
             }
 
             // new duration calculation

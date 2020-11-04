@@ -73,7 +73,7 @@ public class ActionJsonConverter implements JsonConverter<SpriteAction> {
             returnedAction = new SpriteActionImp(sprite, time, json.getInt("endTime"), json.getInt("endX"), json.getInt("endY"), json.getBoolean("visible"));
         }
         else{
-            returnedAction = new SpriteActionImp(sprite, time, -1, json.getInt("endX"), json.getInt("endY"), json.getBoolean("visible"));
+            returnedAction = new SpriteActionImp(sprite, time, -1, 0, 0, json.getBoolean("visible"));
         }
 
         // Postcondition
