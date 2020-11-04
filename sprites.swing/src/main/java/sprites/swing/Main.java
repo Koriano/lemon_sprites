@@ -62,7 +62,7 @@ public class Main implements ActionListener {
     private final static long delay = 17;//17 ms for 60 frames/s~
 
     /**
-     * Total duration of the scene in milliseconds
+     * Total duration of the schedulers in milliseconds
      */
     private final static long totalDuration = 150000;
 
@@ -116,7 +116,7 @@ public class Main implements ActionListener {
 
 
 
-            // If movie successfully loaded, create window and scheduler -> starts the graphical application
+            // If movie successfully loaded, create window and engines -> starts the graphical application
             if (movie != null) {
                 // If the spriteEngine is already started
                 if (spritesEngine != null) {
