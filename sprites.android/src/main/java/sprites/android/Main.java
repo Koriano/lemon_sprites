@@ -49,7 +49,7 @@ public class Main extends AppCompatActivity {
     /**
      * Refresh rate of the scheduler in milliseconds
      */
-    private final static long delay = 17;//17 ms for 60 frames/s~
+    private final static long delay = 80;//17 ms for 60 frames/s~
 
     /**
      * Total duration of the schedulers in milliseconds
