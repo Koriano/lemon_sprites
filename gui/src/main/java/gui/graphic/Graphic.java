@@ -1,12 +1,9 @@
 package gui.graphic;
 
-
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
  *
  * A class to display snapshots on a graphic interface
- *
- * @inv this.height > 0 && this.width > 0
  */
 
 public interface Graphic {
@@ -15,6 +12,7 @@ public interface Graphic {
    * This method displays a snapshot on a graphic interface.
    *
    * @pre snapshot != null
+   *
    * @param snapshot : a snapshot composed of snapshot layers
    */
    

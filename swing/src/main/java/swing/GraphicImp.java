@@ -5,16 +5,14 @@ import gui.graphic.Snapshot;
 import gui.graphic.SnapshotLayer;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * @author Margaux SCHNELZAUER, Mathis RACINNE-DIVET
+ *
  * Class to implement graphic interface
  *
- * @author Margaux SCHNELZAUER, Mathis RACINNE-DIVET
  * @see gui.graphic.Graphic
- *
- * @inv this.height > 0 && this.width > 0
  */
 
 public class GraphicImp extends JFrame implements Graphic {
@@ -26,6 +24,7 @@ public class GraphicImp extends JFrame implements Graphic {
 
     /**
      * Constructor of the class
+     *
      * @pre menuListener != null
      */
     public GraphicImp(ActionListener menuListener){
@@ -57,44 +56,41 @@ public class GraphicImp extends JFrame implements Graphic {
     @Override
     public void displaySnapshot(Snapshot snapshot) {
 
-        if(snapshot != null) {
-            this.contentPanel.removeAll();
-            SnapshotLayer[] layers = snapshot.getSnapshotLayers();
-            int length = layers.length;
+        assert snapshot != null: "Precondition violated";
 
-            this.setSize(layers[0].getImage().getWidth(), layers[0].getImage().getHeight());
+        this.contentPanel.removeAll();
+        SnapshotLayer[] layers = snapshot.getSnapshotLayers();
+        int length = layers.length;
 
-            for (int i = 0; i < length; i++) {
+        this.setSize(layers[0].getImage().getWidth(), layers[0].getImage().getHeight());
 
-                // get the parameters
-                int x = layers[i].getX();
-                int y = layers[i].getY();
-                ImageImp image = (ImageImp) layers[i].getImage();
+        for (int i = 0; i < length; i++) {
 
-                JLabel labelImage = new JLabel(new ImageIcon(image.getLoadedImage()));
-                labelImage.setBounds(x, y, image.getWidth(), image.getHeight());
+            // get the parameters
+            int x = layers[i].getX();
+            int y = layers[i].getY();
+            ImageImp image = (ImageImp) layers[i].getImage();
 
-                this.contentPanel.add(labelImage, i, 1);
-            }
+            JLabel labelImage = new JLabel(new ImageIcon(image.getLoadedImage()));
+            labelImage.setBounds(x, y, image.getWidth(), image.getHeight());
+
+            this.contentPanel.add(labelImage, i, 1);
         }
     }
 
     /**
      * Return the window height
      *
-     * @pre this.height > 0
+     * @pre super.getHeight() > 0
+     *
      * @return The window height
      */
     @Override
     public int getHeight(){
-        int h = 0;
 
-        if(super.getHeight() > 0) {
-            h = super.getHeight();
-        }
-        else{
-            System.out.println("The window height can't be negative");
-        }
+        assert super.getHeight() > 0 : "Precondition violated";
+
+        int h = super.getHeight();
 
         return h;
     }
@@ -103,19 +99,16 @@ public class GraphicImp extends JFrame implements Graphic {
     /**
      * Return the window width
      *
-     * @pre this.width > 0
+     * @pre super.getWidth() > 0
+     *
      * @return The window width
      */
     @Override
     public int getWidth(){
-        int w = 0;
 
-        if(super.getWidth() > 0) {
-            w = super.getWidth();
-        }
-        else{
-            System.out.println("The window width can't be negative");
-        }
+        assert super.getWidth() > 0: "Precondition violated";
+
+        int w = super.getWidth();
 
         return w;
     }

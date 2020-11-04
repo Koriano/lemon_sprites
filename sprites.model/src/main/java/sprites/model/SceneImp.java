@@ -8,6 +8,8 @@ import java.util.ArrayList;
  *
  * @author Margaux SCHNELZAUER
  * @see sprites.model.Scene
+ *
+ * @inv this.spritesList.size() > 0 && this.background != null
  */
 
 public class SceneImp implements Scene{
@@ -28,21 +30,35 @@ public class SceneImp implements Scene{
      *
      * @param spritesList : a list of snapshot
      * @param background : the background of the scene
+     *
+     * @pre spritesList.size() > 0 && background != null
      */
     public SceneImp(ArrayList<Sprite> spritesList, Image background){
+
+        assert spritesList.size() > 0 && background != null: "Precondition violated";
+
         this.spritesList = spritesList;
         this.background = background;
+
+        invariant();
+    }
+
+    /**
+     * Invariant of the class
+     */
+    private void invariant(){
+        assert this.spritesList.size() > 0 && this.background != null: "Invariant violated";
     }
 
 
     /**
-     * Return the snapshot at the given time
+     * Method to get the snapshot at the time t=millis
      *
      * @pre millis >= 0
      * @post result != null
      *
      * @param millis: the time at which you want the sprite image (in milliseconds)
-     * @return the image at the given time
+     * @return the Snapshot corresponding at the time millis
      */
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
@@ -75,6 +91,8 @@ public class SceneImp implements Scene{
         // create a snapshot
         Snapshot currentSnapshot = new SnapshotImp(layers);
 
+        invariant();
+
         // post condition
         assert currentSnapshot != null : "Postcondition violated";
         return currentSnapshot;
@@ -83,15 +101,18 @@ public class SceneImp implements Scene{
 
 
     /**
-     * Give the background of the scene
+     * Get the background of the scene
      *
-     * @return the background of the scene
      * @post result != null
+     *
+     * @return the Image background of the scene
      */
     @Override
     public Image getBackground() {
 
         Image background = this.background;
+
+        invariant();
 
         // post condition
         assert background != null : "Postcondition violated";
@@ -108,6 +129,7 @@ public class SceneImp implements Scene{
      */
     @Override
     public ArrayList<Sprite> getSprites() {
+        invariant();
         return this.spritesList;
     }
 }

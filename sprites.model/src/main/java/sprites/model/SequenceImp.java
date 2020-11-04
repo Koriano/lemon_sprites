@@ -10,6 +10,8 @@ import java.util.HashMap;
  * A class to implement Sequence interface
  *
  * @see sprites.model.Sequence
+ *
+ * @inv this.background != null && this.sprites != null && this.sprites.size() > 0 && this.actions != null && this.duration > 0
  */
 public class SequenceImp implements Sequence{
 
@@ -44,16 +46,27 @@ public class SequenceImp implements Sequence{
      * @param sprites : the list of the sprites composing the sequence
      * @param actions : the liste of the actions related to the sprites in the sequence
      * @param duration : the duration of the sequence
+     *
+     * @pre background != null && sprites != null && sprites.size() > 0 && actions != null && duration > 0
      */
     public SequenceImp(Image background, ArrayList<Sprite> sprites, HashMap<String,ArrayList<SpriteAction>> actions, long duration){
+
+        assert background != null && sprites != null && sprites.size() > 0 && actions != null && duration > 0: "Precondition violated";
 
         this.actions = actions;
         this.background = background;
         this.sprites = sprites;
         this.duration = duration;
 
+        invariant();
     }
 
+    /**
+     * Invariant of the class
+     */
+    private void invariant(){
+        assert this.background != null && this.sprites != null && this.sprites.size() > 0 && this.actions != null && this.duration > 0: "Invariant violated";
+    }
 
 
     /**
@@ -69,7 +82,7 @@ public class SequenceImp implements Sequence{
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
         // pre condition
-        assert millis >= 0 : "Precondition violated";
+        assert millis >= 0 && millis <= this.duration : "Precondition violated";
 
         // get the sprites and actions array
         HashMap<String,ArrayList<SpriteAction>> actionsMap = this.actions;
@@ -164,11 +177,17 @@ public class SequenceImp implements Sequence{
     /**
      * Get the background of the sequence
      *
+     * @pre this.background != null && !"".equals(this.background)
+     *
      * @return the background of the sequence
      */
     @Override
     public Image getBackground() {
+
+        assert this.background != null && !"".equals(this.background): "Precondition violated";
+
         invariant();
+
         return this.background;
     }
 
@@ -176,11 +195,17 @@ public class SequenceImp implements Sequence{
     /**
      * Returns the total duration of the sequence
      *
+     * @pre this.duration > 0
+     *
      * @return the total duration of the sequence
      */
     @Override
     public long getDuration() {
+
+        assert this.duration > 0: "Precondition violated";
+
         invariant();
+
         return this.duration;
     }
 
@@ -208,13 +233,4 @@ public class SequenceImp implements Sequence{
         return this.actions;
     }
 
-
-    /**
-     * Check if the invariant condition is verified
-     */
-    private void invariant(){
-        assert this.background != null : "Invariant violated";
-        assert ((this.sprites.size() > 0 && this.actions.size() > 0) || ( this.sprites.size() == 0 && this.actions.size() == 0)) : "Invariant violated" ;
-        assert this.duration > 0 : "invariant violated";
-    }
 }

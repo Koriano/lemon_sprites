@@ -20,23 +20,39 @@ public class SnapshotImp implements Snapshot {
      * The constructor of the gui.graphic.SnapshotImp class.
      * It receives an array of snapshots layers that compose this snapshot
      *
-     * @param layers The array of SnapshotLayerImp instances that compose this snapshot.
      * @pre layers != null && layers.length > 0
+     *
+     * @param layers The array of SnapshotLayerImp instances that compose this snapshot.
      */
     public SnapshotImp(SnapshotLayer[] layers) {
-        if (layers != null && layers.length > 0) {
-            this.snapshotLayers = layers;
-        }
+        assert layers != null && layers.length > 0: "Precondition violated";
+
+        this.snapshotLayers = layers;
+
+        invariant();
+    }
+
+    /**
+     * Invariant of the class
+     */
+    private void invariant(){
+        assert this.snapshotLayers.length > 0: "Invariant violated";
     }
 
     /**
      * This method returns the layers of the snapshot
      *
-     * @pre this.snapshotLayers.size() > 0
+     * @pre this.snapshotLayers.length > 0
+     *
      * @return the layers of the snapshot
      */
     @Override
     public SnapshotLayer[] getSnapshotLayers() {
+
+        assert this.snapshotLayers.length > 0: "Precondition violated";
+
+        invariant();
+
         return this.snapshotLayers;
     }
 }

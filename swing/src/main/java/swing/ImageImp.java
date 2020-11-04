@@ -1,9 +1,7 @@
 package swing;
 import gui.graphic.Image;
 
-import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
-
 
 /**
  * The implementation of the ImageImp interface
@@ -11,7 +9,7 @@ import java.awt.image.BufferedImage;
  * @author Margaux SCHNELZAUER
  * @see gui.graphic.Image
  *
- * @inv this.loadedImage.getHeight() >= 0 && this.loadedImage.getWidth() >= 0 && this.name != null &&!(this.name.equals(""))
+ * @inv this.loadedImage.getHeight() >= 0 && this.loadedImage.getWidth() >= 0
  */
 
 public class ImageImp implements Image {
@@ -29,37 +27,54 @@ public class ImageImp implements Image {
     /**
      * Constructor of the image
      *
-     * @pre image != null && name != null
+     * @pre image != null
+     *
      * @param image The loaded image
      */
     public ImageImp(BufferedImage image){
         assert image != null;
         this.loadedImage = image;
+
+        invariant();
+    }
+
+    /**
+     * Invariant of the class
+     */
+    private void invariant(){
+        assert this.loadedImage.getHeight() >= 0 && this.loadedImage.getWidth() >= 0:
+                "Invariant violated";
     }
 
 
     /**
      * Set the image name
      *
-     * @param name : the image name
      * @pre name != null && !"".equals(name)
+     *
+     * @param name: the image name
      */
     @Override
     public void setName(String name) {
         assert name != null && !"".equals(name);
 
         this.name = name;
+
+        invariant();
     }
 
     /**
      * Return the image height
      *
      * @pre this.loadedImage.getHeight() >= 0
+     *
      * @return The image height
      */
     @Override
     public int getHeight() {
         assert this.loadedImage.getHeight() >= 0;
+
+        invariant();
 
         return this.loadedImage.getHeight();
     }
@@ -69,11 +84,14 @@ public class ImageImp implements Image {
      * Return the image width
      *
      * @pre this.loadedImage.getWidth() >= 0
+     *
      * @return The image width
      */
     @Override
     public int getWidth() {
         assert this.loadedImage.getWidth() >= 0;
+
+        invariant();
 
         return this.loadedImage.getWidth();
     }
@@ -83,11 +101,14 @@ public class ImageImp implements Image {
      * Return the image name
      *
      * @pre this.name != null && !"".equals(this.name)
+     *
      * @return The image name
      */
     @Override
     public String getName() {
         assert this.name != null && !"".equals(this.name);
+
+        invariant();
 
         return this.name;
     }
@@ -96,10 +117,13 @@ public class ImageImp implements Image {
      * Gives the loaded image
      *
      * @pre this.loadedImage != null
+     *
      * @return the loaded image
      */
     public BufferedImage getLoadedImage(){
         assert this.loadedImage != null;
+
+        invariant();
 
         return this.loadedImage;
     }

@@ -65,8 +65,12 @@ public class SpriteActionImp implements SpriteAction{
      * @param endX the end X coordinate of the action
      * @param endY the end Y coordinate of the action
      * @param isVisible the visibility of the action
+     *
+     * @pre sprite != null && !"".equals(sprite) && time >= 0 && endTime >= 0
      */
     public SpriteActionImp(String sprite, long time, long endTime, int endX, int endY, boolean isVisible) {
+        assert sprite != null && !"".equals(sprite) && time >= 0 && endTime >= 0: "Precondition violated";
+
         this.endX = endX;
         this.endY = endY;
         this.startTime = time;
@@ -80,7 +84,7 @@ public class SpriteActionImp implements SpriteAction{
     /**
      * To update a sprite position depending on the time passed
      *
-     * @pre sprite != null && millis >= 0 && millis >= this.time && millis <= this.endTime
+     * @pre sprite != null && millis >= 0 && millis >= this.startTime && millis <= this.endTime
      *
      * @param sprite: the sprite to be updated
      * @param millis: the current time to get position
@@ -90,7 +94,7 @@ public class SpriteActionImp implements SpriteAction{
     @Override
     public Sprite updateSprite(Sprite sprite, long millis) {
 
-        assert sprite != null && millis >= 0 && millis >= this.startTime && millis <= this.endTime : sprite + " " + millis + " " + this.startTime + " " + this.endTime;
+        assert sprite != null && millis >= 0 && millis >= this.startTime && millis <= this.endTime: "Precondition violated";
 
         // interval calculation
         int deltaX = this.endX - this.startX;
@@ -209,6 +213,11 @@ public class SpriteActionImp implements SpriteAction{
 
     /**
      * Set the start and end coordinate of the sprite
+     *
+     * @param startX: start X coordinate
+     * @param startY: start Y coordinate
+     * @param endX: end X coordinate
+     * @param endY: end Y coordinate
      */
     @Override
     public void setCoordinate(int startX, int startY, int endX, int endY) {
@@ -240,7 +249,6 @@ public class SpriteActionImp implements SpriteAction{
      * Sets the state of achievement of the action, i.e. if the action has been consumed
      *
      * @param isConsumed
-     * @return the state of achievement of the action, i.e. if the action has been consumed
      */
     @Override
     public void setConsumed(boolean isConsumed) {

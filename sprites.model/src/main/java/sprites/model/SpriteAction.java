@@ -90,7 +90,10 @@ public interface SpriteAction {
     /**
      * Set the start and end coordinate of the sprite
      *
-     * @return the new coordinate
+     * @param startX: start X coordinate
+     * @param startY: start Y coordinate
+     * @param endX: end X coordinate
+     * @param endY: end Y coordinate
      */
     public void setCoordinate(int startX, int startY, int endX, int endY);
 

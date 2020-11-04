@@ -9,6 +9,8 @@ import java.util.ArrayList;
  *
  * @author Margaux SCHNELZAUER
  * @see sprites.model.Sprite
+ *
+ * @inv this.imageList.size() > 0 && this.totalDuration >= 0 && this.name != null && this.x >=0 && this.y >= 0 && this.imageList != null
  */
 
 public class SpriteImp implements Sprite{
@@ -53,27 +55,37 @@ public class SpriteImp implements Sprite{
      * @param isVisible : whether the sprite is displayed or not
      * @param imageList : a list of images
      * @param totalDuration : the total duration of the sprite
-     * @pre name != null && x >= 0 && y >= 0 && imageList != null && imageList.size() > 0 && totalDuration >= 0
+     *
+     * @pre name != null && imageList != null && imageList.size() > 0 && totalDuration >= 0
      */
     public SpriteImp(String name, int x, int y, boolean isVisible, ArrayList<Image> imageList, long totalDuration){
-        assert name != null && imageList != null && imageList.size() > 0 && totalDuration >= 0: name + " " + x + " " + y + " " + imageList + " " + imageList.size() + " " + totalDuration;
+        assert name != null && imageList != null && imageList.size() > 0 && totalDuration >= 0 : "Precondition violated";
         this.name = name;
         this.x = x;
         this.y = y;
         this.isVisible = isVisible;
         this.imageList = imageList;
         this.totalDuration = totalDuration;
+
+        invariant();
     }
 
+    /**
+     * Invariant of the class
+     */
+    private void invariant(){
+        assert this.imageList.size() > 0 && this.totalDuration >= 0 && this.name != null && this.x >=0 && this.y >= 0 && this.imageList != null: "Invariant violated";
+    }
 
     /**
      * Return the image at the given time
      *
      * @pre millis >= 0
+     * @post Image != null
+     *
      * @param millis: the time at which you want the sprite image (in milliseconds)
      *
      * @return the current image
-     * @post Image != null
      */
     @Override
     public Image getCurrentImage(long millis) {
@@ -84,21 +96,24 @@ public class SpriteImp implements Sprite{
         int index = (int) ((millis%this.totalDuration)*this.imageList.size()/this.totalDuration);
         Image currentImage = this.imageList.get(index);
 
+        invariant();
         assert currentImage != null : "Precondition violated";
         return currentImage;
     }
 
     /**
-     * Give the name of the sprite
+     * Get the name of the sprite
      *
-     * @return the name of the sprite
      * @post result != null
+     *
+     * @return the name of the Sprite
      */
     @Override
     public String getName() {
 
         String name = this.name;
 
+        invariant();
         assert name != null : "Postcondition violated";
         return name;
     }
@@ -111,13 +126,13 @@ public class SpriteImp implements Sprite{
      */
     @Override
     public boolean isVisible() {
+        invariant();
         return this.isVisible;
     }
 
 
     /**
      * Get the X position of the sprite
-     *
      *
      * @return x position of the sprite
      */
@@ -126,6 +141,7 @@ public class SpriteImp implements Sprite{
 
         int x = this.x;
 
+        invariant();
         return x;
     }
 
@@ -133,13 +149,14 @@ public class SpriteImp implements Sprite{
     /**
      * Get the Y position of the sprite
      *
-     *
      * @return y position of the sprite
      */
     @Override
     public int getY() {
+
         int y = this.y;
 
+        invariant();
         return y;
     }
 
@@ -156,6 +173,7 @@ public class SpriteImp implements Sprite{
 
         ArrayList<Image> imageList = this.imageList;
 
+        invariant();
         assert imageList != null : "Postcondition violated";
         return imageList;
     }
@@ -172,6 +190,7 @@ public class SpriteImp implements Sprite{
     public long getDuration() {
         long totalDuration = this.totalDuration;
 
+        invariant();
         assert totalDuration >= 0 : "Postcondition violated";
         return totalDuration;
 

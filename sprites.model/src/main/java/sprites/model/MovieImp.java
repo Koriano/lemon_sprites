@@ -23,22 +23,33 @@ public class MovieImp implements Movie{
     /**
      * The constructor of the class
      *
+     * @pre sequences.size() > 0
+     *
      * @param sequences
      */
     public MovieImp(ArrayList<Sequence> sequences){
+
+        assert sequences.size() > 0: "Precondition violated";
+
         this.sequences = sequences;
+
+        invariant();
     }
 
 
     /**
      * Get the snapshot at the current time passed
      *
+     * @pre millis >= 0
+     *
      * @param millis: the current time
      *
-     * @return the current snapshot, or null if millis is greater than the movie's length
+     * @return the current snapshot
      */
     @Override
     public Snapshot getCurrentSnapshot(long millis) {
+
+        assert millis >= 0: "Precondition violated";
 
         ArrayList<Sequence> seqList = this.sequences;
         int length = seqList.size();
