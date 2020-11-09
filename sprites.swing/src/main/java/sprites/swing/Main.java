@@ -11,6 +11,7 @@ import sprites.model.json.SceneJsonConverter;
 import swing.GraphicImp;
 import swing.ImageLoaderImp;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -131,7 +132,7 @@ public class Main implements ActionListener {
 
                 // Displaying snapshot
                 if (graphic == null) {
-                    graphic = new GraphicImp(listener);
+                    graphic = new GraphicImp(listener, 100);
                 }
 
                 SingleObjectHolderImp<Snapshot> snapshotHolder = new SingleObjectHolderImp<>();
