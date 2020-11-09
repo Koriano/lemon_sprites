@@ -14,13 +14,14 @@ public interface Game {
     /**
      * A method to get the current snapshot, depending on the current time
      *
-     * @param millis: the current time
+     * @param millis the current time
+     * @param directionAction the direction action of the player
      *
      * @return the current snapshot
      *
-     * @pre millis >= 0
+     * @pre millis >= 0 && directionAction != null
      */
-    public Snapshot getCurrentSnapshot(long millis);
+    public Snapshot getCurrentSnapshot(long millis, DirectionAction directionAction);
 
     /**
      * A method to set the player sprite
