@@ -86,4 +86,21 @@ public interface Sprite {
      * @return the sprite duration
      */
     public long getDuration();
+
+
+    /**
+     * Set a new X coordinate
+     *
+     * @param X new x coordinate
+     */
+    public void setX(int X);
+
+
+    /**
+     * Set a new Y coordinate
+     *
+     * @param Y new y coordinate
+     */
+    public void setY(int Y);
+
 }
