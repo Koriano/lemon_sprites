@@ -3,26 +3,28 @@ package sprites.swing;
 import gui.graphic.GraphicEngine;
 import gui.graphic.Image;
 import gui.graphic.Snapshot;
+import sprites.model.DirectionEvent;
 import sprites.model.Movie;
 import sprites.model.SingleObjectHolderImp;
 import sprites.model.SpritesEngine;
 import sprites.model.json.MovieJsonConverter;
-import sprites.model.json.SceneJsonConverter;
 import swing.GraphicImp;
 import swing.ImageLoaderImp;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import sprites.model.Scene;
 import swing.sync.SchedulerSwing;
+import util.events.EventsListener;
+import util.events.EventsSource;
 import util.io.ZipLoaderImp;
-import util.sync.Scheduler;
-import util.sync.SchedulerListener;
 import util.sync.SchedulerUtil;
 
 import javax.swing.*;
@@ -34,7 +36,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * The main class for the swing version of LemonSprites
  */
 
-public class Main implements ActionListener {
+public class Main implements ActionListener, EventsSource, KeyListener {
 
     /**
      * The path of the zip file to load
@@ -71,6 +73,17 @@ public class Main implements ActionListener {
      */
     private final static Main listener = new Main();
 
+    /**
+     * The array of listeners that listen to DirectionEvents
+     */
+    private final static ArrayList<EventsListener> eventsListeners = new ArrayList<>();
+
+    /**
+     * The keyboard key that has been pressed by the player
+     */
+    private static int lastKeyCode = -1;
+
+
     public static void main(String[] args){
         // Loading zip
         showFileChooser();
@@ -88,7 +101,6 @@ public class Main implements ActionListener {
             loadZip();
         }
     }
-
 
     /**
      * Loads the zip file and starts the movie
@@ -132,6 +144,7 @@ public class Main implements ActionListener {
                 // Displaying snapshot
                 if (graphic == null) {
                     graphic = new GraphicImp(listener);
+                    graphic.addKeyListener(new Main());
                 }
 
                 SingleObjectHolderImp<Snapshot> snapshotHolder = new SingleObjectHolderImp<>();
@@ -151,7 +164,6 @@ public class Main implements ActionListener {
                 graphicEngine.start();
 
             }
-
         }
     }
 
@@ -165,4 +177,97 @@ public class Main implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         showFileChooser();
     }
+
+    /**
+     * To fire an event to every register
+     */
+    @Override
+    public void notifyListeners() {
+
+        if (lastKeyCode != -1) {
+            switch (lastKeyCode){
+                case KeyEvent.VK_LEFT:
+                    for (EventsListener el : eventsListeners) {
+                        el.actionPerformed(new DirectionEvent("left"));
+                    }
+                    break;
+
+                case KeyEvent.VK_RIGHT:
+                    for (EventsListener el : eventsListeners) {
+                        el.actionPerformed(new DirectionEvent("right"));
+                    }
+                    break;
+
+                case KeyEvent.VK_UP:
+                    for (EventsListener el : eventsListeners) {
+                        el.actionPerformed(new DirectionEvent("up"));
+                    }
+                    break;
+
+                case KeyEvent.VK_DOWN:
+                    for (EventsListener el : eventsListeners) {
+                        el.actionPerformed(new DirectionEvent("down"));
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * To register a new listener to the subscriber list
+     *
+     * @param listener : the new listener
+     * @pre listener != null
+     */
+    @Override
+    public void register(EventsListener listener) {
+        assert listener != null;
+        eventsListeners.add(listener);
+    }
+
+    /**
+     * To unregister a listener from the subscriber list
+     *
+     * @param listener : the listener to unsubscribe
+     * @pre listener != null
+     */
+    @Override
+    public void unregister(EventsListener listener) {
+        assert listener != null;
+        eventsListeners.remove(listener);
+    }
+
+    /**
+     * Invoked when a key has been typed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key typed event.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    /**
+     * Invoked when a key has been pressed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key pressed event.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+        lastKeyCode = e.getKeyCode();
+        notifyListeners();
+        lastKeyCode = -1;
+    }
+
+    /**
+     * Invoked when a key has been released.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key released event.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {}
 }

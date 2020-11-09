@@ -1,4 +1,7 @@
-package util.engine;
+package util.events;
+
+import util.events.Event;
+import util.events.EventsListener;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
@@ -19,7 +22,7 @@ public interface EventsSource {
      *
      * @pre listener != null
      */
-    public void register(EventsListener listener);
+    public void register(util.events.EventsListener listener);
 
     /**
      * To unregister a listener from the subscriber list
