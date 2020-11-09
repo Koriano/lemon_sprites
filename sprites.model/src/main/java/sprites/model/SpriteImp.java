@@ -195,4 +195,25 @@ public class SpriteImp implements Sprite{
         return totalDuration;
 
     }
+
+    /**
+     * Set a new X coordinate
+     *
+     * @param X new x coordinate
+     */
+    @Override
+    public void setX(int X) {
+        this.x = X;
+    }
+
+    
+    /**
+     * Set a new Y coordinate
+     *
+     * @param Y new y coordinate
+     */
+    @Override
+    public void setY(int Y) {
+        this.y = Y;
+    }
 }
