@@ -11,6 +11,7 @@ import sprites.model.json.MovieJsonConverter;
 import swing.GraphicImp;
 import swing.ImageLoaderImp;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -143,7 +144,7 @@ public class Main implements ActionListener, EventsSource, KeyListener {
 
                 // Displaying snapshot
                 if (graphic == null) {
-                    graphic = new GraphicImp(listener);
+                    graphic = new GraphicImp(listener, 100);
                     graphic.addKeyListener(new Main());
                 }
 
