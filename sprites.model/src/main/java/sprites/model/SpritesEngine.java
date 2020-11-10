@@ -1,5 +1,7 @@
 package sprites.model;
 
+import java.util.ArrayList;
+
 import gui.graphic.Snapshot;
 import util.engine.PeriodicEngine;
 import util.engine.SingleObjectHolder;
@@ -14,9 +16,14 @@ import util.engine.SingleObjectHolder;
 public class SpritesEngine extends PeriodicEngine {
 
     /**
-     * The movie that builds the snapshot given a specific time
+     * The game that builds the snapshot given a specific time and player direction
      */
-    private final Movie movie;
+    private final Game game;
+
+    /**
+     * The queue containing all the pending user movements
+     */
+    private ArrayList<String> directionsQueue;
 
     /**
      * The singleObjectHolder that holds the Snapshot waiting to be displayed
@@ -31,14 +38,17 @@ public class SpritesEngine extends PeriodicEngine {
 
     /**
      * Constructor of the SpritesEngine
-     * @param movie the movie that builds the snapshot given a specific time
+     * @param game the game that builds the snapshot given a specific time
      * @param snapshotHolder the singleObjectHolder that holds the Snapshot waiting to be displayed
+     * @param directionsQueue the queue containing all the pending user movements
+     * @pre game != null && snapshotHolder != null && directionsQueue != null
      */
-    public SpritesEngine(Movie movie, SingleObjectHolder<Snapshot> snapshotHolder) {
-        assert movie != null && snapshotHolder != null;
+    public SpritesEngine(Game game, SingleObjectHolder<Snapshot> snapshotHolder, ArrayList<String> directionsQueue) {
+        assert game != null && snapshotHolder != null && directionsQueue != null;
 
-        this.movie = movie;
+        this.game = game;
         this.snapshotHolder = snapshotHolder;
+        this.directionsQueue = directionsQueue;
         this.lastTrigger = 0;
     }
 
@@ -49,9 +59,9 @@ public class SpritesEngine extends PeriodicEngine {
      */
     @Override
     public void update() {
-        assert this.movie != null && this.snapshotHolder != null;
+        assert this.game != null && this.snapshotHolder != null;
 
-        Snapshot snapshot = this.movie.getCurrentSnapshot(this.lastTrigger);
+        Snapshot snapshot = this.game.getCurrentSnapshot(this.lastTrigger, this.directionsQueue.remove(0));
         if (snapshot !=  null) {
             this.snapshotHolder.setObject(snapshot);
 

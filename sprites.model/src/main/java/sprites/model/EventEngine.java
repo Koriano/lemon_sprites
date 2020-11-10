@@ -8,13 +8,13 @@ import util.events.EventsListener;
 
 public class EventEngine implements EventsListener, Engine {
 
-    private ArrayList<DirectionAction> queue;
-    private DirectionAction currentAction;
+    private ArrayList<String> queue;
+    private String currentDirection;
 
-    public EventEngine(ArrayList<DirectionAction> queue) {
+    public EventEngine(ArrayList<String> queue) {
         assert queue != null;
         this.queue = queue;
-        this.currentAction = null;
+        this.currentDirection = null;
     }
 
 
@@ -22,12 +22,12 @@ public class EventEngine implements EventsListener, Engine {
      * The action performed when an event is triggered
      *
      * @param evt : the event published
-     * @pre evt != null && "up".equals(evt.getDirection()) || "down".equals(evt.getDirection()) || "left".equals(evt.getDirection()) || "right".equals(evt.getDirection())
+     * @pre evt != null && ("up".equals(evt.getDirection()) || "down".equals(evt.getDirection()) || "left".equals(evt.getDirection()) || "right".equals(evt.getDirection()))
      */
     @Override
     public void actionPerformed(Event evt) {
-
-        this.currentAction = new DirectionAction();
+        assert evt != null && ("up".equals(evt.getDirection()) || "down".equals(evt.getDirection()) || "left".equals(evt.getDirection()) || "right".equals(evt.getDirection()));
+        this.currentDirection = evt.getDirection();
         this.update();
     }
 
@@ -36,9 +36,9 @@ public class EventEngine implements EventsListener, Engine {
      */
     @Override
     public void update() {
-        if (this.currentAction != null) {
-            this.queue.add(this.currentAction);
-            this.currentAction = null;
+        if (this.currentDirection != null) {
+            this.queue.add(this.currentDirection);
+            this.currentDirection = null;
         }
     }
 }
