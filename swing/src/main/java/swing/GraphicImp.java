@@ -23,6 +23,8 @@ public class GraphicImp extends JFrame implements Graphic {
     private JMenu fileMenu;
     private JMenuItem importMenuItem;
 
+    private int viewSize;
+
     /**
      * Constructor of the class
      *
@@ -44,7 +46,7 @@ public class GraphicImp extends JFrame implements Graphic {
 
         this.setContentPane(this.contentPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(size, size));
+        this.viewSize = size;
         this.setVisible(true);
     }
 
@@ -64,7 +66,7 @@ public class GraphicImp extends JFrame implements Graphic {
         SnapshotLayer[] layers = snapshot.getSnapshotLayers();
         int length = layers.length;
 
-        //this.setSize(layers[0].getImage().getWidth(), layers[0].getImage().getHeight());
+        this.setSize(this.viewSize, layers[0].getImage().getHeight());
 
         for (int i = 0; i < length; i++) {
 

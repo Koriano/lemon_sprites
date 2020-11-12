@@ -4,6 +4,7 @@ import gui.graphic.Image;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sprites.model.Game;
+import sprites.model.GameImp;
 import sprites.model.Sequence;
 import util.json.JsonConverter;
 
@@ -95,11 +96,6 @@ public class GameJsonConverter implements JsonConverter<Game> {
 
         assert json != null && json.has("player") && json.has("width") && json.has("sequences"): "Precondition violated";
 
-        Game returnedGame = null;
-
-        // Get properties from json
-        returnedGame.setPlayerSprite(this.spriteJsonConverter.convertFromJson(json.getJSONObject("player")));
-        returnedGame.setWidth(json.getInt("width"));
 
         // Iterate over sequences
         JSONArray jsonSequences = json.getJSONArray("sequences");
@@ -109,7 +105,7 @@ public class GameJsonConverter implements JsonConverter<Game> {
             sequences.add(this.sequenceJsonConverter.convertFromJson(jsonSequences.getJSONObject(i)));
         }
 
-        returnedGame.setSequences(sequences);
+        Game returnedGame = new GameImp(this.spriteJsonConverter.convertFromJson(json.getJSONObject("player")), sequences, json.getInt("width"));
 
         invariant();
 

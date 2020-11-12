@@ -2,6 +2,7 @@ package sprites.model;
 
 import gui.graphic.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -11,7 +12,7 @@ import java.util.HashMap;
  *
  * @see sprites.model.Sequence
  *
- * @inv this.background != null && this.sprites != null && this.sprites.size() > 0 && this.actions != null && this.duration > 0
+ * @inv this.background != null && this.sprites != null && this.actions != null && this.duration > 0
  */
 public class SequenceImp implements Sequence{
 
@@ -47,11 +48,11 @@ public class SequenceImp implements Sequence{
      * @param actions : the liste of the actions related to the sprites in the sequence
      * @param duration : the duration of the sequence
      *
-     * @pre background != null && sprites != null && sprites.size() > 0 && actions != null && duration > 0
+     * @pre background != null && sprites != null && actions != null && duration > 0
      */
     public SequenceImp(Image background, ArrayList<Sprite> sprites, HashMap<String,ArrayList<SpriteAction>> actions, long duration){
 
-        assert background != null && sprites != null && sprites.size() > 0 && actions != null && duration > 0: "Precondition violated";
+        assert background != null && sprites != null && actions != null && duration > 0: background + " " + sprites + " " + actions + " " + duration;
 
         this.actions = actions;
         this.background = background;
@@ -65,7 +66,7 @@ public class SequenceImp implements Sequence{
      * Invariant of the class
      */
     private void invariant(){
-        assert this.background != null && this.sprites != null && this.sprites.size() > 0 && this.actions != null && this.duration > 0: "Invariant violated";
+        assert this.background != null && this.sprites != null && this.actions != null && this.duration > 0: "Invariant violated";
     }
 
 

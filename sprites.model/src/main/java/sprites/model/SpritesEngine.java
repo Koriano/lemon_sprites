@@ -1,5 +1,7 @@
 package sprites.model;
 
+import java.util.ArrayList;
+
 import gui.graphic.Snapshot;
 import util.engine.PeriodicEngine;
 import util.engine.SingleObjectHolder;
@@ -14,9 +16,14 @@ import util.engine.SingleObjectHolder;
 public class SpritesEngine extends PeriodicEngine {
 
     /**
-     * The movie that builds the snapshot given a specific time
+     * The game that builds the snapshot given a specific time and player direction
      */
-    private final Movie movie;
+    private final Game game;
+
+    /**
+     * The queue containing all the pending user movements
+     */
+    private ArrayList<String> directionsQueue;
 
     /**
      * The singleObjectHolder that holds the Snapshot waiting to be displayed
@@ -28,38 +35,52 @@ public class SpritesEngine extends PeriodicEngine {
      */
     private long lastTrigger;
 
+    /**
+     * The speed of player sprite
+     */
+    public static float SPEED_OF_PLAYER_SPRITE = 0.5f;
+
 
     /**
      * Constructor of the SpritesEngine
-     * @param movie the movie that builds the snapshot given a specific time
+     * @param game the game that builds the snapshot given a specific time
      * @param snapshotHolder the singleObjectHolder that holds the Snapshot waiting to be displayed
+     * @param directionsQueue the queue containing all the pending user movements
+     * @pre game != null && snapshotHolder != null && directionsQueue != null
      */
-    public SpritesEngine(Movie movie, SingleObjectHolder<Snapshot> snapshotHolder) {
-        assert movie != null && snapshotHolder != null;
+    public SpritesEngine(Game game, SingleObjectHolder<Snapshot> snapshotHolder, ArrayList<String> directionsQueue) {
+        assert game != null && snapshotHolder != null && directionsQueue != null;
 
-        this.movie = movie;
+        this.game = game;
         this.snapshotHolder = snapshotHolder;
+        this.directionsQueue = directionsQueue;
         this.lastTrigger = 0;
     }
 
 
     /**
      * Retrieve the current snapshot from the movie, then stores it in the snapshotHolder waiting to be displayed
-     * @pre this.movie != null && this.snaphotHolder != null
+     * @pre this.movie != null && this.snapshotHolder != null
      */
     @Override
     public void update() {
-        assert this.movie != null && this.snapshotHolder != null;
+        assert this.game != null && this.snapshotHolder != null;
 
-        Snapshot snapshot = this.movie.getCurrentSnapshot(this.lastTrigger);
+        //System.out.println(this.directionsQueue);
+        //System.out.println(this.directionsQueue.size());
+
+        if (this.directionsQueue.size() > 0) {
+            String newDirection = this.directionsQueue.remove(0);
+            DirectionAction dirAction = new DirectionAction(newDirection, this.lastTrigger, SPEED_OF_PLAYER_SPRITE);
+            this.game.setPlayerAction(dirAction);
+        }
+
+        Snapshot snapshot = this.game.getCurrentSnapshot(this.lastTrigger);
         if (snapshot !=  null) {
             this.snapshotHolder.setObject(snapshot);
-
         } else {
             this.stop();
         }
-
-
     }
 
     /**

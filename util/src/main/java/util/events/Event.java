@@ -1,4 +1,4 @@
-package util.engine;
+package util.events;
 
 /**
  * @author Alexandre HAMON, Mathis RACINNE-DIVET, Margaux SCHNELZAUER-HENRY
