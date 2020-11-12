@@ -35,6 +35,11 @@ public class SpritesEngine extends PeriodicEngine {
      */
     private long lastTrigger;
 
+    /**
+     * The speed of player sprite
+     */
+    public static float SPEED_OF_PLAYER_SPRITE = 0.5f;
+
 
     /**
      * Constructor of the SpritesEngine
@@ -55,21 +60,27 @@ public class SpritesEngine extends PeriodicEngine {
 
     /**
      * Retrieve the current snapshot from the movie, then stores it in the snapshotHolder waiting to be displayed
-     * @pre this.movie != null && this.snaphotHolder != null
+     * @pre this.movie != null && this.snapshotHolder != null
      */
     @Override
     public void update() {
         assert this.game != null && this.snapshotHolder != null;
 
-        Snapshot snapshot = this.game.getCurrentSnapshot(this.lastTrigger, this.directionsQueue.remove(0));
+        //System.out.println(this.directionsQueue);
+        //System.out.println(this.directionsQueue.size());
+
+        if (this.directionsQueue.size() > 0) {
+            String newDirection = this.directionsQueue.remove(0);
+            DirectionAction dirAction = new DirectionAction(newDirection, this.lastTrigger, SPEED_OF_PLAYER_SPRITE);
+            this.game.setPlayerAction(dirAction);
+        }
+
+        Snapshot snapshot = this.game.getCurrentSnapshot(this.lastTrigger);
         if (snapshot !=  null) {
             this.snapshotHolder.setObject(snapshot);
-
         } else {
             this.stop();
         }
-
-
     }
 
     /**

@@ -15,13 +15,12 @@ public interface Game {
      * A method to get the current snapshot, depending on the current time
      *
      * @param millis the current time
-     * @param directionAction the direction action of the player
      *
      * @return the current snapshot
      *
      * @pre millis >= 0 && directionAction != null
      */
-    public Snapshot getCurrentSnapshot(long millis, DirectionAction directionAction);
+    public Snapshot getCurrentSnapshot(long millis);
 
     /**
      * A method to set the player sprite
@@ -70,4 +69,11 @@ public interface Game {
      * @return the list of the sequences of the game
      */
     public ArrayList<Sequence> getSequences();
+
+
+    /**
+     * Defines the action to be applied to the player sprite on the getCurrentSnapshot calls.
+     * @param dirAction the action to be applied to the player sprite on the getCurrentSnapshot calls.
+     */
+    public void setPlayerAction(DirectionAction dirAction);
 }

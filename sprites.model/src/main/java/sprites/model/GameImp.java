@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Alexandre HAMON
  *
- * @inv this.playerSprite != null && this.view_width > 0 && this.sequences != null && this.sequences.size() > 0 && this.currentSequence > 0
+ * @inv this.playerSprite != null && this.view_width > 0 && this.sequences != null && this.sequences.size() > 0 && this.currentSequence >= 0
  */
 public class GameImp implements Game{
 
@@ -37,6 +37,11 @@ public class GameImp implements Game{
     private int currentSequence;
 
     /**
+     * The action of the player sprite
+     */
+    private DirectionAction directionAction;
+
+    /**
      * Constructor of the GameImp class
      *
      * @param playerSprite the sprite controlled by the player
@@ -51,6 +56,7 @@ public class GameImp implements Game{
         this.playerSprite = playerSprite;
         this.sequences = sequences;
         this.view_width = width;
+        this.directionAction = new DirectionAction(null, 0, 0);
 
         // Player starts at sequence 0
         this.currentSequence = 0;
@@ -62,20 +68,19 @@ public class GameImp implements Game{
      * A method to get the current snapshot, depending on the current time
      *
      * @param millis the current time
-     * @param directionAction the direction action of the player
      *
      * @return the current snapshot
      *
-     * @pre millis >= 0 && directionAction != null
+     * @pre millis >= 0
      */
     @Override
-    public Snapshot getCurrentSnapshot(long millis, DirectionAction directionAction){
+    public Snapshot getCurrentSnapshot(long millis){
 
         // Precondition
-        assert millis >= 0 && directionAction != null: "Precondition violated";
+        assert millis >= 0: "Precondition violated";
 
         // Start by updating the playerSprite
-        this.updatePlayerSprite(directionAction);
+        this.updatePlayerSprite(millis);
 
         // Get current sequence
         Sequence sequence = this.sequences.get(this.currentSequence);
@@ -108,87 +113,70 @@ public class GameImp implements Game{
         return new SnapshotImp(newLayers);
     }
 
+
+    /**
+     * Defines the action to be applied to the player sprite on the getCurrentSnapshot calls.
+     * @param dirAction the action to be applied to the player sprite on the getCurrentSnapshot calls.
+     */
+    public void setPlayerAction(DirectionAction dirAction) {
+        assert dirAction != null: "Precondition violated";
+
+        this.directionAction = dirAction;
+    }
+
+
     /**
      * Updates the player sprite
-     *
-     * @param directionAction the direction action containing the speed and the direction
-     *
-     * @pre directionAction != null
+     * @param millis the current time
+     * @pre millis >= 0
      */
-    private void updatePlayerSprite(DirectionAction directionAction){
+    private void updatePlayerSprite(long millis) {
+        assert millis >= 0: "Precondition violated";
 
-        String direction = directionAction.getDirection();
-        int step = directionAction.getStep();
+        // Apply the action to the player sprite
+        this.playerSprite = this.directionAction.updateSprite(this.playerSprite, millis);
+        int backgroundWidthLimit = this.sequences.get(this.currentSequence).getBackground().getWidth() - this.playerSprite.getCurrentImage(millis).getWidth();
 
-        int newY;
-        int newX;
+        // Check if the player sprite does not go out of the view vertical boundaries
+        if (this.playerSprite.getY() < 0) {
+            this.playerSprite.setY(0);
 
-        switch (direction){
-            case "up":
+        } else {
+            correctPlayerVerticalPosition(millis);
+        }
 
-                newY = this.playerSprite.getY() - step;
+        // Check if the player sprite does not go out of the view horizontal boundaries
+        if (this.playerSprite.getX() < 0) {
+            if (this.currentSequence == 0) {
+                this.playerSprite.setX(0);
 
-                // If player goes too high, keep him in the background
-                if(newY < 0){
-                    this.playerSprite.setY(0);
-                }
-                else{
-                    this.playerSprite.setY(newY);
-                }
-                break;
+            } else {
+                // Get the width of the previous sequence background
+                backgroundWidthLimit = this.sequences.get(--this.currentSequence).getBackground().getWidth() - this.playerSprite.getCurrentImage(millis).getWidth();
+                this.playerSprite.setX(backgroundWidthLimit);
+                correctPlayerVerticalPosition(millis);
+            }
+        } else if (this.playerSprite.getX() > backgroundWidthLimit) {
+            if (this.currentSequence == this.sequences.size()-1) {
+                this.playerSprite.setX(backgroundWidthLimit);
 
-            case "down":
+            } else {
+                this.currentSequence++;
+                this.playerSprite.setX(0);
+                correctPlayerVerticalPosition(millis);
+            }
+        }
+    }
 
-                newY = this.playerSprite.getY() + step;
-                int sequenceHeight = this.sequences.get(this.currentSequence).getBackground().getHeight();
+    /**
+     * Checks whether the player is not out of the background height after a change of sequence.
+     * @param millis the current time.
+     */
+    private void correctPlayerVerticalPosition(long millis) {
+        int backgroundHeightLimit = this.sequences.get(this.currentSequence).getBackground().getHeight() - this.playerSprite.getCurrentImage(millis).getHeight();
 
-                // If player goes too low, keep him in the background
-                if(newY > sequenceHeight){
-                    this.playerSprite.setY(sequenceHeight);
-                }
-                else {
-                    this.playerSprite.setY(newY);
-                }
-                break;
-
-            case "left":
-
-                newX = this.playerSprite.getX() - step;
-
-                // If at the first sequence and goes too far left, keep player on background
-                if(currentSequence == 0 && newX < 0){
-                    this.playerSprite.setX(0);
-                }
-                // Else if not at the first sequence and goes too far left, change current sequence
-                else if(newX < 0){
-                    this.currentSequence--;
-                    this.playerSprite.setY(this.sequences.get(this.currentSequence).getBackground().getWidth());
-                }
-                // Else move on the sequence
-                else{
-                    this.playerSprite.setX(newX);
-                }
-                break;
-
-            case "right":
-
-                newX = this.playerSprite.getX() + step;
-                int sequenceWidth = this.sequences.get(this.currentSequence).getBackground().getWidth();
-
-                // If at last sequence and geos too far right, keep player on background
-                if(this.currentSequence == this.sequences.size()-1 && newX > sequenceWidth){
-                    this.playerSprite.setX(sequenceWidth);
-                }
-                // Else if not at last sequence and goes too far right, change current sequence
-                else if(newX > sequenceWidth){
-                    this.currentSequence++;
-                    this.playerSprite.setX(0);
-                }
-                // Else move on the background
-                else{
-                    this.playerSprite.setX(newX);
-                }
-                break;
+        if (this.playerSprite.getY() > backgroundHeightLimit) {
+            this.playerSprite.setY(backgroundHeightLimit);
         }
     }
 
@@ -274,6 +262,6 @@ public class GameImp implements Game{
      * Invariant of the class
      */
     private void invariant(){
-        assert this.playerSprite != null && this.view_width > 0 && this.sequences != null && this.sequences.size() > 0 && this.currentSequence > 0: "Class invariant violated";
+        assert this.playerSprite != null && this.view_width > 0 && this.sequences != null && this.sequences.size() > 0 && this.currentSequence >= 0: "Class invariant violated";
     }
 }

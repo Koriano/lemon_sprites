@@ -4,9 +4,12 @@ import gui.graphic.GraphicEngine;
 import gui.graphic.Image;
 import gui.graphic.Snapshot;
 import sprites.model.DirectionEvent;
+import sprites.model.EventEngine;
+import sprites.model.Game;
 import sprites.model.Movie;
 import sprites.model.SingleObjectHolderImp;
 import sprites.model.SpritesEngine;
+import sprites.model.json.GameJsonConverter;
 import sprites.model.json.MovieJsonConverter;
 import swing.GraphicImp;
 import swing.ImageLoaderImp;
@@ -60,6 +63,11 @@ public class Main implements ActionListener, EventsSource, KeyListener {
     private static GraphicEngine graphicEngine = null;
 
     /**
+     * The event engine reacting to the main key events
+     */
+    private static EventEngine eventEngine = null;
+
+    /**
      * Refresh rate of the scheduler in milliseconds
      */
     private final static long delay = 17;//17 ms for 60 frames/s~
@@ -83,6 +91,11 @@ public class Main implements ActionListener, EventsSource, KeyListener {
      * The keyboard key that has been pressed by the player
      */
     private static int lastKeyCode = -1;
+
+    /**
+     * Whether the last pressed key is released or not
+     */
+    private static boolean isKeyReleased = false;
 
 
     public static void main(String[] args){
@@ -109,17 +122,16 @@ public class Main implements ActionListener, EventsSource, KeyListener {
     private static void loadZip() {
         if (filePath != null) {
 
-
             // Preparing ZipLoader
             HashMap<String, Image> images = new HashMap<>();
-            MovieJsonConverter jsonConverter = new MovieJsonConverter(images);
+            GameJsonConverter jsonConverter = new GameJsonConverter(images);
             ImageLoaderImp imgLoader = new ImageLoaderImp();
-            ZipLoaderImp<Movie, Image> zipLoad = new ZipLoaderImp<>(jsonConverter, imgLoader, images);
+            ZipLoaderImp<Game, Image> zipLoad = new ZipLoaderImp<>(jsonConverter, imgLoader, images);
 
             // Loading zip and creating scene
-            Movie movie = null;
+            Game game = null;
             try {
-                movie = zipLoad.load(new FileInputStream(new File(filePath)));
+                game = zipLoad.load(new FileInputStream(new File(filePath)));
 
             } catch (FileNotFoundException e) {
                 System.err.println("ERROR : FAILED TO LOAD ZIP FILE !");
@@ -130,7 +142,7 @@ public class Main implements ActionListener, EventsSource, KeyListener {
 
 
             // If movie successfully loaded, create window and engines -> starts the graphical application
-            if (movie != null) {
+            if (game != null) {
                 // If the spriteEngine is already started
                 if (spritesEngine != null) {
                     // Stop the scheduler
@@ -142,16 +154,23 @@ public class Main implements ActionListener, EventsSource, KeyListener {
                     graphicEngine.stop();
                 }
 
+                Main main = new Main();
+
                 // Displaying snapshot
                 if (graphic == null) {
-                    graphic = new GraphicImp(listener, 100);
-                    graphic.addKeyListener(new Main());
+                    graphic = new GraphicImp(listener, game.getWidth());
+                    graphic.addKeyListener(main);
                 }
 
                 SingleObjectHolderImp<Snapshot> snapshotHolder = new SingleObjectHolderImp<>();
 
+                ArrayList<String> actionQueue = new ArrayList<>();
+
+                // Event engine
+                eventEngine = new EventEngine(actionQueue);
+
                 // Sprites engine
-                spritesEngine = new SpritesEngine(movie, snapshotHolder);
+                spritesEngine = new SpritesEngine(game, snapshotHolder, actionQueue);
                 SchedulerUtil spritesScheduler = new SchedulerUtil(spritesEngine, delay, totalDuration);
                 spritesEngine.setScheduler(spritesScheduler);
 
@@ -160,9 +179,11 @@ public class Main implements ActionListener, EventsSource, KeyListener {
                 SchedulerSwing graphicalScheduler = new SchedulerSwing(graphicEngine, delay, totalDuration);
                 graphicEngine.setScheduler(graphicalScheduler);
 
+
                 // Start the movie by launching the engines
                 spritesEngine.start();
                 graphicEngine.start();
+                main.register(eventEngine);
 
             }
         }
@@ -189,25 +210,42 @@ public class Main implements ActionListener, EventsSource, KeyListener {
             switch (lastKeyCode){
                 case KeyEvent.VK_LEFT:
                     for (EventsListener el : eventsListeners) {
-                        el.actionPerformed(new DirectionEvent("left"));
+                        if (isKeyReleased) {
+                            el.actionPerformed(new DirectionEvent("END_left"));
+                        } else {
+                            el.actionPerformed(new DirectionEvent("left"));
+                        }
                     }
                     break;
 
                 case KeyEvent.VK_RIGHT:
                     for (EventsListener el : eventsListeners) {
-                        el.actionPerformed(new DirectionEvent("right"));
+                        if (isKeyReleased) {
+                            el.actionPerformed(new DirectionEvent("END_right"));
+                        } else {
+                            el.actionPerformed(new DirectionEvent("right"));
+                        }
+
                     }
                     break;
 
                 case KeyEvent.VK_UP:
                     for (EventsListener el : eventsListeners) {
-                        el.actionPerformed(new DirectionEvent("up"));
+                        if (isKeyReleased) {
+                            el.actionPerformed(new DirectionEvent("END_up"));
+                        } else {
+                            el.actionPerformed(new DirectionEvent("up"));
+                        }
                     }
                     break;
 
                 case KeyEvent.VK_DOWN:
                     for (EventsListener el : eventsListeners) {
-                        el.actionPerformed(new DirectionEvent("down"));
+                        if (isKeyReleased) {
+                            el.actionPerformed(new DirectionEvent("END_down"));
+                        } else {
+                            el.actionPerformed(new DirectionEvent("down"));
+                        }
                     }
                     break;
             }
@@ -258,6 +296,7 @@ public class Main implements ActionListener, EventsSource, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         lastKeyCode = e.getKeyCode();
+        isKeyReleased = false;
         notifyListeners();
         lastKeyCode = -1;
     }
@@ -270,5 +309,10 @@ public class Main implements ActionListener, EventsSource, KeyListener {
      * @param e the event to be processed
      */
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        lastKeyCode = e.getKeyCode();
+        isKeyReleased = true;
+        notifyListeners();
+        lastKeyCode = -1;
+    }
 }

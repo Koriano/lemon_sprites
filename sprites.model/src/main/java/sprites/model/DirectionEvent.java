@@ -9,7 +9,7 @@ public class DirectionEvent implements Event {
 
 
     public DirectionEvent(String direction) {
-        assert !(direction != null && !("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction))): "Assert violation: direction is not null but is neither \"up\", \"down\", \"left\" nor \"right\"";
+        assert direction == null || "up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "END_up".equals(direction) || "END_down".equals(direction) || "END_left".equals(direction) || "END_right".equals(direction): "Precondition violated";
         this.direction = direction;
     }
 
