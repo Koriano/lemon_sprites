@@ -5,6 +5,7 @@ import gui.graphic.Snapshot;
 import gui.graphic.SnapshotLayer;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -22,12 +23,14 @@ public class GraphicImp extends JFrame implements Graphic {
     private JMenu fileMenu;
     private JMenuItem importMenuItem;
 
+    private int viewSize;
+
     /**
      * Constructor of the class
      *
      * @pre menuListener != null
      */
-    public GraphicImp(ActionListener menuListener){
+    public GraphicImp(ActionListener menuListener, int size){
         assert menuListener != null;
         // creation of a panel to set the image
         this.contentPanel = new JLayeredPane();
@@ -43,6 +46,7 @@ public class GraphicImp extends JFrame implements Graphic {
 
         this.setContentPane(this.contentPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.viewSize = size;
         this.setVisible(true);
     }
 
@@ -62,7 +66,7 @@ public class GraphicImp extends JFrame implements Graphic {
         SnapshotLayer[] layers = snapshot.getSnapshotLayers();
         int length = layers.length;
 
-        this.setSize(layers[0].getImage().getWidth(), layers[0].getImage().getHeight());
+        this.setSize(this.viewSize, layers[0].getImage().getHeight());
 
         for (int i = 0; i < length; i++) {
 
