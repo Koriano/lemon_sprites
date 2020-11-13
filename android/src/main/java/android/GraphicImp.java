@@ -3,6 +3,8 @@ package android;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.widget.FrameLayout;
 
 import gui.graphic.Graphic;
 import gui.graphic.Snapshot;
@@ -20,6 +22,11 @@ import gui.graphic.SnapshotLayer;
 public class GraphicImp implements Graphic {
 
     /**
+     * The view of the application
+     */
+    private SurfaceView view;
+
+    /**
      * SurfaceHolder which holds the canvas
      */
     private SurfaceHolder holder;
@@ -31,12 +38,19 @@ public class GraphicImp implements Graphic {
 
     /**
      * The constructor of the class
-     * @param holder the SurfaceHolder which holds the canvas
-     * @pre holder != null
+     * @param view the view of the application
+     * @param width the width of the view
+     * @param height the height of the view
+     * @pre view != null && view.getHolder() != null && width >= 0 && height >= 0
      */
-    public GraphicImp(SurfaceHolder holder){
-        assert holder != null;
-        this.holder = holder;
+    public GraphicImp(SurfaceView view, int width, int height){
+        assert view != null && view.getHolder() != null && width >= 0 && height >= 0;
+        this.view = view;
+        this.holder = view.getHolder();
+        this.width = width;
+        this.height = height;
+        // Set the view size with the size of the view and the height of the background
+        this.view.setLayoutParams(new FrameLayout.LayoutParams(this.width, this.height));
     }
 
     /**
